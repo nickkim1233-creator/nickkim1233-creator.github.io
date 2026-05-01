@@ -48,7 +48,7 @@ nav{
 }
 .nav-logo{font-family:var(--sans);font-weight:600;font-size:.95rem;color:var(--text);text-decoration:none;letter-spacing:-.01em;}
 .nav-links{display:flex;gap:28px;list-style:none;}
-.nav-links a{font-family:var(--mono);font-size:.6rem;color:var(--text-dim);text-decoration:none;letter-spacing:.06em;text-transform:uppercase;transition:color .18s;}
+.nav-links a{font-family:var(--sans);font-size:.78rem;font-weight:500;color:var(--text-muted);text-decoration:none;letter-spacing:-.01em;transition:color .18s;}
 .nav-links a:hover{color:var(--text);}
 
 /* ── HERO ───────────────────────────────────────── */
@@ -333,7 +333,150 @@ footer{padding:40px 64px;display:flex;align-items:center;justify-content:space-b
 .reveal-delay-2{transition-delay:.12s;}
 .reveal-delay-3{transition-delay:.18s;}
 
+/* ── AI TOOL SECTIONS ────────────────────────────── */
+.ai-section{background:var(--surface);padding:80px 64px;border-bottom:1px solid var(--border);}
+
+.ai-layout{
+  display:grid;
+  grid-template-columns:1fr 340px;
+  gap:28px;
+  max-width:1200px;
+  margin:0 auto;
+  align-items:start;
+}
+
+.ai-main{min-width:0;}
+
+.ai-how-it-works{
+  position:sticky;
+  top:72px;
+}
+
+.ai-panel{
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;
+}
+
+.ai-panel-header{
+  padding:16px 20px;border-bottom:1px solid var(--border);background:var(--surface2);
+}
+.ai-panel-title{font-family:var(--sans);font-weight:600;font-size:.9rem;margin-bottom:2px;}
+.ai-panel-sub{font-size:.74rem;color:var(--text-muted);}
+
+.ai-panel-body{padding:20px;}
+
+/* Input rows */
+.ai-row{display:flex;flex-direction:column;gap:5px;margin-bottom:14px;}
+.ai-row:last-of-type{margin-bottom:0;}
+.ai-row label{font-family:var(--mono);font-size:.54rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim);}
+
+.ai-input-group{display:flex;gap:8px;}
+.ai-input-group input,.ai-input-group select{flex:1;}
+
+textarea{
+  width:100%;padding:10px 13px;
+  border:1px solid var(--border-mid);border-radius:4px;
+  background:var(--bg);color:var(--text);
+  font-family:var(--mono);font-size:.76rem;
+  line-height:1.55;resize:vertical;min-height:80px;
+  transition:border-color .14s,box-shadow .14s;outline:none;
+}
+textarea:focus{border-color:var(--text-muted);box-shadow:0 0 0 3px rgba(0,0,0,0.05);}
+textarea::placeholder{color:var(--text-dim);}
+
+.ai-btn{
+  width:100%;padding:12px;margin-top:14px;
+  background:var(--text);color:var(--bg);border:none;border-radius:4px;
+  font-family:var(--sans);font-weight:600;font-size:.84rem;
+  cursor:pointer;transition:background .16s,transform .16s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  letter-spacing:.01em;
+}
+.ai-btn:hover:not(:disabled){background:#2a2920;transform:translateY(-1px);}
+.ai-btn:active{transform:translateY(0);}
+.ai-btn:disabled{background:var(--text-dim);cursor:not-allowed;transform:none;}
+
+/* Loading spinner */
+.spinner{
+  width:14px;height:14px;border-radius:50%;
+  border:2px solid rgba(255,255,255,0.3);
+  border-top-color:white;
+  animation:spin .7s linear infinite;flex-shrink:0;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* AI response output */
+.ai-output{
+  margin-top:16px;
+  border:1px solid var(--border);border-radius:7px;
+  overflow:hidden;
+  display:none;
+}
+.ai-output.visible{display:block;}
+
+.ai-output-header{
+  padding:10px 14px;border-bottom:1px solid var(--border);
+  background:var(--surface2);
+  display:flex;align-items:center;gap:8px;
+}
+.ai-output-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse-dot 2s ease-in-out infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:.4;}}
+.ai-output-label{font-family:var(--mono);font-size:.55rem;text-transform:uppercase;letter-spacing:.1em;color:var(--green);}
+
+.ai-output-body{
+  padding:16px;font-size:.84rem;line-height:1.7;color:var(--text-muted);
+  background:var(--surface);
+  white-space:pre-wrap;word-break:break-word;
+  max-height:480px;overflow-y:auto;
+}
+
+/* How it works sidebar */
+.hiw-panel{
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;
+}
+.hiw-header{padding:14px 18px;border-bottom:1px solid var(--border);background:var(--surface2);}
+.hiw-title{font-family:var(--sans);font-weight:600;font-size:.82rem;}
+.hiw-body{padding:14px 18px;}
+.hiw-step{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border);}
+.hiw-step:last-child{border-bottom:none;}
+.hiw-num{font-family:var(--mono);font-size:.6rem;color:var(--text-dim);flex-shrink:0;min-width:18px;margin-top:1px;}
+.hiw-text{font-size:.78rem;color:var(--text-muted);line-height:1.5;}
+.hiw-text b{color:var(--text);font-weight:600;}
+
+/* example pills */
+.example-pills{display:flex;flex-direction:column;gap:5px;margin-top:14px;}
+.pill{
+  font-family:var(--mono);font-size:.62rem;color:var(--text-muted);
+  background:var(--bg2);border:1px solid var(--border);border-radius:4px;
+  padding:7px 11px;cursor:pointer;transition:all .16s;line-height:1.4;
+}
+.pill:hover{border-color:var(--border-mid);color:var(--text);background:var(--surface2);}
+
+/* route result cards */
+.route-results{margin-top:16px;display:flex;flex-direction:column;gap:10px;}
+.route-card{background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:14px 16px;}
+.route-card.best{border-color:var(--green-bd);background:var(--green-bg);}
+.route-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.route-card-name{font-family:var(--sans);font-weight:600;font-size:.84rem;}
+.route-card-badge{font-family:var(--mono);font-size:.56rem;padding:3px 8px;border-radius:3px;text-transform:uppercase;letter-spacing:.06em;}
+.badge-best{background:var(--green);color:white;}
+.badge-alt{background:var(--border-mid);color:var(--text-muted);}
+.route-meta{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.route-meta-item{font-size:.76rem;}
+.route-meta-key{color:var(--text-dim);font-family:var(--mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:1px;}
+.route-meta-val{color:var(--text-muted);}
+.route-card.best .route-meta-val{color:var(--green);}
+.route-steps-toggle{font-family:var(--mono);font-size:.6rem;color:var(--text-dim);cursor:pointer;margin-top:10px;display:block;text-decoration:underline;text-underline-offset:2px;border:none;background:none;padding:0;text-transform:uppercase;letter-spacing:.05em;}
+.route-steps-toggle:hover{color:var(--text);}
+.route-steps-detail{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:none;}
+.route-steps-detail.open{display:block;}
+.route-step-line{font-size:.77rem;color:var(--text-muted);padding:4px 0;display:flex;gap:8px;align-items:flex-start;}
+.route-step-n{font-family:var(--mono);font-size:.6rem;color:var(--text-dim);flex-shrink:0;min-width:14px;}
+
 /* MOBILE */
+@media(max-width:960px){
+  .ai-layout{grid-template-columns:1fr;}
+  .ai-how-it-works{position:static;}
+}
 @media(max-width:900px){
   .sim-layout{grid-template-columns:1fr;}
   .sim-sidebar{position:static;}
@@ -344,6 +487,7 @@ footer{padding:40px 64px;display:flex;align-items:center;justify-content:space-b
   .hero{padding:0 20px 56px;}
   section{padding:60px 20px;}
   #simulator{padding:60px 20px;}
+  .ai-section{padding:60px 20px;}
   footer{padding:32px 20px;}
   .form-grid{grid-template-columns:1fr;}
   .compare-row{grid-template-columns:1fr;}
@@ -361,6 +505,8 @@ footer{padding:40px 64px;display:flex;align-items:center;justify-content:space-b
     <li><a href="#trading">Trading</a></li>
     <li><a href="#moving">Moving</a></li>
     <li><a href="#simulator">Simulator</a></li>
+    <li><a href="#route-advisor">Route Advisor</a></li>
+    <li><a href="#tx-explainer">TX Explainer</a></li>
   </ul>
 </nav>
 
@@ -679,6 +825,211 @@ footer{padding:40px 64px;display:flex;align-items:center;justify-content:space-b
   </div>
 </section>
 
+<!-- ── ROUTE ADVISOR ──────────────────────────────────── -->
+<section class="ai-section" id="route-advisor">
+  <div class="ai-layout">
+
+    <div class="ai-main">
+      <div class="section-label reveal">AI Tool 01</div>
+      <h2 class="section-title reveal reveal-delay-1">Transfer Route Advisor</h2>
+      <p class="section-sub reveal reveal-delay-2">Tell the AI where you want to move your crypto. It'll compare every viable route — chains, fees, speed, and risks — and tell you exactly which to use and why.</p>
+
+      <div class="ai-panel reveal reveal-delay-3">
+        <div class="ai-panel-header">
+          <div class="ai-panel-title">Describe your transfer</div>
+          <div class="ai-panel-sub">Be as specific or vague as you like — the AI will ask for what it needs.</div>
+        </div>
+        <div class="ai-panel-body">
+
+          <div class="ai-row">
+            <label>What are you moving?</label>
+            <div class="ai-input-group">
+              <select id="ra-asset">
+                <option value="">Select asset...</option>
+                <option value="BTC">Bitcoin (BTC)</option>
+                <option value="ETH">Ethereum (ETH)</option>
+                <option value="SOL">Solana (SOL)</option>
+                <option value="USDC">USDC</option>
+                <option value="USDT">USDT</option>
+                <option value="other">Other</option>
+              </select>
+              <input type="text" id="ra-amount" placeholder="Amount (e.g. 0.5)" style="max-width:140px;"/>
+            </div>
+          </div>
+
+          <div class="ai-row">
+            <label>From where?</label>
+            <select id="ra-from">
+              <option value="">Select source...</option>
+              <option>Coinbase</option>
+              <option>Kraken</option>
+              <option>Binance</option>
+              <option>Phantom</option>
+              <option>MetaMask</option>
+              <option>Ledger / Hardware wallet</option>
+              <option>Other exchange</option>
+            </select>
+          </div>
+
+          <div class="ai-row">
+            <label>To where?</label>
+            <select id="ra-to">
+              <option value="">Select destination...</option>
+              <option>Phantom</option>
+              <option>MetaMask</option>
+              <option>Coinbase</option>
+              <option>Kraken</option>
+              <option>Ledger / Hardware wallet</option>
+              <option>Another person's wallet</option>
+              <option>Other exchange</option>
+            </select>
+          </div>
+
+          <div class="ai-row">
+            <label>What matters most to you? (optional)</label>
+            <select id="ra-priority">
+              <option value="">No preference</option>
+              <option value="speed">Speed — I need it fast</option>
+              <option value="cost">Cost — lowest fees possible</option>
+              <option value="safety">Safety — I'm moving a large amount</option>
+              <option value="simplicity">Simplicity — fewest steps</option>
+            </select>
+          </div>
+
+          <div class="ai-row">
+            <label>Anything else to know? (optional)</label>
+            <textarea id="ra-context" placeholder="e.g. I want to use it in a Solana DeFi app, or I need to convert to USD on arrival..."></textarea>
+          </div>
+
+          <button class="ai-btn" id="ra-btn" onclick="runRouteAdvisor()">
+            <span id="ra-btn-text">Find Best Route →</span>
+            <div class="spinner" id="ra-spinner" style="display:none;"></div>
+          </button>
+
+          <div class="ai-output" id="ra-output">
+            <div class="ai-output-header">
+              <div class="ai-output-dot"></div>
+              <div class="ai-output-label">Route Analysis</div>
+            </div>
+            <div class="ai-output-body" id="ra-output-body"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR: HOW IT WORKS -->
+    <div class="ai-how-it-works reveal reveal-delay-2">
+      <div class="hiw-panel">
+        <div class="hiw-header"><div class="hiw-title">How it works</div></div>
+        <div class="hiw-body">
+          <div class="hiw-step"><span class="hiw-num">1</span><span class="hiw-text">You describe the transfer — asset, source, destination, and any preferences.</span></div>
+          <div class="hiw-step"><span class="hiw-num">2</span><span class="hiw-text">The AI identifies every viable network route and evaluates each one.</span></div>
+          <div class="hiw-step"><span class="hiw-num">3</span><span class="hiw-text">You get a <b>ranked comparison</b> of routes with estimated fees, time, risk level, and exact steps.</span></div>
+          <div class="hiw-step"><span class="hiw-num">4</span><span class="hiw-text">The AI flags anything you might miss — like wrong network address formats or wrapped token nuances.</span></div>
+        </div>
+      </div>
+
+      <div class="hiw-panel" style="margin-top:12px;">
+        <div class="hiw-header"><div class="hiw-title">Try an example</div></div>
+        <div class="hiw-body">
+          <div class="example-pills">
+            <div class="pill" onclick="fillRouteExample('BTC','0.25','Coinbase','Phantom','cost','I want to trade it on Jupiter DEX')">0.25 BTC · Coinbase → Phantom · cheapest route</div>
+            <div class="pill" onclick="fillRouteExample('ETH','2','Kraken','MetaMask','speed','')">2 ETH · Kraken → MetaMask · fastest</div>
+            <div class="pill" onclick="fillRouteExample('USDC','5000','Coinbase','Phantom','safety','Large amount, want to be careful')">$5,000 USDC · Coinbase → Phantom · safely</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── TX EXPLAINER ───────────────────────────────────── -->
+<section class="ai-section" id="tx-explainer" style="background:var(--bg2);">
+  <div class="ai-layout">
+
+    <div class="ai-main">
+      <div class="section-label reveal">AI Tool 02</div>
+      <h2 class="section-title reveal reveal-delay-1">Transaction Explainer</h2>
+      <p class="section-sub reveal reveal-delay-2">Paste any transaction hash or a plain description of what happened, and the AI will translate it into plain English — no hex, no jargon, no confusion.</p>
+
+      <div class="ai-panel reveal reveal-delay-3">
+        <div class="ai-panel-header">
+          <div class="ai-panel-title">Paste a transaction</div>
+          <div class="ai-panel-sub">Transaction hash, receipt text, or just describe what you saw on screen.</div>
+        </div>
+        <div class="ai-panel-body">
+
+          <div class="ai-row">
+            <label>Blockchain network</label>
+            <select id="tx-chain">
+              <option value="">Select network (optional)</option>
+              <option value="Bitcoin">Bitcoin</option>
+              <option value="Ethereum">Ethereum</option>
+              <option value="Solana">Solana</option>
+              <option value="Polygon">Polygon</option>
+              <option value="Arbitrum">Arbitrum</option>
+              <option value="Base">Base</option>
+              <option value="BNB Chain">BNB Chain</option>
+              <option value="unknown">Not sure</option>
+            </select>
+          </div>
+
+          <div class="ai-row">
+            <label>Transaction hash or description</label>
+            <textarea id="tx-input" rows="4" placeholder="Paste a transaction hash like 0x4f3a... or 5KHnY8...&#10;&#10;Or just describe it: 'I sent 0.1 ETH and got back 312 USDC, it cost me $4 in gas and the status says Success'"></textarea>
+          </div>
+
+          <div class="ai-row">
+            <label>What's confusing you? (optional)</label>
+            <textarea id="tx-question" rows="2" placeholder="e.g. Why did I receive less than I sent? What is this contract interaction? Why did it fail?"></textarea>
+          </div>
+
+          <button class="ai-btn" id="tx-btn" onclick="runTxExplainer()">
+            <span id="tx-btn-text">Explain This Transaction →</span>
+            <div class="spinner" id="tx-spinner" style="display:none;"></div>
+          </button>
+
+          <div class="ai-output" id="tx-output">
+            <div class="ai-output-header">
+              <div class="ai-output-dot"></div>
+              <div class="ai-output-label">Plain English Explanation</div>
+            </div>
+            <div class="ai-output-body" id="tx-output-body"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="ai-how-it-works reveal reveal-delay-2">
+      <div class="hiw-panel">
+        <div class="hiw-header"><div class="hiw-title">What gets explained</div></div>
+        <div class="hiw-body">
+          <div class="hiw-step"><span class="hiw-num">→</span><span class="hiw-text"><b>What happened</b> — who sent what to whom, and did it succeed?</span></div>
+          <div class="hiw-step"><span class="hiw-num">→</span><span class="hiw-text"><b>Fees paid</b> — what the gas fee was and whether it was normal.</span></div>
+          <div class="hiw-step"><span class="hiw-num">→</span><span class="hiw-text"><b>Contract interactions</b> — if a DEX, bridge, or smart contract was involved.</span></div>
+          <div class="hiw-step"><span class="hiw-num">→</span><span class="hiw-text"><b>Why it failed</b> — if the transaction reverted, what likely caused it.</span></div>
+          <div class="hiw-step"><span class="hiw-num">→</span><span class="hiw-text"><b>Red flags</b> — anything unexpected or worth investigating further.</span></div>
+        </div>
+      </div>
+
+      <div class="hiw-panel" style="margin-top:12px;">
+        <div class="hiw-header"><div class="hiw-title">Try an example</div></div>
+        <div class="hiw-body">
+          <div class="example-pills">
+            <div class="pill" onclick="fillTxExample('Ethereum', '0x4a7d...3f2e', 'I swapped ETH for USDC and got way less than expected')">Unexpected USDC amount on Ethereum swap</div>
+            <div class="pill" onclick="fillTxExample('Solana', '5KHnY8bXPQ...', 'Transaction failed but I was still charged a fee')">Solana TX failed but I paid a fee</div>
+            <div class="pill" onclick="fillTxExample('Ethereum', '', 'I approved a contract but I\'m not sure what I agreed to or if it\'s safe')">What did I just approve?</div>
+            <div class="pill" onclick="fillTxExample('Bitcoin', 'a1b2c3d4...', 'My BTC transfer shows 3 confirmations — is it done?')">BTC confirmations — is it safe?</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <footer>
   <span class="footer-logo">WooJung</span>
   <span class="footer-note">Not financial advice · Share freely</span>
@@ -944,6 +1295,160 @@ const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }});
 },{threshold:.07,rootMargin:'0px 0px -32px 0px'});
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ══════════════════════════════════════════════════
+   SHARED AI HELPER
+══════════════════════════════════════════════════ */
+async function callClaude(systemPrompt, userMessage) {
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1000,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: userMessage }]
+    })
+  });
+  if (!response.ok) throw new Error(`API error ${response.status}`);
+  const data = await response.json();
+  return data.content?.[0]?.text || 'No response received.';
+}
+
+function setLoading(btnId, spinnerId, btnTextId, loading) {
+  document.getElementById(btnId).disabled = loading;
+  document.getElementById(spinnerId).style.display = loading ? 'block' : 'none';
+  document.getElementById(btnTextId).style.opacity = loading ? '0.5' : '1';
+}
+
+function showAiOutput(outputId, bodyId, text) {
+  const out = document.getElementById(outputId);
+  const body = document.getElementById(bodyId);
+  out.classList.add('visible');
+  // Animate text in word by word for a streaming feel
+  body.textContent = '';
+  const words = text.split(' ');
+  let i = 0;
+  const interval = setInterval(() => {
+    if (i >= words.length) { clearInterval(interval); return; }
+    body.textContent += (i > 0 ? ' ' : '') + words[i];
+    body.scrollTop = body.scrollHeight;
+    i++;
+  }, 18);
+}
+
+/* ══════════════════════════════════════════════════
+   ROUTE ADVISOR
+══════════════════════════════════════════════════ */
+const ROUTE_SYSTEM = `You are a crypto transfer route advisor embedded in WooJung, a plain-English crypto education site. Your job is to help users find the best way to move their crypto from A to B.
+
+When given a transfer request:
+1. Identify all viable network routes (native chain, bridged, wrapped tokens, etc.)
+2. For EACH route, clearly state: estimated fee range, estimated time, risk level (Low / Medium / High), and 3-4 key steps
+3. Give a clear recommended route with a one-sentence reason
+4. Warn about the most common mistake for this specific transfer (wrong address format, wrapped vs native, etc.)
+5. If the destination wallet doesn't support a certain chain, flag it explicitly
+
+Wallet chain support for context:
+- Coinbase: Bitcoin, Ethereum, Solana
+- Kraken: Bitcoin, Ethereum, Solana
+- Phantom: Bitcoin and Solana ONLY (no Ethereum/MetaMask addresses)
+- MetaMask: Ethereum and all EVM chains (Polygon, Arbitrum, Base) ONLY (no Bitcoin or Solana addresses)
+
+Format with clear headings. Use plain English. Be specific about address format differences. Keep under 450 words.`;
+
+async function runRouteAdvisor() {
+  const asset    = document.getElementById('ra-asset').value;
+  const amount   = document.getElementById('ra-amount').value;
+  const from     = document.getElementById('ra-from').value;
+  const to       = document.getElementById('ra-to').value;
+  const priority = document.getElementById('ra-priority').value;
+  const context  = document.getElementById('ra-context').value;
+
+  if (!asset || !from || !to) {
+    alert('Please fill in at least the asset, source, and destination.');
+    return;
+  }
+
+  const userMsg = `Transfer request:
+- Asset: ${asset}${amount ? ', Amount: ' + amount : ''}
+- From: ${from}
+- To: ${to}
+${priority ? '- Priority: ' + priority : ''}
+${context ? '- Additional context: ' + context : ''}
+
+Analyse all viable routes and give me a clear recommendation.`;
+
+  setLoading('ra-btn', 'ra-spinner', 'ra-btn-text', true);
+  document.getElementById('ra-output').classList.remove('visible');
+  try {
+    const result = await callClaude(ROUTE_SYSTEM, userMsg);
+    showAiOutput('ra-output', 'ra-output-body', result);
+  } catch(e) {
+    showAiOutput('ra-output', 'ra-output-body', 'Something went wrong reaching the AI. Please try again.\n\nError: ' + e.message);
+  } finally {
+    setLoading('ra-btn', 'ra-spinner', 'ra-btn-text', false);
+  }
+}
+
+function fillRouteExample(asset, amount, from, to, priority, context) {
+  ['ra-asset','ra-amount','ra-from','ra-to','ra-priority','ra-context']
+    .forEach((id, i) => { const el = document.getElementById(id); if(el) el.value = [asset,amount,from,to,priority,context][i]; });
+  document.getElementById('ra-btn').scrollIntoView({ behavior:'smooth', block:'center' });
+}
+
+/* ══════════════════════════════════════════════════
+   TRANSACTION EXPLAINER
+══════════════════════════════════════════════════ */
+const TX_SYSTEM = `You are a crypto transaction explainer embedded in WooJung, a plain-English crypto education site. Your job is to decode crypto transactions and explain them in plain English for non-technical people.
+
+When given a transaction hash, receipt text, or description, always cover:
+1. WHAT HAPPENED — what was sent or swapped, by whom, to whom, did it succeed?
+2. FEES — what was paid in gas/network fees, is that normal?
+3. CONTRACT INTERACTION — if a DEX swap, bridge, NFT, approval, or smart contract was involved, explain it simply
+4. FINALITY — if confirmations are mentioned, explain whether it's considered done
+5. IF IT FAILED — explain the likely reason in simple terms (slippage, gas, rejection)
+6. BOTTOM LINE — one clear sentence summarising the situation and whether anything needs action
+
+Rules:
+- Never show raw hex — translate to English
+- If given only a hash (no on-chain lookup available), explain what that hash IS, describe what a typical receipt for that type of transaction would show, and address any specific confusion the user mentioned
+- Be reassuring but honest about risks
+- Keep it under 400 words
+- Always end with "Bottom line:" followed by one plain-English sentence`;
+
+async function runTxExplainer() {
+  const chain    = document.getElementById('tx-chain').value;
+  const txInput  = document.getElementById('tx-input').value.trim();
+  const question = document.getElementById('tx-question').value.trim();
+
+  if (!txInput) {
+    alert('Please paste a transaction hash or describe the transaction first.');
+    return;
+  }
+
+  const userMsg = `${chain ? 'Network: ' + chain + '\n' : ''}Transaction: ${txInput}${question ? '\n\nSpecific question: ' + question : ''}
+
+Please explain this transaction in plain English.`;
+
+  setLoading('tx-btn', 'tx-spinner', 'tx-btn-text', true);
+  document.getElementById('tx-output').classList.remove('visible');
+  try {
+    const result = await callClaude(TX_SYSTEM, userMsg);
+    showAiOutput('tx-output', 'tx-output-body', result);
+  } catch(e) {
+    showAiOutput('tx-output', 'tx-output-body', 'Something went wrong reaching the AI. Please try again.\n\nError: ' + e.message);
+  } finally {
+    setLoading('tx-btn', 'tx-spinner', 'tx-btn-text', false);
+  }
+}
+
+function fillTxExample(chain, hash, question) {
+  document.getElementById('tx-chain').value = chain;
+  document.getElementById('tx-input').value = hash;
+  document.getElementById('tx-question').value = question;
+  document.getElementById('tx-btn').scrollIntoView({ behavior:'smooth', block:'center' });
+}
 </script>
 </body>
 </html>
