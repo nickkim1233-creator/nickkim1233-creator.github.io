@@ -107,6 +107,18 @@ section{padding:80px 64px;border-bottom:1px solid var(--border);}
   padding-left:56px;
   border-right:none;
 }
+.two-col-pane .concept-block,
+.two-col-pane .golden-rule{
+  max-width:100%;
+}
+.two-col-pane > .section-label,
+.two-col-pane > .section-title,
+.two-col-pane > .section-sub,
+.two-col-pane > .concept-block,
+.two-col-pane > .golden-rule{
+  margin-left:0;
+  margin-right:0;
+} 
 @media(max-width:900px){
   .two-col-section{grid-template-columns:1fr;padding:60px 20px;}
   .two-col-pane{padding-right:0;border-right:none;}
