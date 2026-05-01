@@ -3,33 +3,34 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>CryptoClarity — Demystifying Digital Assets</title>
+<title>WooJung — Don't Lose Your Money</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --bg: #080c10;
-    --surface: #0d1117;
-    --surface2: #131920;
-    --border: rgba(255,255,255,0.06);
-    --border-bright: rgba(255,255,255,0.12);
-    --text: #e8edf2;
-    --text-muted: #6b7a8d;
-    --text-dim: #3d4a57;
-    --accent: #3b82f6;
-    --accent-glow: rgba(59,130,246,0.15);
-    --accent2: #10b981;
-    --accent2-glow: rgba(16,185,129,0.12);
-    --warn: #f59e0b;
-    --warn-glow: rgba(245,158,11,0.12);
-    --danger: #ef4444;
-    --mono: 'DM Mono', monospace;
-    --sans: 'DM Sans', sans-serif;
-    --display: 'Syne', sans-serif;
+    --bg:         #f7f5f2;
+    --bg2:        #eeebe5;
+    --surface:    #ffffff;
+    --surface2:   #f2f0ec;
+    --border:     rgba(0,0,0,0.07);
+    --border-mid: rgba(0,0,0,0.13);
+    --text:       #1a1a18;
+    --text-muted: #6b6860;
+    --text-dim:   #b0ada6;
+    --accent-warm:    #c0501a;
+    --accent-warm-bg: rgba(192,80,26,0.07);
+    --accent-green:   #2a7a4b;
+    --accent-green-bg:rgba(42,122,75,0.07);
+    --warn:       #9a5200;
+    --warn-bg:    rgba(154,82,0,0.07);
+    --danger:     #b83232;
+    --danger-bg:  rgba(184,50,50,0.07);
+    --mono:       'DM Mono', monospace;
+    --sans:       'DM Sans', sans-serif;
+    --display:    'Fraunces', serif;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; }
 
   body {
@@ -41,70 +42,40 @@
     overflow-x: hidden;
   }
 
-  /* NOISE OVERLAY */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0.4;
+  /* PROGRESS */
+  .progress-bar {
+    position: fixed; top: 0; left: 0;
+    width: 0%; height: 2px;
+    background: var(--accent-warm);
+    z-index: 200;
+    transition: width 0.1s linear;
   }
 
   /* NAV */
   nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
+    position: fixed; top: 0; left: 0; right: 0;
     z-index: 100;
-    padding: 20px 48px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: rgba(8,12,16,0.7);
-    backdrop-filter: blur(24px);
+    height: 60px;
+    padding: 0 56px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(247,245,242,0.88);
+    backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
-    transition: background 0.3s;
   }
 
   .nav-logo {
     font-family: var(--display);
-    font-weight: 800;
-    font-size: 1.1rem;
-    letter-spacing: -0.02em;
-    color: var(--text);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    font-weight: 600; font-size: 1.1rem;
+    letter-spacing: -0.01em;
+    color: var(--text); text-decoration: none;
   }
 
-  .nav-logo-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 12px var(--accent);
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.6; transform: scale(0.8); }
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 32px;
-    list-style: none;
-  }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
 
   .nav-links a {
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    text-decoration: none;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+    font-family: var(--mono); font-size: 0.65rem;
+    color: var(--text-dim); text-decoration: none;
+    letter-spacing: 0.08em; text-transform: uppercase;
     transition: color 0.2s;
   }
 
@@ -113,752 +84,462 @@
   /* HERO */
   .hero {
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 120px 24px 80px;
-    position: relative;
-    overflow: hidden;
+    padding: 0 72px 80px;
+    display: flex; flex-direction: column;
+    align-items: flex-start; justify-content: flex-end;
+    position: relative; overflow: hidden;
+    border-bottom: 1px solid var(--border);
   }
 
-  .hero-grid {
+  .hero-rule {
+    position: absolute; top: 0; bottom: 0; right: 42%;
+    width: 1px; background: var(--border);
+  }
+
+  .hero-bg-text {
     position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 0%, transparent 100%);
+    bottom: -60px; right: 3%;
+    font-family: var(--display);
+    font-size: clamp(160px, 22vw, 320px);
+    font-weight: 300; font-style: italic;
+    color: rgba(0,0,0,0.035);
+    pointer-events: none; user-select: none;
+    line-height: 1; letter-spacing: -0.05em;
   }
 
-  .hero-glow {
-    position: absolute;
-    width: 800px;
-    height: 400px;
-    border-radius: 50%;
-    background: radial-gradient(ellipse, rgba(59,130,246,0.06) 0%, transparent 70%);
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-  }
-
-  .hero-tag {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--accent);
-    border: 1px solid rgba(59,130,246,0.3);
-    padding: 6px 16px;
-    border-radius: 100px;
-    margin-bottom: 32px;
-    display: inline-block;
-    animation: fadeUp 0.8s ease both;
+  .hero-eyebrow {
+    font-family: var(--mono); font-size: 0.62rem;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--text-dim); margin-bottom: 24px;
+    animation: fadeUp 0.7s ease both;
   }
 
   .hero h1 {
     font-family: var(--display);
-    font-weight: 800;
-    font-size: clamp(3rem, 8vw, 7rem);
-    line-height: 0.95;
-    letter-spacing: -0.04em;
-    margin-bottom: 28px;
-    animation: fadeUp 0.8s 0.1s ease both;
+    font-weight: 300;
+    font-size: clamp(3.5rem, 10vw, 9rem);
+    line-height: 0.9; letter-spacing: -0.04em;
+    margin-bottom: 36px;
+    animation: fadeUp 0.7s 0.08s ease both;
+    max-width: 680px;
   }
 
-  .hero h1 .line-dim { color: var(--text-dim); }
-  .hero h1 .line-accent { color: var(--accent); }
+  .hero h1 em { font-style: italic; color: var(--text-muted); }
 
   .hero-sub {
-    font-size: 1.1rem;
-    color: var(--text-muted);
-    max-width: 520px;
-    margin: 0 auto 48px;
-    font-weight: 300;
-    animation: fadeUp 0.8s 0.2s ease both;
+    max-width: 380px;
+    color: var(--text-muted); font-size: 0.95rem;
+    line-height: 1.7; margin-bottom: 44px;
+    animation: fadeUp 0.7s 0.16s ease both;
   }
 
   .hero-cta {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    flex-wrap: wrap;
-    animation: fadeUp 0.8s 0.3s ease both;
+    display: flex; gap: 10px; flex-wrap: wrap;
+    animation: fadeUp 0.7s 0.24s ease both;
   }
 
   .btn-primary {
-    background: var(--accent);
-    color: white;
-    padding: 14px 32px;
-    border-radius: 8px;
-    font-family: var(--sans);
-    font-weight: 500;
-    font-size: 0.9rem;
-    text-decoration: none;
-    transition: all 0.2s;
-    box-shadow: 0 0 0 0 var(--accent-glow);
+    background: var(--text); color: var(--bg);
+    padding: 13px 26px; border-radius: 4px;
+    font-family: var(--sans); font-weight: 500; font-size: 0.875rem;
+    text-decoration: none; transition: all 0.18s;
   }
 
-  .btn-primary:hover {
-    background: #2563eb;
-    box-shadow: 0 0 32px rgba(59,130,246,0.4);
-    transform: translateY(-1px);
-  }
+  .btn-primary:hover { background: #333; transform: translateY(-1px); }
 
   .btn-ghost {
-    border: 1px solid var(--border-bright);
-    color: var(--text-muted);
-    padding: 14px 32px;
-    border-radius: 8px;
-    font-family: var(--sans);
-    font-weight: 400;
-    font-size: 0.9rem;
-    text-decoration: none;
-    transition: all 0.2s;
+    border: 1px solid var(--border-mid); color: var(--text-muted);
+    padding: 13px 26px; border-radius: 4px;
+    font-family: var(--sans); font-weight: 300; font-size: 0.875rem;
+    text-decoration: none; transition: all 0.18s;
   }
 
-  .btn-ghost:hover {
-    border-color: rgba(255,255,255,0.25);
-    color: var(--text);
-    transform: translateY(-1px);
+  .btn-ghost:hover { border-color: var(--text-muted); color: var(--text); transform: translateY(-1px); }
+
+  .scroll-indicator {
+    position: absolute; bottom: 36px; right: 56px;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    color: var(--text-dim); font-family: var(--mono);
+    font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase;
+    writing-mode: vertical-rl;
+    animation: fadeUp 0.9s 0.4s ease both;
   }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
+  .scroll-bar {
+    width: 1px; height: 52px;
+    background: linear-gradient(to bottom, var(--border-mid), transparent);
+    animation: scrollPulse 2.5s ease-in-out infinite;
   }
 
-  /* SCROLL INDICATOR */
-  .scroll-hint {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    color: var(--text-dim);
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    animation: fadeUp 1s 0.6s ease both;
-  }
-
-  .scroll-line {
-    width: 1px;
-    height: 48px;
-    background: linear-gradient(to bottom, var(--text-dim), transparent);
-    animation: scrollLine 2s ease-in-out infinite;
-  }
-
-  @keyframes scrollLine {
-    0% { transform: scaleY(0); transform-origin: top; }
-    50% { transform: scaleY(1); transform-origin: top; }
-    51% { transform: scaleY(1); transform-origin: bottom; }
+  @keyframes scrollPulse {
+    0%   { transform: scaleY(0); transform-origin: top; }
+    50%  { transform: scaleY(1); transform-origin: top; }
+    51%  { transform: scaleY(1); transform-origin: bottom; }
     100% { transform: scaleY(0); transform-origin: bottom; }
   }
 
-  /* SECTIONS */
-  section { padding: 100px 24px; }
-
-  .container {
-    max-width: 960px;
-    margin: 0 auto;
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
+  /* SECTIONS */
+  section { padding: 88px 72px; border-bottom: 1px solid var(--border); }
+  .container { max-width: 840px; margin: 0 auto; }
+
   .section-label {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    font-family: var(--mono); font-size: 0.62rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-dim); margin-bottom: 18px;
+    display: flex; align-items: center; gap: 10px;
   }
 
   .section-label::before {
-    content: '';
-    display: block;
-    width: 24px;
-    height: 1px;
-    background: var(--text-dim);
+    content: ''; display: block;
+    width: 18px; height: 1px; background: var(--text-dim);
   }
 
   .section-title {
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: clamp(2rem, 4vw, 3rem);
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    margin-bottom: 16px;
+    font-family: var(--display); font-weight: 300;
+    font-size: clamp(1.9rem, 4vw, 2.9rem);
+    letter-spacing: -0.03em; line-height: 1.1;
+    margin-bottom: 14px;
   }
+
+  .section-title em { font-style: italic; color: var(--text-muted); }
 
   .section-sub {
-    color: var(--text-muted);
-    max-width: 560px;
-    margin-bottom: 64px;
-    font-size: 1rem;
-  }
-
-  /* DIVIDER */
-  .divider {
-    width: 100%;
-    height: 1px;
-    background: var(--border);
-    margin: 0;
+    color: var(--text-muted); max-width: 480px;
+    margin-bottom: 52px; font-size: 0.93rem; line-height: 1.7;
   }
 
   /* PLATFORM CARDS */
   .platforms-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    overflow: hidden;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
   }
 
   .platform-card {
-    background: var(--surface);
-    padding: 32px;
-    transition: background 0.3s;
-    cursor: default;
+    background: var(--surface); padding: 30px 26px;
+    transition: background 0.2s;
   }
 
   .platform-card:hover { background: var(--surface2); }
 
-  .platform-icon {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    display: block;
-  }
+  .platform-icon { font-size: 1.6rem; margin-bottom: 18px; display: block; }
 
   .platform-type {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    margin-bottom: 8px;
+    font-family: var(--mono); font-size: 0.58rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-dim); margin-bottom: 5px;
   }
 
   .platform-name {
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: 1.25rem;
-    letter-spacing: -0.02em;
-    margin-bottom: 12px;
+    font-family: var(--display); font-weight: 400;
+    font-size: 1.15rem; letter-spacing: -0.02em; margin-bottom: 10px;
   }
 
   .platform-desc {
-    font-size: 0.875rem;
-    color: var(--text-muted);
-    line-height: 1.65;
-    margin-bottom: 20px;
+    font-size: 0.83rem; color: var(--text-muted);
+    line-height: 1.65; margin-bottom: 18px;
   }
 
-  .platform-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
+  .platform-tags { display: flex; flex-wrap: wrap; gap: 5px; }
 
   .tag {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    padding: 4px 10px;
-    border-radius: 4px;
-    letter-spacing: 0.05em;
+    font-family: var(--mono); font-size: 0.58rem;
+    padding: 3px 8px; border-radius: 3px;
+    letter-spacing: 0.04em; border: 1px solid;
   }
 
-  .tag-blue { background: rgba(59,130,246,0.12); color: #60a5fa; border: 1px solid rgba(59,130,246,0.2); }
-  .tag-green { background: rgba(16,185,129,0.1); color: #34d399; border: 1px solid rgba(16,185,129,0.2); }
-  .tag-amber { background: rgba(245,158,11,0.1); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2); }
-  .tag-purple { background: rgba(168,85,247,0.1); color: #c084fc; border: 1px solid rgba(168,85,247,0.2); }
+  .tag-slate { background: rgba(0,0,0,0.04); color: var(--text-muted); border-color: var(--border-mid); }
+  .tag-warm  { background: var(--accent-warm-bg); color: var(--accent-warm); border-color: rgba(192,80,26,0.2); }
+  .tag-green { background: var(--accent-green-bg); color: var(--accent-green); border-color: rgba(42,122,75,0.2); }
 
-  .platform-card.featured { background: var(--surface2); }
-
-  /* PROS/CONS */
-  .pro-con {
-    display: flex;
-    gap: 6px;
-    margin-top: 16px;
-    flex-direction: column;
-  }
+  .pro-con { display: flex; flex-direction: column; gap: 5px; margin-top: 16px; }
 
   .pro, .con {
-    font-size: 0.8rem;
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    color: var(--text-muted);
+    font-size: 0.78rem; display: flex;
+    align-items: flex-start; gap: 8px; color: var(--text-muted);
   }
 
-  .pro::before { content: '✓'; color: var(--accent2); flex-shrink: 0; font-weight: 600; }
-  .con::before { content: '✗'; color: var(--danger); flex-shrink: 0; font-weight: 600; }
+  .pro::before { content: '↑'; color: var(--accent-green); flex-shrink: 0; }
+  .con::before { content: '↓'; color: var(--danger); flex-shrink: 0; }
 
-  /* TRANSFER SECTION */
+  /* CALLOUTS */
+  .callout {
+    border-radius: 7px; padding: 14px 18px; margin: 14px 0;
+    display: flex; gap: 12px; align-items: flex-start;
+    font-size: 0.855rem; line-height: 1.65; border: 1px solid;
+  }
+
+  .callout-icon { flex-shrink: 0; margin-top: 2px; }
+
+  .callout-blue   { background: rgba(0,0,0,0.03); border-color: var(--border-mid); color: var(--text-muted); }
+  .callout-green  { background: var(--accent-green-bg); border-color: rgba(42,122,75,0.2); color: var(--accent-green); }
+  .callout-warn   { background: var(--warn-bg); border-color: rgba(154,82,0,0.22); color: var(--warn); }
+  .callout-danger { background: var(--danger-bg); border-color: rgba(184,50,50,0.22); color: var(--danger); }
+
+  /* ACCORDIONS */
   .concept-block {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    overflow: hidden;
-    margin-bottom: 24px;
-    transition: border-color 0.3s;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden; margin-bottom: 10px;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
 
-  .concept-block:hover { border-color: var(--border-bright); }
+  .concept-block:hover { border-color: var(--border-mid); }
+
+  .concept-block.open {
+    border-color: var(--border-mid);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+  }
 
   .concept-header {
-    padding: 28px 32px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    user-select: none;
-    transition: background 0.2s;
+    padding: 22px 26px; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    user-select: none; transition: background 0.15s;
   }
 
-  .concept-header:hover { background: rgba(255,255,255,0.02); }
-
-  .concept-title-wrap { display: flex; align-items: center; gap: 16px; }
+  .concept-header:hover { background: var(--surface2); }
+  .concept-title-wrap { display: flex; align-items: center; gap: 14px; }
 
   .concept-emoji {
-    font-size: 1.5rem;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--surface2);
-    border-radius: 12px;
+    font-size: 1.15rem; width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg2); border-radius: 8px; border: 1px solid var(--border);
     flex-shrink: 0;
   }
 
   .concept-title {
-    font-family: var(--display);
-    font-weight: 600;
-    font-size: 1.1rem;
-    letter-spacing: -0.02em;
+    font-family: var(--display); font-weight: 400;
+    font-size: 1rem; letter-spacing: -0.015em;
   }
 
   .concept-subtitle {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    margin-top: 2px;
+    font-size: 0.72rem; color: var(--text-dim);
+    margin-top: 1px; font-family: var(--mono); letter-spacing: 0.04em;
   }
 
   .chevron {
-    color: var(--text-dim);
-    font-size: 1.2rem;
-    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
-    flex-shrink: 0;
+    color: var(--text-dim); font-size: 0.9rem; flex-shrink: 0;
+    transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
   }
 
   .concept-block.open .chevron { transform: rotate(180deg); }
 
   .concept-body {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), padding 0.3s;
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1);
   }
 
-  .concept-block.open .concept-body { max-height: 2000px; }
+  .concept-block.open .concept-body { max-height: 2200px; }
+  .concept-inner { padding: 0 26px 26px; }
 
-  .concept-inner { padding: 0 32px 32px; }
-
-  /* TRANSFER FLOW DIAGRAM */
+  /* FLOW */
   .flow {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    margin: 24px 0;
-    flex-wrap: wrap;
+    display: flex; align-items: center; flex-wrap: wrap;
+    gap: 4px; margin: 16px 0;
   }
 
   .flow-node {
-    background: var(--surface2);
-    border: 1px solid var(--border-bright);
-    border-radius: 12px;
-    padding: 16px 20px;
-    min-width: 120px;
-    text-align: center;
-    flex-shrink: 0;
+    background: var(--surface2); border: 1px solid var(--border-mid);
+    border-radius: 7px; padding: 12px 16px;
+    min-width: 100px; text-align: center; flex-shrink: 0;
   }
 
   .flow-node-label {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-dim);
-    margin-bottom: 4px;
+    font-family: var(--mono); font-size: 0.56rem;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--text-dim); margin-bottom: 3px;
   }
 
-  .flow-node-value {
-    font-family: var(--mono);
-    font-size: 0.85rem;
-    color: var(--text);
-  }
+  .flow-node-value { font-family: var(--mono); font-size: 0.77rem; color: var(--text); }
 
-  .flow-node.highlight {
-    border-color: var(--accent);
-    background: rgba(59,130,246,0.08);
-  }
-
-  .flow-node.highlight .flow-node-value { color: var(--accent); }
-
-  .flow-node.warn-node {
-    border-color: var(--warn);
-    background: rgba(245,158,11,0.08);
-  }
-
+  .flow-node.highlight { border-color: rgba(42,122,75,0.4); background: var(--accent-green-bg); }
+  .flow-node.highlight .flow-node-value { color: var(--accent-green); }
+  .flow-node.warn-node { border-color: rgba(154,82,0,0.35); background: var(--warn-bg); }
   .flow-node.warn-node .flow-node-value { color: var(--warn); }
 
-  .flow-arrow {
-    flex: 1;
-    min-width: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-dim);
-    font-size: 1.2rem;
-    position: relative;
-  }
+  .flow-arrow { flex: 1; min-width: 20px; text-align: center; color: var(--text-dim); font-size: 0.85rem; }
 
-  .flow-arrow::before {
-    content: '';
-    position: absolute;
-    left: 8px; right: 8px;
-    top: 50%;
-    height: 1px;
-    background: var(--border-bright);
-  }
-
-  .flow-arrow span { background: var(--surface); padding: 0 4px; position: relative; z-index: 1; }
-
-  /* CALLOUT BOXES */
-  .callout {
-    border-radius: 10px;
-    padding: 16px 20px;
-    margin: 16px 0;
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-    font-size: 0.875rem;
-    line-height: 1.6;
-  }
-
-  .callout-icon { flex-shrink: 0; font-size: 1.1rem; margin-top: 1px; }
-
-  .callout-blue { background: var(--accent-glow); border: 1px solid rgba(59,130,246,0.2); color: #93c5fd; }
-  .callout-green { background: var(--accent2-glow); border: 1px solid rgba(16,185,129,0.2); color: #6ee7b7; }
-  .callout-warn { background: var(--warn-glow); border: 1px solid rgba(245,158,11,0.2); color: #fcd34d; }
-  .callout-danger { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); color: #fca5a5; }
-
-  .callout strong { color: inherit; }
-
-  /* ADDRESS EXAMPLE */
+  /* ADDRESS */
   .address-box {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px 16px;
-    margin: 12px 0;
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 6px; padding: 11px 15px; margin: 8px 0;
+    display: flex; align-items: center; gap: 12px;
   }
 
   .address-label {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-dim);
-    flex-shrink: 0;
-    min-width: 72px;
+    font-family: var(--mono); font-size: 0.58rem;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--text-dim); flex-shrink: 0; min-width: 64px;
   }
 
   .address-value {
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-family: var(--mono); font-size: 0.7rem; color: var(--text-muted);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   }
 
-  .address-value .good { color: var(--accent2); }
-  .address-value .bad { color: var(--danger); }
+  .address-value .good { color: var(--accent-green); }
+  .address-value .bad  { color: var(--danger); }
 
-  /* STEP LIST */
-  .steps {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    margin: 24px 0;
-  }
+  /* STEPS */
+  .steps { display: flex; flex-direction: column; gap: 14px; margin: 18px 0; }
 
-  .step {
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-  }
+  .step { display: flex; gap: 14px; align-items: flex-start; }
 
   .step-num {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: var(--surface2);
-    border: 1px solid var(--border-bright);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    color: var(--accent);
-    flex-shrink: 0;
-    margin-top: 2px;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--bg2); border: 1px solid var(--border-mid);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 0.66rem; color: var(--text-muted);
+    flex-shrink: 0; margin-top: 3px;
   }
 
   .step-content { flex: 1; }
-  .step-title { font-weight: 500; margin-bottom: 4px; font-size: 0.95rem; }
-  .step-detail { font-size: 0.85rem; color: var(--text-muted); }
+  .step-title { font-weight: 500; margin-bottom: 3px; font-size: 0.88rem; }
+  .step-detail { font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; }
 
   /* GOLDEN RULE */
   .golden-rule {
-    background: linear-gradient(135deg, rgba(245,158,11,0.08), rgba(245,158,11,0.04));
-    border: 1px solid rgba(245,158,11,0.25);
-    border-radius: 16px;
-    padding: 40px 48px;
-    text-align: center;
-    margin: 64px 0;
-    position: relative;
-    overflow: hidden;
+    background: var(--surface); border: 1px solid var(--border-mid);
+    border-radius: 12px; padding: 52px 60px; text-align: center;
+    margin: 52px 0; position: relative; overflow: hidden;
   }
 
   .golden-rule::before {
-    content: '';
-    position: absolute;
-    top: -60px; left: 50%;
-    transform: translateX(-50%);
-    width: 300px; height: 200px;
-    background: radial-gradient(ellipse, rgba(245,158,11,0.08), transparent 70%);
-    pointer-events: none;
+    content: '!';
+    position: absolute; top: -30px; right: 24px;
+    font-family: var(--display); font-size: 240px;
+    font-weight: 300; color: rgba(0,0,0,0.028);
+    line-height: 1; pointer-events: none;
   }
 
-  .golden-rule-emoji { font-size: 2.5rem; margin-bottom: 20px; }
+  .golden-rule-emoji { font-size: 1.9rem; margin-bottom: 18px; }
 
   .golden-rule h3 {
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: 1.5rem;
-    letter-spacing: -0.02em;
-    margin-bottom: 12px;
-    color: #fcd34d;
+    font-family: var(--display); font-weight: 400;
+    font-size: 1.55rem; letter-spacing: -0.03em; margin-bottom: 10px;
   }
 
-  .golden-rule p {
-    color: rgba(252,211,77,0.75);
-    font-size: 0.95rem;
-    max-width: 500px;
-    margin: 0 auto;
-  }
+  .golden-rule p { color: var(--text-muted); font-size: 0.9rem; max-width: 400px; margin: 0 auto; }
 
   /* NETWORK TABLE */
-  .network-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 24px 0;
-    font-size: 0.85rem;
-  }
+  .network-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 0.83rem; }
 
   .network-table th {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-dim);
-    text-align: left;
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .network-table td {
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--border);
-    color: var(--text-muted);
-    vertical-align: top;
-  }
-
-  .network-table tr:last-child td { border-bottom: none; }
-
-  .network-table td:first-child {
-    font-family: var(--mono);
-    font-size: 0.8rem;
-    color: var(--text);
-  }
-
-  .network-table .chain-badge {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-family: var(--mono);
-    font-size: 0.65rem;
-  }
-
-  /* QUICK REF */
-  .quick-ref {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 16px;
-    margin: 32px 0;
-  }
-
-  .quick-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 24px;
-    transition: border-color 0.3s, background 0.3s;
-  }
-
-  .quick-card:hover {
-    border-color: var(--border-bright);
+    font-family: var(--mono); font-size: 0.58rem;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--text-dim); text-align: left;
+    padding: 11px 15px; border-bottom: 1px solid var(--border);
     background: var(--surface2);
   }
 
-  .quick-card-coin {
-    font-size: 1.5rem;
-    margin-bottom: 12px;
+  .network-table td {
+    padding: 13px 15px; border-bottom: 1px solid var(--border);
+    color: var(--text-muted); vertical-align: top;
   }
 
+  .network-table tr:last-child td { border-bottom: none; }
+  .network-table td:first-child { font-family: var(--mono); font-size: 0.77rem; color: var(--text); }
+  .network-table tr:hover td { background: var(--surface2); }
+
+  .chain-badge {
+    display: inline-block; padding: 2px 7px; border-radius: 3px;
+    font-family: var(--mono); font-size: 0.6rem;
+    background: rgba(0,0,0,0.05); border: 1px solid var(--border-mid); color: var(--text-muted);
+  }
+
+  /* COMPARE */
+  .compare-wrap { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 18px 0; }
+  .compare-row { display: grid; grid-template-columns: 1fr 1fr 1fr; }
+  .compare-row + .compare-row { border-top: 1px solid var(--border); }
+
+  .compare-cell { padding: 13px 16px; font-size: 0.83rem; color: var(--text-muted); background: var(--surface); }
+  .compare-cell.header {
+    background: var(--surface2);
+    font-family: var(--mono); font-size: 0.58rem;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim);
+  }
+
+  /* QUICK CARDS */
+  .quick-ref { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; margin: 28px 0; }
+
+  .quick-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 22px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .quick-card:hover { border-color: var(--border-mid); box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+  .quick-card-coin { font-size: 1.3rem; margin-bottom: 12px; }
+
   .quick-card-title {
-    font-family: var(--display);
-    font-weight: 600;
-    font-size: 1rem;
-    margin-bottom: 12px;
-    letter-spacing: -0.01em;
+    font-family: var(--display); font-weight: 400;
+    font-size: 0.95rem; margin-bottom: 12px; letter-spacing: -0.01em;
   }
 
   .quick-card-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 8px;
-    font-size: 0.8rem;
-    padding: 6px 0;
-    border-bottom: 1px solid var(--border);
+    display: flex; flex-direction: column; gap: 2px;
+    font-size: 0.77rem; padding: 7px 0; border-bottom: 1px solid var(--border);
   }
 
   .quick-card-item:last-child { border-bottom: none; }
+  .quick-key { color: var(--text-dim); font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; }
+  .quick-val { color: var(--text-muted); line-height: 1.5; margin-top: 2px; }
 
-  .quick-key { color: var(--text-muted); }
+  /* CHECKLIST */
+  .checklist { display: flex; flex-direction: column; gap: 8px; }
 
-  .quick-val {
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    color: var(--accent2);
-    text-align: right;
-    word-break: break-all;
+  .check-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 16px 20px;
+    display: flex; gap: 14px; align-items: flex-start;
+    font-size: 0.86rem; color: var(--text-muted); line-height: 1.6;
+    transition: border-color 0.18s;
+  }
+
+  .check-item:hover { border-color: var(--border-mid); }
+
+  .check-num {
+    font-family: var(--mono); font-size: 0.66rem;
+    color: var(--text-dim); flex-shrink: 0; margin-top: 2px; min-width: 18px;
   }
 
   /* FOOTER */
   footer {
-    border-top: 1px solid var(--border);
-    padding: 48px 24px;
-    text-align: center;
+    padding: 48px 72px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 20px; flex-wrap: wrap;
   }
 
-  footer p {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.05em;
-    color: var(--text-dim);
-  }
+  .footer-logo { font-family: var(--display); font-weight: 600; font-size: 0.95rem; color: var(--text); }
+  .footer-note { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.06em; color: var(--text-dim); }
 
-  /* INTERSECTION OBSERVER ANIMATIONS */
+  /* REVEAL */
   .reveal {
-    opacity: 0;
-    transform: translateY(32px);
-    transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1);
+    opacity: 0; transform: translateY(22px);
+    transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1), transform 0.6s cubic-bezier(0.4,0,0.2,1);
   }
 
   .reveal.visible { opacity: 1; transform: translateY(0); }
-
-  .reveal-delay-1 { transition-delay: 0.1s; }
-  .reveal-delay-2 { transition-delay: 0.2s; }
-  .reveal-delay-3 { transition-delay: 0.3s; }
-
-  /* PROGRESS BAR */
-  .progress-bar {
-    position: fixed;
-    top: 0; left: 0;
-    width: 0%;
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent), #8b5cf6);
-    z-index: 200;
-    transition: width 0.1s linear;
-    box-shadow: 0 0 8px var(--accent);
-  }
-
-  /* COMPARISON TABLE */
-  .compare-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 1px;
-    background: var(--border);
-    border-radius: 0;
-  }
-
-  .compare-row:first-child { border-radius: 12px 12px 0 0; }
-  .compare-row:last-child { border-radius: 0 0 12px 12px; }
-
-  .compare-cell {
-    background: var(--surface);
-    padding: 16px 20px;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-  }
-
-  .compare-cell.header {
-    background: var(--surface2);
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-dim);
-  }
-
-  .compare-wrap {
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-    margin: 24px 0;
-  }
+  .reveal-delay-1 { transition-delay: 0.07s; }
+  .reveal-delay-2 { transition-delay: 0.14s; }
+  .reveal-delay-3 { transition-delay: 0.21s; }
 
   /* MOBILE */
-  @media (max-width: 640px) {
-    nav { padding: 16px 20px; }
+  @media (max-width: 680px) {
+    nav { padding: 0 20px; }
     .nav-links { display: none; }
-    section { padding: 72px 16px; }
-    .concept-inner { padding: 0 20px 24px; }
-    .concept-header { padding: 20px; }
-    .golden-rule { padding: 32px 24px; }
-    .flow { gap: 8px; }
-    .flow-node { min-width: 80px; padding: 12px; }
-    .flow-node-value { font-size: 0.72rem; }
-    .network-table { font-size: 0.78rem; }
-    .network-table th, .network-table td { padding: 10px 12px; }
+    .hero { padding: 0 22px 64px; }
+    section { padding: 60px 22px; }
+    .concept-header { padding: 18px 18px; }
+    .concept-inner { padding: 0 18px 22px; }
+    .golden-rule { padding: 36px 24px; }
+    footer { padding: 36px 22px; }
+    .compare-row { grid-template-columns: 1fr; }
+    .compare-row .compare-cell + .compare-cell { border-top: 1px solid var(--border); }
   }
 </style>
 </head>
@@ -867,84 +548,74 @@
 <div class="progress-bar" id="progress"></div>
 
 <nav>
-  <a href="#" class="nav-logo">
-    <span class="nav-logo-dot"></span>
-    CryptoClarity
-  </a>
+  <a href="#" class="nav-logo">WooJung</a>
   <ul class="nav-links">
     <li><a href="#trading">Trading</a></li>
-    <li><a href="#moving">Moving Crypto</a></li>
+    <li><a href="#moving">Moving</a></li>
     <li><a href="#networks">Networks</a></li>
-    <li><a href="#rules">Golden Rules</a></li>
+    <li><a href="#rules">Rules</a></li>
   </ul>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-grid"></div>
-  <div class="hero-glow"></div>
+  <div class="hero-rule"></div>
+  <div class="hero-bg-text">₿</div>
 
-  <span class="hero-tag">Plain English. No Jargon. No Lost Funds.</span>
+  <div class="hero-eyebrow">A plain English guide to crypto</div>
 
-  <h1>
-    Crypto,<br/>
-    <span class="line-dim">finally</span><br/>
-    <span class="line-accent">clear.</span>
-  </h1>
+  <h1>Don't lose<br/><em>your money.</em></h1>
 
   <p class="hero-sub">
-    Everything you need to buy, trade, and move digital assets — explained the way it should've been from the start.
+    Most people lose crypto not from bad investments — but from simple, avoidable mistakes. 
+    This guide explains everything clearly, before it costs you.
   </p>
 
   <div class="hero-cta">
-    <a href="#trading" class="btn-primary">Start Learning →</a>
-    <a href="#moving" class="btn-ghost">How to Move Crypto</a>
+    <a href="#trading" class="btn-primary">Start here →</a>
+    <a href="#moving" class="btn-ghost">How to move crypto</a>
   </div>
 
-  <div class="scroll-hint">
+  <div class="scroll-indicator">
     <span>scroll</span>
-    <div class="scroll-line"></div>
+    <div class="scroll-bar"></div>
   </div>
 </section>
 
-<div class="divider"></div>
-
-<!-- PART 1: WHERE TO TRADE -->
+<!-- PART 1 -->
 <section id="trading">
   <div class="container">
-    <div class="section-label reveal">Part 01 — Where to Trade</div>
-    <h2 class="section-title reveal reveal-delay-1">Where can you actually<br/>buy &amp; trade crypto?</h2>
-    <p class="section-sub reveal reveal-delay-2">There are three main ways. Think of them like different types of banks or stock brokers — each has trade-offs.</p>
+    <div class="section-label reveal">Part 01</div>
+    <h2 class="section-title reveal reveal-delay-1">Where to buy<br/><em>&amp; trade crypto</em></h2>
+    <p class="section-sub reveal reveal-delay-2">There are three main places. Think of them like different types of financial institutions — each with real trade-offs.</p>
 
     <div class="platforms-grid reveal reveal-delay-3">
 
-      <!-- CEX -->
       <div class="platform-card">
         <span class="platform-icon">🏦</span>
         <div class="platform-type">Type 01</div>
         <div class="platform-name">Centralized Exchange</div>
-        <p class="platform-desc">A company holds your crypto for you, like a bank. You log in with email &amp; password. If you forget your password, they can help you recover it.</p>
+        <p class="platform-desc">A company holds your crypto, like a bank holds your dollars. You sign up with email and password. They handle security for you.</p>
         <div class="platform-tags">
-          <span class="tag tag-blue">Coinbase</span>
-          <span class="tag tag-blue">Kraken</span>
-          <span class="tag tag-blue">Binance</span>
-          <span class="tag tag-blue">Gemini</span>
+          <span class="tag tag-slate">Coinbase</span>
+          <span class="tag tag-slate">Kraken</span>
+          <span class="tag tag-slate">Binance</span>
+          <span class="tag tag-slate">Gemini</span>
         </div>
         <div class="pro-con">
-          <div class="pro">Beginner friendly — just sign up and buy</div>
-          <div class="pro">Can recover your account if locked out</div>
-          <div class="pro">USD deposits via bank transfer/card</div>
-          <div class="con">You don't truly "own" your coins (the company holds them)</div>
-          <div class="con">Subject to regulations, can freeze accounts</div>
+          <div class="pro">Easiest start — just sign up and buy</div>
+          <div class="pro">Account recovery if locked out</div>
+          <div class="pro">Bank transfer and card deposits</div>
+          <div class="con">You don't truly own the coins (the company does)</div>
+          <div class="con">Can freeze accounts; subject to regulations</div>
         </div>
       </div>
 
-      <!-- DEX -->
-      <div class="platform-card featured">
+      <div class="platform-card">
         <span class="platform-icon">⚙️</span>
         <div class="platform-type">Type 02</div>
         <div class="platform-name">Decentralized Exchange</div>
-        <p class="platform-desc">A website (or app) that lets you trade directly from your own wallet. No company involved. No signup. The code runs automatically — no humans in the middle.</p>
+        <p class="platform-desc">Trade directly from your own wallet. No company, no signup. Smart contracts run automatically — no humans in the middle.</p>
         <div class="platform-tags">
           <span class="tag tag-green">Uniswap</span>
           <span class="tag tag-green">Jupiter</span>
@@ -952,114 +623,90 @@
           <span class="tag tag-green">Curve</span>
         </div>
         <div class="pro-con">
-          <div class="pro">You hold your own coins at all times</div>
-          <div class="pro">Access to thousands of tokens, including new ones</div>
+          <div class="pro">You hold your coins at all times</div>
+          <div class="pro">Thousands of tokens, including brand new ones</div>
           <div class="con">No customer support — mistakes are permanent</div>
-          <div class="con">Requires a self-custody wallet to use</div>
-          <div class="con">Can feel complex at first</div>
+          <div class="con">Requires a self-custody wallet first</div>
         </div>
       </div>
 
-      <!-- WALLETS -->
       <div class="platform-card">
         <span class="platform-icon">👻</span>
         <div class="platform-type">Type 03</div>
-        <div class="platform-name">Self-Custody Wallets</div>
-        <p class="platform-desc">A wallet app you install. You get a "seed phrase" (12–24 words) that gives total control. Lose this phrase = lose your funds forever. No exceptions.</p>
+        <div class="platform-name">Self-Custody Wallet</div>
+        <p class="platform-desc">An app that gives you total ownership. You receive a "seed phrase" (12–24 words) — the master key. Lose it and your funds are gone. No exceptions.</p>
         <div class="platform-tags">
-          <span class="tag tag-purple">Phantom</span>
-          <span class="tag tag-purple">MetaMask</span>
-          <span class="tag tag-amber">Ledger</span>
-          <span class="tag tag-amber">Trust Wallet</span>
+          <span class="tag tag-warm">Phantom</span>
+          <span class="tag tag-warm">MetaMask</span>
+          <span class="tag tag-slate">Ledger</span>
+          <span class="tag tag-slate">Trust Wallet</span>
         </div>
         <div class="pro-con">
-          <div class="pro">Total ownership — only you control it</div>
-          <div class="pro">Can connect to any DEX</div>
-          <div class="con">Seed phrase loss = permanent loss</div>
-          <div class="con">No password recovery, no customer support</div>
+          <div class="pro">Complete ownership — only you control it</div>
+          <div class="pro">Connects to any DEX</div>
+          <div class="con">Lost seed phrase = permanent loss, no recovery</div>
+          <div class="con">No customer support whatsoever</div>
         </div>
       </div>
 
     </div>
 
-    <div class="callout callout-blue reveal" style="margin-top:32px;">
-      <span class="callout-icon">💡</span>
-      <div><strong>Good starting point:</strong> Buy on a centralized exchange (like Coinbase) to get started. Once comfortable, move some funds to a wallet like Phantom to explore DEXs and full self-custody.</div>
+    <div class="callout callout-blue reveal" style="margin-top:24px;">
+      <span class="callout-icon">→</span>
+      <div><strong>Where to start:</strong> Buy on a centralized exchange like Coinbase. Once comfortable, move some funds to a wallet like Phantom to explore DEXs and full self-custody.</div>
     </div>
-
   </div>
 </section>
 
-<div class="divider"></div>
-
-<!-- PART 2: MOVING CRYPTO -->
+<!-- PART 2 -->
 <section id="moving">
   <div class="container">
-    <div class="section-label reveal">Part 02 — Moving Crypto</div>
-    <h2 class="section-title reveal reveal-delay-1">How to move crypto<br/>without losing it</h2>
-    <p class="section-sub reveal reveal-delay-2">This is where most people get confused — and where mistakes happen. Let's break every scenario down.</p>
+    <div class="section-label reveal">Part 02</div>
+    <h2 class="section-title reveal reveal-delay-1">Moving crypto<br/><em>without losing it</em></h2>
+    <p class="section-sub reveal reveal-delay-2">This is where most mistakes happen. Read the first accordion before anything else — it explains the concept that underlies every scenario.</p>
 
-    <!-- THE CORE CONCEPT -->
+    <!-- CORE CONCEPT -->
     <div class="concept-block open reveal">
       <div class="concept-header" onclick="toggleBlock(this)">
         <div class="concept-title-wrap">
           <div class="concept-emoji">🧠</div>
           <div>
-            <div class="concept-title">The core concept you must understand first</div>
-            <div class="concept-subtitle">Read this before anything else</div>
+            <div class="concept-title">The one concept you must understand first</div>
+            <div class="concept-subtitle">Read before any transfer</div>
           </div>
         </div>
         <div class="chevron">▾</div>
       </div>
       <div class="concept-body">
         <div class="concept-inner">
-
-          <p style="margin-bottom:16px;color:var(--text-muted);font-size:0.9rem;">Think of a wallet address like a phone number, and the blockchain like a phone network. The <strong style="color:var(--text)">same coin can travel on different networks</strong> — and each network has a different address format.</p>
+          <p style="margin-bottom:14px;color:var(--text-muted);font-size:0.875rem;">Think of a wallet address like a phone number, and the blockchain like a phone network. The <strong style="color:var(--text);">same coin can travel on different networks</strong> — and each network requires a different address format.</p>
 
           <div class="callout callout-warn">
-            <span class="callout-icon">⚠️</span>
-            <div>Sending a coin on the <strong>wrong network</strong> is the #1 way people permanently lose funds. Your coin arrives at a valid address — but on the wrong network, so it's gone forever.</div>
+            <span class="callout-icon">⚠</span>
+            <div>Sending a coin on the <strong>wrong network</strong> is the #1 way people permanently lose funds. Your coin reaches a valid-looking address — but on the wrong network, so it's unreachable forever.</div>
           </div>
 
-          <p style="margin:20px 0 12px;font-weight:500;">Here's the mental model:</p>
+          <p style="margin:18px 0 10px;font-weight:500;font-size:0.875rem;">The mental model:</p>
 
           <div class="flow">
-            <div class="flow-node">
-              <div class="flow-node-label">Coin</div>
-              <div class="flow-node-value">Bitcoin (BTC)</div>
-            </div>
-            <div class="flow-arrow"><span>→</span></div>
-            <div class="flow-node highlight">
-              <div class="flow-node-label">Network</div>
-              <div class="flow-node-value">Bitcoin Chain</div>
-            </div>
-            <div class="flow-arrow"><span>→</span></div>
-            <div class="flow-node">
-              <div class="flow-node-label">Address type</div>
-              <div class="flow-node-value">bc1q… format</div>
-            </div>
+            <div class="flow-node"><div class="flow-node-label">Coin</div><div class="flow-node-value">Bitcoin (BTC)</div></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node highlight"><div class="flow-node-label">Network</div><div class="flow-node-value">Bitcoin Chain</div></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node"><div class="flow-node-label">Address</div><div class="flow-node-value">bc1q… format</div></div>
           </div>
 
           <div class="flow">
-            <div class="flow-node">
-              <div class="flow-node-label">Coin</div>
-              <div class="flow-node-value">BTC (wrapped)</div>
-            </div>
-            <div class="flow-arrow"><span>→</span></div>
-            <div class="flow-node warn-node">
-              <div class="flow-node-label">Network</div>
-              <div class="flow-node-value">Solana Chain</div>
-            </div>
-            <div class="flow-arrow"><span>→</span></div>
-            <div class="flow-node">
-              <div class="flow-node-label">Address type</div>
-              <div class="flow-node-value">Random… format</div>
-            </div>
+            <div class="flow-node"><div class="flow-node-label">Coin</div><div class="flow-node-value">BTC (wrapped)</div></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node warn-node"><div class="flow-node-label">Network</div><div class="flow-node-value">Solana Chain</div></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node"><div class="flow-node-label">Address</div><div class="flow-node-value">SOL format</div></div>
           </div>
 
-          <div class="callout callout-green" style="margin-top:20px;">
-            <span class="callout-icon">✅</span>
-            <div><strong>The rule:</strong> Always match the network you're sending on with the correct receiving address from that same network. We'll show you exactly how to do this in each scenario below.</div>
+          <div class="callout callout-green" style="margin-top:14px;">
+            <span class="callout-icon">✓</span>
+            <div><strong>The rule:</strong> Always match the sending network with the correct address type from that same network. The scenarios below show you exactly how.</div>
           </div>
         </div>
       </div>
@@ -1071,59 +718,55 @@
         <div class="concept-title-wrap">
           <div class="concept-emoji">₿</div>
           <div>
-            <div class="concept-title">Scenario 1: Move Bitcoin from Coinbase → Phantom</div>
-            <div class="concept-subtitle">Bitcoin blockchain, simple case</div>
+            <div class="concept-title">Scenario 1 — Bitcoin from Coinbase to Phantom</div>
+            <div class="concept-subtitle">Simple case · Bitcoin network</div>
           </div>
         </div>
         <div class="chevron">▾</div>
       </div>
       <div class="concept-body">
         <div class="concept-inner">
-
           <div class="callout callout-blue">
-            <span class="callout-icon">📌</span>
-            <div>Phantom supports Bitcoin natively. When you want BTC on the real Bitcoin network, you use the <strong>Bitcoin address</strong> that Phantom gives you.</div>
+            <span class="callout-icon">→</span>
+            <div>Phantom supports Bitcoin natively. For real BTC on the Bitcoin network, you simply use the <strong>Bitcoin address</strong> that Phantom gives you.</div>
           </div>
-
           <div class="steps">
             <div class="step">
               <div class="step-num">1</div>
               <div class="step-content">
-                <div class="step-title">Open Phantom &amp; switch to Bitcoin</div>
-                <div class="step-detail">In the Phantom app, tap the network selector at the top. Switch from Solana to <strong>Bitcoin</strong>. Your wallet now shows a Bitcoin address.</div>
+                <div class="step-title">Open Phantom → switch to Bitcoin network</div>
+                <div class="step-detail">Tap the network selector at the top of Phantom and choose Bitcoin. Your displayed address will be a Bitcoin address.</div>
               </div>
             </div>
             <div class="step">
               <div class="step-num">2</div>
               <div class="step-content">
-                <div class="step-title">Copy your Bitcoin address from Phantom</div>
-                <div class="step-detail">It will start with <code style="font-family:var(--mono);color:var(--accent2);font-size:0.8rem;">bc1q</code> or <code style="font-family:var(--mono);color:var(--accent2);font-size:0.8rem;">1</code> or <code style="font-family:var(--mono);color:var(--accent2);font-size:0.8rem;">3</code>. This is your real Bitcoin address.</div>
+                <div class="step-title">Copy your Bitcoin address</div>
+                <div class="step-detail">It starts with <code style="font-family:var(--mono);color:var(--accent-green);font-size:0.78rem;">bc1q</code>, <code style="font-family:var(--mono);color:var(--accent-green);font-size:0.78rem;">1</code>, or <code style="font-family:var(--mono);color:var(--accent-green);font-size:0.78rem;">3</code>. This is your real Bitcoin address.</div>
               </div>
             </div>
             <div class="step">
               <div class="step-num">3</div>
               <div class="step-content">
-                <div class="step-title">On Coinbase, choose "Send" → select Bitcoin (BTC)</div>
-                <div class="step-detail">Paste your Phantom Bitcoin address. When asked which network, choose <strong>Bitcoin</strong> (not BEP20, not ERC20, not Solana).</div>
+                <div class="step-title">On Coinbase, go to Send → Bitcoin (BTC)</div>
+                <div class="step-detail">Paste your Phantom Bitcoin address. When choosing a network, select <strong>Bitcoin</strong> — not BEP20, ERC20, or Solana.</div>
               </div>
             </div>
             <div class="step">
               <div class="step-num">4</div>
               <div class="step-content">
                 <div class="step-title">Confirm and wait 10–60 minutes</div>
-                <div class="step-detail">Bitcoin transactions require network confirmations. This takes longer than most other chains — totally normal.</div>
+                <div class="step-detail">Bitcoin requires network confirmations. It takes longer than other chains — this is completely normal.</div>
               </div>
             </div>
           </div>
-
           <div class="address-box">
             <span class="address-label">Correct ✓</span>
             <span class="address-value"><span class="good">bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq</span></span>
           </div>
-
           <div class="callout callout-green">
-            <span class="callout-icon">✅</span>
-            <div>This is the simple, safest case. One coin, one network, one address format. You're moving <strong>native BTC</strong> on the <strong>Bitcoin network</strong>.</div>
+            <span class="callout-icon">✓</span>
+            <div>The simplest case. One coin, one network, one address type. Native BTC on the Bitcoin network.</div>
           </div>
         </div>
       </div>
@@ -1135,73 +778,65 @@
         <div class="concept-title-wrap">
           <div class="concept-emoji">🌀</div>
           <div>
-            <div class="concept-title">Scenario 2: Move "BTC" from Coinbase → Phantom via Solana</div>
-            <div class="concept-subtitle">This is where it gets tricky — wrapped tokens</div>
+            <div class="concept-title">Scenario 2 — BTC from Coinbase to Phantom via Solana</div>
+            <div class="concept-subtitle">Tricky · Wrapped tokens</div>
           </div>
         </div>
         <div class="chevron">▾</div>
       </div>
       <div class="concept-body">
         <div class="concept-inner">
-
           <div class="callout callout-warn">
-            <span class="callout-icon">⚠️</span>
-            <div><strong>Important:</strong> When you send BTC "via the Solana network," you're not sending real Bitcoin. You're sending a <em>wrapped version</em> called <strong>wBTC or cbBTC</strong>. This is a Solana token that represents Bitcoin in value. You need a <em>Solana address</em>, not a Bitcoin address.</div>
+            <span class="callout-icon">⚠</span>
+            <div><strong>Sending BTC "via Solana" means you're not sending real Bitcoin.</strong> You're sending a wrapped version called cbBTC — a Solana token tracking Bitcoin's value. You need a <em>Solana address</em>, not a Bitcoin address.</div>
           </div>
-
-          <p style="margin:20px 0 12px;font-weight:500;font-size:0.9rem;">Why would you do this? Speed and lower fees. Bitcoin transfers can take 10–60 min and cost $2–20. The same value on Solana takes under 1 second and costs $0.001.</p>
-
+          <p style="margin:14px 0 10px;font-size:0.83rem;color:var(--text-muted);">Why do this? Speed. Bitcoin transfers take 10–60 min and cost $2–20 in fees. The same value on Solana takes under 1 second and costs $0.001.</p>
           <div class="steps">
             <div class="step">
               <div class="step-num">1</div>
               <div class="step-content">
-                <div class="step-title">Open Phantom &amp; switch to Solana</div>
-                <div class="step-detail">In the Phantom app, make sure you're on the <strong>Solana</strong> network. Your address will be a long random string — this is your Solana wallet address.</div>
+                <div class="step-title">Open Phantom → switch to Solana</div>
+                <div class="step-detail">Make sure you're on Solana. Your address is a long string of mixed letters and numbers — no "bc1" prefix.</div>
               </div>
             </div>
             <div class="step">
               <div class="step-num">2</div>
               <div class="step-content">
-                <div class="step-title">Copy your Solana address from Phantom</div>
-                <div class="step-detail">It looks like: <code style="font-family:var(--mono);color:var(--accent2);font-size:0.8rem;">7Xkr4…vFqP</code> — a 44-character mix of letters and numbers. No "bc1" prefix here.</div>
+                <div class="step-title">Copy your Solana address</div>
+                <div class="step-detail">Looks like: <code style="font-family:var(--mono);color:var(--accent-green);font-size:0.76rem;">7XkrMYT5gvp1B9YLpFWpRxDtCv…</code> — 44 characters, no prefix pattern.</div>
               </div>
             </div>
             <div class="step">
               <div class="step-num">3</div>
               <div class="step-content">
-                <div class="step-title">On Coinbase, select the correct asset</div>
-                <div class="step-detail">Look for <strong>cbBTC</strong> (Coinbase's wrapped Bitcoin on Solana) or a "BTC via Solana" option. <em>Not</em> the regular Bitcoin (BTC).</div>
+                <div class="step-title">On Coinbase, select cbBTC (not regular BTC)</div>
+                <div class="step-detail">Look for <strong>cbBTC</strong> — Coinbase's wrapped Bitcoin on Solana. This is different from the standard Bitcoin (BTC).</div>
               </div>
             </div>
             <div class="step">
               <div class="step-num">4</div>
               <div class="step-content">
-                <div class="step-title">Select "Solana" as the network, paste address, send</div>
-                <div class="step-detail">Double-check the network says <strong>Solana</strong>. The receiving address should be your 44-char Solana address — not your Bitcoin bc1q address.</div>
+                <div class="step-title">Select Solana as the network → paste → send</div>
+                <div class="step-detail">Confirm the network says <strong>Solana</strong>. The address must be your 44-character Solana address — not your bc1q Bitcoin address.</div>
               </div>
             </div>
           </div>
-
-          <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;margin-top:8px;">Address format comparison — they look completely different:</p>
-
+          <p style="font-size:0.72rem;color:var(--text-dim);margin:14px 0 8px;font-family:var(--mono);letter-spacing:0.06em;text-transform:uppercase;">Address format comparison</p>
           <div class="address-box">
             <span class="address-label">Bitcoin</span>
             <span class="address-value"><span class="good">bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq</span></span>
           </div>
-
           <div class="address-box">
             <span class="address-label">Solana</span>
             <span class="address-value"><span class="good">7XkrMYT5gvp1B9YLpFWpRxDtCvPqY3tPdZbKrjVfQP</span></span>
           </div>
-
           <div class="address-box">
-            <span class="address-label">⚠️ Wrong</span>
-            <span class="address-value"><span class="bad">Sending to a Bitcoin address on the Solana network = lost forever</span></span>
+            <span class="address-label">⚠ Wrong</span>
+            <span class="address-value"><span class="bad">Bitcoin address sent on Solana network = lost forever</span></span>
           </div>
-
           <div class="callout callout-danger">
-            <span class="callout-icon">🚨</span>
-            <div><strong>Never paste a Bitcoin address when sending on the Solana network.</strong> Coinbase may let you do it — but the funds go to an address nobody controls and are permanently lost.</div>
+            <span class="callout-icon">!</span>
+            <div><strong>Never paste a Bitcoin address when the network is set to Solana.</strong> The exchange may allow it — but the funds go somewhere unreachable and cannot be recovered.</div>
           </div>
         </div>
       </div>
@@ -1213,49 +848,45 @@
         <div class="concept-title-wrap">
           <div class="concept-emoji">💎</div>
           <div>
-            <div class="concept-title">Scenario 3: Move ETH from Coinbase → MetaMask</div>
-            <div class="concept-subtitle">Ethereum — and its many side networks</div>
+            <div class="concept-title">Scenario 3 — ETH from Coinbase to MetaMask</div>
+            <div class="concept-subtitle">Ethereum and its many side-networks</div>
           </div>
         </div>
         <div class="chevron">▾</div>
       </div>
       <div class="concept-body">
         <div class="concept-inner">
-
-          <p style="margin-bottom:16px;font-size:0.9rem;color:var(--text-muted);">Ethereum-based wallets like MetaMask use the <strong>same address format across multiple networks</strong> (Ethereum mainnet, Polygon, Arbitrum, Base, etc). But sending on the wrong one still means you might not see your funds where you expect them.</p>
-
+          <p style="margin-bottom:14px;font-size:0.875rem;color:var(--text-muted);">MetaMask uses the <strong>same address format across multiple networks</strong> — Ethereum, Polygon, Arbitrum, Base, and more. But the network you send on determines where your funds appear.</p>
           <div class="callout callout-blue">
-            <span class="callout-icon">ℹ️</span>
-            <div>Your MetaMask address (starts with <code style="font-family:var(--mono);color:#60a5fa;font-size:0.85rem;">0x</code>) is the same on Ethereum, Polygon, Base, and Arbitrum. But each network has its own balance. Sending ETH via Polygon means it arrives as ETH on Polygon — not on Ethereum mainnet.</div>
+            <span class="callout-icon">→</span>
+            <div>Your MetaMask address (starts with <code style="font-family:var(--mono);font-size:0.83rem;">0x</code>) is identical on all EVM chains. Sending ETH via Polygon means it arrives on Polygon — not Ethereum mainnet. They're separate balances.</div>
           </div>
-
           <div class="steps">
             <div class="step">
               <div class="step-num">1</div>
               <div class="step-content">
                 <div class="step-title">Copy your MetaMask address (starts with 0x…)</div>
-                <div class="step-detail">This same address works on all EVM-compatible networks. Example: <code style="font-family:var(--mono);color:var(--accent2);font-size:0.8rem;">0x742d35Cc6634C0532925a3b8D4C9C5</code></div>
+                <div class="step-detail">This same address works on Ethereum, Base, Arbitrum, Polygon, and more.</div>
               </div>
             </div>
             <div class="step">
               <div class="step-num">2</div>
               <div class="step-content">
-                <div class="step-title">On Coinbase, choose the network carefully</div>
-                <div class="step-detail">Decide: do you want it on <strong>Ethereum mainnet</strong> (slower, higher fees), or a cheaper network like <strong>Base</strong> or <strong>Arbitrum</strong>? Your MetaMask must be set to show that same network.</div>
+                <div class="step-title">Choose your network on Coinbase</div>
+                <div class="step-detail">Ethereum mainnet is slower and costs more. Base, Arbitrum, or Polygon are faster and far cheaper. Decide before sending.</div>
               </div>
             </div>
             <div class="step">
               <div class="step-num">3</div>
               <div class="step-content">
                 <div class="step-title">In MetaMask, switch to the matching network</div>
-                <div class="step-detail">Click the network name at the top of MetaMask. Select the same network you sent on. Your ETH will appear there.</div>
+                <div class="step-detail">Click the network name at the top and select the same network you sent on. Your ETH will appear there.</div>
               </div>
             </div>
           </div>
-
           <div class="callout callout-green">
-            <span class="callout-icon">✅</span>
-            <div>Good news: if you accidentally sent ETH to your MetaMask on the wrong EVM network (like Polygon instead of mainnet), you can often recover it. Just add that network to MetaMask and switch to it — your funds are there, just hidden.</div>
+            <span class="callout-icon">✓</span>
+            <div>If you accidentally sent ETH to MetaMask on the wrong EVM network, you can recover it — just add that network to MetaMask and switch to it. Your funds are there, just not visible yet.</div>
           </div>
         </div>
       </div>
@@ -1267,48 +898,45 @@
         <div class="concept-title-wrap">
           <div class="concept-emoji">🪙</div>
           <div>
-            <div class="concept-title">Scenario 4: Moving USDC or USDT (stablecoins)</div>
-            <div class="concept-subtitle">The same dollar-pegged coin exists on many chains</div>
+            <div class="concept-title">Scenario 4 — Moving USDC or USDT (stablecoins)</div>
+            <div class="concept-subtitle">Same dollar value, different chains</div>
           </div>
         </div>
         <div class="chevron">▾</div>
       </div>
       <div class="concept-body">
         <div class="concept-inner">
-
-          <p style="margin-bottom:16px;font-size:0.9rem;color:var(--text-muted);">USDC is available on Ethereum, Solana, Polygon, Arbitrum, Base, and more. It's always worth $1 — but it's a <strong>different token on each chain</strong>. Sending USDC on the wrong chain to a wallet that only supports one chain = lost funds.</p>
-
+          <p style="margin-bottom:14px;font-size:0.875rem;color:var(--text-muted);">USDC exists on Ethereum, Solana, Polygon, Base, and more. It always equals $1 — but it is a <strong>different token on each chain</strong>. Sending USDC on the wrong chain to an incompatible wallet means lost funds.</p>
           <div class="compare-wrap">
             <div class="compare-row">
               <div class="compare-cell header">Network</div>
-              <div class="compare-cell header">Address looks like</div>
+              <div class="compare-cell header">Address format</div>
               <div class="compare-cell header">Supported by</div>
             </div>
             <div class="compare-row">
               <div class="compare-cell">Ethereum (ERC-20)</div>
-              <div class="compare-cell" style="font-family:var(--mono);font-size:0.75rem;color:#60a5fa;">0x74…</div>
-              <div class="compare-cell" style="font-size:0.8rem;color:var(--text-muted);">MetaMask, Coinbase Wallet</div>
+              <div class="compare-cell" style="font-family:var(--mono);font-size:0.74rem;">0x74…</div>
+              <div class="compare-cell" style="font-size:0.8rem;">MetaMask, Coinbase Wallet</div>
             </div>
             <div class="compare-row">
               <div class="compare-cell">Solana (SPL)</div>
-              <div class="compare-cell" style="font-family:var(--mono);font-size:0.75rem;color:#a78bfa;">7Xkr…</div>
-              <div class="compare-cell" style="font-size:0.8rem;color:var(--text-muted);">Phantom, Backpack</div>
+              <div class="compare-cell" style="font-family:var(--mono);font-size:0.74rem;">7Xkr… (no 0x)</div>
+              <div class="compare-cell" style="font-size:0.8rem;">Phantom, Backpack</div>
             </div>
             <div class="compare-row">
-              <div class="compare-cell">Polygon (MATIC)</div>
-              <div class="compare-cell" style="font-family:var(--mono);font-size:0.75rem;color:#60a5fa;">0x74… (same!)</div>
-              <div class="compare-cell" style="font-size:0.8rem;color:var(--text-muted);">MetaMask (Polygon network)</div>
+              <div class="compare-cell">Polygon</div>
+              <div class="compare-cell" style="font-family:var(--mono);font-size:0.74rem;">0x74… (same format)</div>
+              <div class="compare-cell" style="font-size:0.8rem;">MetaMask (Polygon)</div>
             </div>
             <div class="compare-row">
-              <div class="compare-cell">Base</div>
-              <div class="compare-cell" style="font-family:var(--mono);font-size:0.75rem;color:#60a5fa;">0x74… (same!)</div>
-              <div class="compare-cell" style="font-size:0.8rem;color:var(--text-muted);">MetaMask, Coinbase Wallet</div>
+              <div class="compare-cell">Base / Arbitrum</div>
+              <div class="compare-cell" style="font-family:var(--mono);font-size:0.74rem;">0x74… (same format)</div>
+              <div class="compare-cell" style="font-size:0.8rem;">MetaMask, Coinbase Wallet</div>
             </div>
           </div>
-
           <div class="callout callout-warn">
-            <span class="callout-icon">⚠️</span>
-            <div><strong>Example:</strong> If someone tells you to send them USDC to their Phantom wallet, you <em>must</em> send it via the <strong>Solana network</strong> — not Ethereum. Phantom's USDC is the SPL version. Sending ERC-20 USDC to a Solana address will result in lost funds.</div>
+            <span class="callout-icon">⚠</span>
+            <div><strong>Common mistake:</strong> Sending USDC to a Phantom wallet? You must send it via <strong>Solana</strong>. Phantom holds the SPL version. Sending ERC-20 USDC to a Solana address will result in lost funds.</div>
           </div>
         </div>
       </div>
@@ -1316,199 +944,163 @@
 
   </div>
 </section>
-
-<div class="divider"></div>
 
 <!-- GOLDEN RULES -->
 <section id="rules">
   <div class="container">
     <div class="golden-rule reveal">
       <div class="golden-rule-emoji">⚖️</div>
-      <h3>The 3 Golden Rules of Crypto Transfers</h3>
-      <p>Memorize these. Follow them every single time. No exceptions.</p>
+      <h3>Three rules. Always. No exceptions.</h3>
+      <p>Memorize these and you will not lose money to transfer mistakes.</p>
     </div>
 
     <div class="quick-ref">
       <div class="quick-card reveal">
         <div class="quick-card-coin">🔁</div>
-        <div class="quick-card-title">Rule 1: Match the Network</div>
+        <div class="quick-card-title">Match the Network</div>
         <div class="quick-card-item">
-          <span class="quick-key">Before sending</span>
-          <span class="quick-val">Confirm sender & receiver use same network</span>
+          <span class="quick-key">Before every send</span>
+          <span class="quick-val">Confirm both sides are on the same network</span>
         </div>
         <div class="quick-card-item">
           <span class="quick-key">Example</span>
-          <span class="quick-val">Solana USDC → Solana address. Not ETH address.</span>
+          <span class="quick-val">Solana USDC → Solana address. Not an Ethereum address.</span>
         </div>
       </div>
 
       <div class="quick-card reveal reveal-delay-1">
         <div class="quick-card-coin">🧪</div>
-        <div class="quick-card-title">Rule 2: Always Test First</div>
+        <div class="quick-card-title">Test Send First</div>
         <div class="quick-card-item">
-          <span class="quick-key">Protocol</span>
-          <span class="quick-val">Send $1–$5 first. Confirm it arrives. Then send the rest.</span>
+          <span class="quick-key">Every time</span>
+          <span class="quick-val">Send $1–$5 first. Confirm arrival. Then send the rest.</span>
         </div>
         <div class="quick-card-item">
-          <span class="quick-key">Cost</span>
+          <span class="quick-key">The logic</span>
           <span class="quick-val">A small test fee is worth protecting your full amount</span>
         </div>
       </div>
 
       <div class="quick-card reveal reveal-delay-2">
         <div class="quick-card-coin">👀</div>
-        <div class="quick-card-title">Rule 3: Triple-Check the Address</div>
+        <div class="quick-card-title">Verify the Address</div>
         <div class="quick-card-item">
-          <span class="quick-key">Check</span>
-          <span class="quick-val">First 4 and last 4 characters of the address</span>
+          <span class="quick-key">Check manually</span>
+          <span class="quick-val">First 4 and last 4 characters of every address</span>
         </div>
         <div class="quick-card-item">
           <span class="quick-key">Why</span>
-          <span class="quick-val">Malware can silently swap clipboard addresses</span>
+          <span class="quick-val">Clipboard hijacking malware is real and common</span>
         </div>
       </div>
     </div>
-
   </div>
 </section>
 
-<div class="divider"></div>
-
-<!-- NETWORK QUICK REFERENCE -->
+<!-- NETWORK REFERENCE -->
 <section id="networks">
   <div class="container">
-    <div class="section-label reveal">Part 03 — Quick Reference</div>
-    <h2 class="section-title reveal reveal-delay-1">Address formats<br/>at a glance</h2>
-    <p class="section-sub reveal reveal-delay-2">Not sure which network an address belongs to? Use this table.</p>
+    <div class="section-label reveal">Part 03</div>
+    <h2 class="section-title reveal reveal-delay-1">Address formats<br/><em>at a glance</em></h2>
+    <p class="section-sub reveal reveal-delay-2">Not sure which network an address belongs to? Use this to identify it instantly.</p>
 
     <table class="network-table reveal">
       <thead>
         <tr>
           <th>Network</th>
-          <th>Address Format</th>
-          <th>Example Start</th>
-          <th>Common Coins</th>
+          <th>Format</th>
+          <th>Starts with</th>
+          <th>Common coins</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>Bitcoin</td>
           <td>Legacy, SegWit, or Native SegWit</td>
-          <td><span class="chain-badge tag-blue">bc1q… / 1… / 3…</span></td>
+          <td><span class="chain-badge">bc1q… / 1… / 3…</span></td>
           <td>BTC only</td>
         </tr>
         <tr>
           <td>Ethereum</td>
           <td>EVM — 42 characters</td>
-          <td><span class="chain-badge tag-purple">0x…</span></td>
+          <td><span class="chain-badge">0x…</span></td>
           <td>ETH, USDC, USDT, DAI</td>
         </tr>
         <tr>
           <td>Solana</td>
           <td>Base58 — 32–44 characters</td>
-          <td><span class="chain-badge tag-green">Random mix, no 0x</span></td>
-          <td>SOL, USDC (SPL), wBTC</td>
+          <td><span class="chain-badge">No prefix pattern</span></td>
+          <td>SOL, USDC (SPL), cbBTC</td>
         </tr>
         <tr>
           <td>Polygon</td>
           <td>EVM — same as Ethereum</td>
-          <td><span class="chain-badge tag-purple">0x…</span></td>
+          <td><span class="chain-badge">0x…</span></td>
           <td>MATIC, USDC, ETH (bridged)</td>
         </tr>
         <tr>
           <td>Arbitrum / Base / Optimism</td>
           <td>EVM — same as Ethereum</td>
-          <td><span class="chain-badge tag-purple">0x…</span></td>
+          <td><span class="chain-badge">0x…</span></td>
           <td>ETH, USDC, ARB</td>
         </tr>
         <tr>
           <td>BNB Chain</td>
-          <td>EVM — same as Ethereum</td>
-          <td><span class="chain-badge tag-amber">0x… (BEP-20)</span></td>
-          <td>BNB, USDT (BEP-20)</td>
+          <td>EVM (BEP-20) — same as Ethereum</td>
+          <td><span class="chain-badge">0x… (BEP-20)</span></td>
+          <td>BNB, USDT, BUSD</td>
         </tr>
       </tbody>
     </table>
 
-    <div class="callout callout-danger reveal" style="margin-top:16px;">
-      <span class="callout-icon">🚨</span>
-      <div><strong>BEP-20 trap:</strong> Ethereum and BNB Chain both use <code style="font-family:var(--mono);">0x</code> addresses — but they're different networks. Sending ETH to a BNB Chain address (or vice versa) <em>may</em> be recoverable if you control the destination wallet, but can be permanently lost if you don't.</div>
+    <div class="callout callout-danger reveal" style="margin-top:14px;">
+      <span class="callout-icon">!</span>
+      <div><strong>BEP-20 trap:</strong> Ethereum and BNB Chain both use <code style="font-family:var(--mono);">0x</code> addresses — but they're completely separate networks. Sending ETH to a BNB Chain address can result in permanently lost funds if you don't control the destination wallet.</div>
     </div>
   </div>
 </section>
 
-<div class="divider"></div>
-
-<!-- FINAL CHECKLIST -->
+<!-- PRE-SEND CHECKLIST -->
 <section>
   <div class="container">
-    <div class="section-label reveal">Before You Send</div>
-    <h2 class="section-title reveal reveal-delay-1">Your pre-send checklist</h2>
-    <p class="section-sub reveal reveal-delay-2">Run through this every time — even when you're confident.</p>
+    <div class="section-label reveal">Every Time</div>
+    <h2 class="section-title reveal reveal-delay-1">Pre-send<br/><em>checklist</em></h2>
+    <p class="section-sub reveal reveal-delay-2">Run through this before every single transfer. Yes, every time — even when confident.</p>
 
-    <div style="display:grid;gap:12px;" class="reveal reveal-delay-3">
-      <div class="callout callout-blue">
-        <span class="callout-icon">☑</span>
-        <div><strong>1. What coin am I sending?</strong> BTC, ETH, USDC, SOL... name it clearly.</div>
-      </div>
-      <div class="callout callout-blue">
-        <span class="callout-icon">☑</span>
-        <div><strong>2. What network am I sending on?</strong> Bitcoin network? Ethereum? Solana? This is chosen at the sending platform — not automatically.</div>
-      </div>
-      <div class="callout callout-blue">
-        <span class="callout-icon">☑</span>
-        <div><strong>3. Does the receiving wallet support that network?</strong> Phantom supports Solana and Bitcoin. MetaMask supports Ethereum and all EVM chains. Don't assume.</div>
-      </div>
-      <div class="callout callout-blue">
-        <span class="callout-icon">☑</span>
-        <div><strong>4. Is the address format correct for that network?</strong> Bitcoin = bc1q/1/3. Solana = long Base58. ETH = 0x…</div>
-      </div>
-      <div class="callout callout-blue">
-        <span class="callout-icon">☑</span>
-        <div><strong>5. Did I send a small test amount first?</strong> Always. No exceptions.</div>
-      </div>
-      <div class="callout callout-blue">
-        <span class="callout-icon">☑</span>
-        <div><strong>6. Did I check the first and last 4 characters of the address?</strong> Clipboard hijacking malware is real. Always verify manually.</div>
-      </div>
+    <div class="checklist reveal reveal-delay-3">
+      <div class="check-item"><span class="check-num">01</span><span><strong>What coin am I sending?</strong> Name it clearly — BTC, ETH, USDC, SOL. Sounds obvious; do it anyway.</span></div>
+      <div class="check-item"><span class="check-num">02</span><span><strong>What network am I sending on?</strong> Bitcoin? Ethereum? Solana? This is selected at the sending platform — it does not happen automatically.</span></div>
+      <div class="check-item"><span class="check-num">03</span><span><strong>Does the receiving wallet support that network?</strong> Phantom supports Solana and Bitcoin. MetaMask supports Ethereum and EVM chains. Never assume.</span></div>
+      <div class="check-item"><span class="check-num">04</span><span><strong>Is the address format correct for that network?</strong> Bitcoin = bc1q / 1 / 3. Solana = long Base58. ETH and EVM = 0x…</span></div>
+      <div class="check-item"><span class="check-num">05</span><span><strong>Did I send a small test amount first?</strong> Always. Send $1–5, confirm arrival, then send the rest.</span></div>
+      <div class="check-item"><span class="check-num">06</span><span><strong>Did I verify the first and last 4 characters of the address?</strong> Clipboard hijacking malware is real. Check manually every time.</span></div>
     </div>
-
   </div>
 </section>
 
 <footer>
-  <p>CryptoClarity — Making digital assets understandable for everyone. Not financial advice.</p>
-  <p style="margin-top:8px;">Built with care. Share freely.</p>
+  <span class="footer-logo">WooJung</span>
+  <span class="footer-note">Not financial advice · Share freely</span>
 </footer>
 
 <script>
-  // Progress bar
   window.addEventListener('scroll', () => {
-    const scrollTop = document.documentElement.scrollTop;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = (scrollTop / docHeight) * 100;
+    const pct = (document.documentElement.scrollTop / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
     document.getElementById('progress').style.width = pct + '%';
   });
 
-  // Accordion
   function toggleBlock(header) {
     const block = header.closest('.concept-block');
     const isOpen = block.classList.contains('open');
-    // Close all
     document.querySelectorAll('.concept-block.open').forEach(b => b.classList.remove('open'));
-    // Open clicked if it was closed
     if (!isOpen) block.classList.add('open');
   }
 
-  // Intersection observer for reveals
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -48px 0px' });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
