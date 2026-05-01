@@ -4,7 +4,6 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>WooJung — Don't Lose Your Money</title>
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
@@ -494,26 +493,6 @@ textarea::placeholder{color:var(--text-dim);}
   .compare-row{grid-template-columns:1fr;}
   .compare-row .compare-cell+.compare-cell{border-top:1px solid var(--border);}
 }
-    #ra-output-body, #tx-output-body {
-      background: #ffffff;
-      border: 1px solid #eee;
-      border-radius: 12px;
-      padding: 16px;
-      line-height: 1.6;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
-
-    #ra-output-body h3, #tx-output-body h3 {
-      margin-top: 16px;
-    }
-
-    #ra-output-body ul, #tx-output-body ul {
-      padding-left: 20px;
-    }
-
-    #ra-output-body strong, #tx-output-body strong {
-      font-weight: 600;
-    }
 </style>
 </head>
 <body>
@@ -1320,13 +1299,6 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 /* ══════════════════════════════════════════════════
    SHARED AI HELPER
 ══════════════════════════════════════════════════ */
-<!-- ADD THIS ONCE IN YOUR <head> -->
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
-<script>
-/* ══════════════════════════════════════════════════
-   SHARED AI HELPER (IMPROVED)
-══════════════════════════════════════════════════ */
 async function callClaude(systemPrompt, userMessage) {
   const response = await fetch('/api/claude', {
     method: 'POST',
@@ -1337,58 +1309,31 @@ async function callClaude(systemPrompt, userMessage) {
       max_tokens: 1000,
     })
   });
-
-  if (!response.ok) {
-    let err;
-    try {
-      err = await response.json();
-    } catch {
-      err = { error: `HTTP ${response.status}` };
-    }
-    throw new Error(err?.error?.message || JSON.stringify(err));
-  }
-
+  if (!response.ok) throw new Error(`API error ${response.status}`);
   const data = await response.json();
   return data.content?.[0]?.text || 'No response received.';
 }
 
-/* ══════════════════════════════════════════════════
-   LOADING STATE
-══════════════════════════════════════════════════ */
 function setLoading(btnId, spinnerId, btnTextId, loading) {
   document.getElementById(btnId).disabled = loading;
   document.getElementById(spinnerId).style.display = loading ? 'block' : 'none';
   document.getElementById(btnTextId).style.opacity = loading ? '0.5' : '1';
 }
 
-/* ══════════════════════════════════════════════════
-   OUTPUT RENDER (MARKDOWN + STREAMING)
-══════════════════════════════════════════════════ */
 function showAiOutput(outputId, bodyId, text) {
   const out = document.getElementById(outputId);
   const body = document.getElementById(bodyId);
-
   out.classList.add('visible');
-  body.innerHTML = '';
-
-  const chunks = text.split('\n\n'); // paragraph streaming
+  // Animate text in word by word for a streaming feel
+  body.textContent = '';
+  const words = text.split(' ');
   let i = 0;
-
   const interval = setInterval(() => {
-    if (i >= chunks.length) {
-      clearInterval(interval);
-      return;
-    }
-
-    const div = document.createElement('div');
-    div.style.marginBottom = "12px";
-    div.innerHTML = marked.parse(chunks[i]);
-
-    body.appendChild(div);
+    if (i >= words.length) { clearInterval(interval); return; }
+    body.textContent += (i > 0 ? ' ' : '') + words[i];
     body.scrollTop = body.scrollHeight;
-
     i++;
-  }, 120);
+  }, 18);
 }
 
 /* ══════════════════════════════════════════════════
@@ -1409,7 +1354,7 @@ Wallet chain support for context:
 - Phantom: Bitcoin and Solana ONLY (no Ethereum/MetaMask addresses)
 - MetaMask: Ethereum and all EVM chains (Polygon, Arbitrum, Base) ONLY (no Bitcoin or Solana addresses)
 
-Format using markdown with clear headings (###), bullet points, and bold where helpful. Keep under 450 words.`;
+Format with clear headings. Use plain English. Be specific about address format differences. Keep under 450 words.`;
 
 async function runRouteAdvisor() {
   const asset    = document.getElementById('ra-asset').value;
@@ -1434,20 +1379,12 @@ ${context ? '- Additional context: ' + context : ''}
 Analyse all viable routes and give me a clear recommendation.`;
 
   setLoading('ra-btn', 'ra-spinner', 'ra-btn-text', true);
-
-  const output = document.getElementById('ra-output-body');
-  output.innerHTML = "<em>Thinking...</em>";
-  document.getElementById('ra-output').classList.add('visible');
-
+  document.getElementById('ra-output').classList.remove('visible');
   try {
     const result = await callClaude(ROUTE_SYSTEM, userMsg);
     showAiOutput('ra-output', 'ra-output-body', result);
   } catch(e) {
-    showAiOutput(
-      'ra-output',
-      'ra-output-body',
-      `### ⚠️ Error\n\n${e.message}`
-    );
+    showAiOutput('ra-output', 'ra-output-body', 'Something went wrong reaching the AI. Please try again.\n\nError: ' + e.message);
   } finally {
     setLoading('ra-btn', 'ra-spinner', 'ra-btn-text', false);
   }
@@ -1455,31 +1392,29 @@ Analyse all viable routes and give me a clear recommendation.`;
 
 function fillRouteExample(asset, amount, from, to, priority, context) {
   ['ra-asset','ra-amount','ra-from','ra-to','ra-priority','ra-context']
-    .forEach((id, i) => {
-      const el = document.getElementById(id);
-      if (el) el.value = [asset,amount,from,to,priority,context][i];
-    });
-
-  document.getElementById('ra-btn')
-    .scrollIntoView({ behavior:'smooth', block:'center' });
+    .forEach((id, i) => { const el = document.getElementById(id); if(el) el.value = [asset,amount,from,to,priority,context][i]; });
+  document.getElementById('ra-btn').scrollIntoView({ behavior:'smooth', block:'center' });
 }
 
 /* ══════════════════════════════════════════════════
    TRANSACTION EXPLAINER
 ══════════════════════════════════════════════════ */
-const TX_SYSTEM = `You are a crypto transaction explainer embedded in WooJung, a plain-English crypto education site.
+const TX_SYSTEM = `You are a crypto transaction explainer embedded in WooJung, a plain-English crypto education site. Your job is to decode crypto transactions and explain them in plain English for non-technical people.
 
-Explain in markdown with headings (###), bullet points, and bold where useful.
+When given a transaction hash, receipt text, or description, always cover:
+1. WHAT HAPPENED — what was sent or swapped, by whom, to whom, did it succeed?
+2. FEES — what was paid in gas/network fees, is that normal?
+3. CONTRACT INTERACTION — if a DEX swap, bridge, NFT, approval, or smart contract was involved, explain it simply
+4. FINALITY — if confirmations are mentioned, explain whether it's considered done
+5. IF IT FAILED — explain the likely reason in simple terms (slippage, gas, rejection)
+6. BOTTOM LINE — one clear sentence summarising the situation and whether anything needs action
 
-Always cover:
-1. WHAT HAPPENED
-2. FEES
-3. CONTRACT INTERACTION
-4. FINALITY
-5. IF IT FAILED
-6. BOTTOM LINE
-
-Keep it under 400 words.`;
+Rules:
+- Never show raw hex — translate to English
+- If given only a hash (no on-chain lookup available), explain what that hash IS, describe what a typical receipt for that type of transaction would show, and address any specific confusion the user mentioned
+- Be reassuring but honest about risks
+- Keep it under 400 words
+- Always end with "Bottom line:" followed by one plain-English sentence`;
 
 async function runTxExplainer() {
   const chain    = document.getElementById('tx-chain').value;
@@ -1496,20 +1431,12 @@ async function runTxExplainer() {
 Please explain this transaction in plain English.`;
 
   setLoading('tx-btn', 'tx-spinner', 'tx-btn-text', true);
-
-  const output = document.getElementById('tx-output-body');
-  output.innerHTML = "<em>Thinking...</em>";
-  document.getElementById('tx-output').classList.add('visible');
-
+  document.getElementById('tx-output').classList.remove('visible');
   try {
     const result = await callClaude(TX_SYSTEM, userMsg);
     showAiOutput('tx-output', 'tx-output-body', result);
   } catch(e) {
-    showAiOutput(
-      'tx-output',
-      'tx-output-body',
-      `### ⚠️ Error\n\n${e.message}`
-    );
+    showAiOutput('tx-output', 'tx-output-body', 'Something went wrong reaching the AI. Please try again.\n\nError: ' + e.message);
   } finally {
     setLoading('tx-btn', 'tx-spinner', 'tx-btn-text', false);
   }
@@ -1519,9 +1446,7 @@ function fillTxExample(chain, hash, question) {
   document.getElementById('tx-chain').value = chain;
   document.getElementById('tx-input').value = hash;
   document.getElementById('tx-question').value = question;
-
-  document.getElementById('tx-btn')
-    .scrollIntoView({ behavior:'smooth', block:'center' });
+  document.getElementById('tx-btn').scrollIntoView({ behavior:'smooth', block:'center' });
 }
 </script>
 </body>
