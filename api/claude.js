@@ -42,3 +42,4 @@ export default async function handler(req, res) {
   }
 }
 console.log("API KEY:", process.env.ANTHROPIC_API_KEY);
+console.log("KEY LENGTH:", process.env.ANTHROPIC_API_KEY?.length);
