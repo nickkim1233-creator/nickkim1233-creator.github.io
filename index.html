@@ -1,468 +1,1516 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fintech & Crypto Market Opportunities 2026</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-slide { animation: slideIn 0.5s ease-out; }
-        .gradient-bg { 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        .opportunity-card {
-            transition: all 0.3s ease;
-            border-left: 4px solid transparent;
-        }
-        .opportunity-card:hover {
-            transform: translateX(8px);
-            border-left-color: #8b5cf6;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        .risk-low { border-color: #10b981; }
-        .risk-medium { border-color: #f59e0b; }
-        .risk-high { border-color: #ef4444; }
-        .tab-button {
-            transition: all 0.3s ease;
-        }
-        .tab-button.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CryptoClarity — Demystifying Digital Assets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #080c10;
+    --surface: #0d1117;
+    --surface2: #131920;
+    --border: rgba(255,255,255,0.06);
+    --border-bright: rgba(255,255,255,0.12);
+    --text: #e8edf2;
+    --text-muted: #6b7a8d;
+    --text-dim: #3d4a57;
+    --accent: #3b82f6;
+    --accent-glow: rgba(59,130,246,0.15);
+    --accent2: #10b981;
+    --accent2-glow: rgba(16,185,129,0.12);
+    --warn: #f59e0b;
+    --warn-glow: rgba(245,158,11,0.12);
+    --danger: #ef4444;
+    --mono: 'DM Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+    --display: 'Syne', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(8,12,16,0.7);
+    backdrop-filter: blur(24px);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.3s;
+  }
+
+  .nav-logo {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav-logo-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.8); }
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 0%, transparent 100%);
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 800px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(59,130,246,0.06) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(59,130,246,0.3);
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 32px;
+    display: inline-block;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero h1 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(3rem, 8vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 28px;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  .hero h1 .line-dim { color: var(--text-dim); }
+  .hero h1 .line-accent { color: var(--accent); }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 520px;
+    margin: 0 auto 48px;
+    font-weight: 300;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    padding: 14px 32px;
+    border-radius: 8px;
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.2s;
+    box-shadow: 0 0 0 0 var(--accent-glow);
+  }
+
+  .btn-primary:hover {
+    background: #2563eb;
+    box-shadow: 0 0 32px rgba(59,130,246,0.4);
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    border: 1px solid var(--border-bright);
+    color: var(--text-muted);
+    padding: 14px 32px;
+    border-radius: 8px;
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .btn-ghost:hover {
+    border-color: rgba(255,255,255,0.25);
+    color: var(--text);
+    transform: translateY(-1px);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SCROLL INDICATOR */
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-dim);
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    animation: fadeUp 1s 0.6s ease both;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(to bottom, var(--text-dim), transparent);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollLine {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* SECTIONS */
+  section { padding: 100px 24px; }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--text-dim);
+  }
+
+  .section-title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .section-sub {
+    color: var(--text-muted);
+    max-width: 560px;
+    margin-bottom: 64px;
+    font-size: 1rem;
+  }
+
+  /* DIVIDER */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+    margin: 0;
+  }
+
+  /* PLATFORM CARDS */
+  .platforms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .platform-card {
+    background: var(--surface);
+    padding: 32px;
+    transition: background 0.3s;
+    cursor: default;
+  }
+
+  .platform-card:hover { background: var(--surface2); }
+
+  .platform-icon {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .platform-type {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+
+  .platform-name {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+
+  .platform-desc {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+
+  .platform-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    padding: 4px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  .tag-blue { background: rgba(59,130,246,0.12); color: #60a5fa; border: 1px solid rgba(59,130,246,0.2); }
+  .tag-green { background: rgba(16,185,129,0.1); color: #34d399; border: 1px solid rgba(16,185,129,0.2); }
+  .tag-amber { background: rgba(245,158,11,0.1); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2); }
+  .tag-purple { background: rgba(168,85,247,0.1); color: #c084fc; border: 1px solid rgba(168,85,247,0.2); }
+
+  .platform-card.featured { background: var(--surface2); }
+
+  /* PROS/CONS */
+  .pro-con {
+    display: flex;
+    gap: 6px;
+    margin-top: 16px;
+    flex-direction: column;
+  }
+
+  .pro, .con {
+    font-size: 0.8rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: var(--text-muted);
+  }
+
+  .pro::before { content: '✓'; color: var(--accent2); flex-shrink: 0; font-weight: 600; }
+  .con::before { content: '✗'; color: var(--danger); flex-shrink: 0; font-weight: 600; }
+
+  /* TRANSFER SECTION */
+  .concept-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    transition: border-color 0.3s;
+  }
+
+  .concept-block:hover { border-color: var(--border-bright); }
+
+  .concept-header {
+    padding: 28px 32px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    user-select: none;
+    transition: background 0.2s;
+  }
+
+  .concept-header:hover { background: rgba(255,255,255,0.02); }
+
+  .concept-title-wrap { display: flex; align-items: center; gap: 16px; }
+
+  .concept-emoji {
+    font-size: 1.5rem;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface2);
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
+
+  .concept-title {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .concept-subtitle {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .chevron {
+    color: var(--text-dim);
+    font-size: 1.2rem;
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    flex-shrink: 0;
+  }
+
+  .concept-block.open .chevron { transform: rotate(180deg); }
+
+  .concept-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), padding 0.3s;
+  }
+
+  .concept-block.open .concept-body { max-height: 2000px; }
+
+  .concept-inner { padding: 0 32px 32px; }
+
+  /* TRANSFER FLOW DIAGRAM */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 24px 0;
+    flex-wrap: wrap;
+  }
+
+  .flow-node {
+    background: var(--surface2);
+    border: 1px solid var(--border-bright);
+    border-radius: 12px;
+    padding: 16px 20px;
+    min-width: 120px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .flow-node-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+
+  .flow-node-value {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--text);
+  }
+
+  .flow-node.highlight {
+    border-color: var(--accent);
+    background: rgba(59,130,246,0.08);
+  }
+
+  .flow-node.highlight .flow-node-value { color: var(--accent); }
+
+  .flow-node.warn-node {
+    border-color: var(--warn);
+    background: rgba(245,158,11,0.08);
+  }
+
+  .flow-node.warn-node .flow-node-value { color: var(--warn); }
+
+  .flow-arrow {
+    flex: 1;
+    min-width: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dim);
+    font-size: 1.2rem;
+    position: relative;
+  }
+
+  .flow-arrow::before {
+    content: '';
+    position: absolute;
+    left: 8px; right: 8px;
+    top: 50%;
+    height: 1px;
+    background: var(--border-bright);
+  }
+
+  .flow-arrow span { background: var(--surface); padding: 0 4px; position: relative; z-index: 1; }
+
+  /* CALLOUT BOXES */
+  .callout {
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .callout-icon { flex-shrink: 0; font-size: 1.1rem; margin-top: 1px; }
+
+  .callout-blue { background: var(--accent-glow); border: 1px solid rgba(59,130,246,0.2); color: #93c5fd; }
+  .callout-green { background: var(--accent2-glow); border: 1px solid rgba(16,185,129,0.2); color: #6ee7b7; }
+  .callout-warn { background: var(--warn-glow); border: 1px solid rgba(245,158,11,0.2); color: #fcd34d; }
+  .callout-danger { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); color: #fca5a5; }
+
+  .callout strong { color: inherit; }
+
+  /* ADDRESS EXAMPLE */
+  .address-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .address-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    flex-shrink: 0;
+    min-width: 72px;
+  }
+
+  .address-value {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .address-value .good { color: var(--accent2); }
+  .address-value .bad { color: var(--danger); }
+
+  /* STEP LIST */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  .step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--surface2);
+    border: 1px solid var(--border-bright);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .step-content { flex: 1; }
+  .step-title { font-weight: 500; margin-bottom: 4px; font-size: 0.95rem; }
+  .step-detail { font-size: 0.85rem; color: var(--text-muted); }
+
+  /* GOLDEN RULE */
+  .golden-rule {
+    background: linear-gradient(135deg, rgba(245,158,11,0.08), rgba(245,158,11,0.04));
+    border: 1px solid rgba(245,158,11,0.25);
+    border-radius: 16px;
+    padding: 40px 48px;
+    text-align: center;
+    margin: 64px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .golden-rule::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: 50%;
+    transform: translateX(-50%);
+    width: 300px; height: 200px;
+    background: radial-gradient(ellipse, rgba(245,158,11,0.08), transparent 70%);
+    pointer-events: none;
+  }
+
+  .golden-rule-emoji { font-size: 2.5rem; margin-bottom: 20px; }
+
+  .golden-rule h3 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    color: #fcd34d;
+  }
+
+  .golden-rule p {
+    color: rgba(252,211,77,0.75);
+    font-size: 0.95rem;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* NETWORK TABLE */
+  .network-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    font-size: 0.85rem;
+  }
+
+  .network-table th {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .network-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+    vertical-align: top;
+  }
+
+  .network-table tr:last-child td { border-bottom: none; }
+
+  .network-table td:first-child {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--text);
+  }
+
+  .network-table .chain-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+  }
+
+  /* QUICK REF */
+  .quick-ref {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin: 32px 0;
+  }
+
+  .quick-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .quick-card:hover {
+    border-color: var(--border-bright);
+    background: var(--surface2);
+  }
+
+  .quick-card-coin {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+  }
+
+  .quick-card-title {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .quick-card-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.8rem;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .quick-card-item:last-child { border-bottom: none; }
+
+  .quick-key { color: var(--text-muted); }
+
+  .quick-val {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--accent2);
+    text-align: right;
+    word-break: break-all;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 48px 24px;
+    text-align: center;
+  }
+
+  footer p {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    color: var(--text-dim);
+  }
+
+  /* INTERSECTION OBSERVER ANIMATIONS */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* PROGRESS BAR */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 0%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), #8b5cf6);
+    z-index: 200;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  /* COMPARISON TABLE */
+  .compare-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border-radius: 0;
+  }
+
+  .compare-row:first-child { border-radius: 12px 12px 0 0; }
+  .compare-row:last-child { border-radius: 0 0 12px 12px; }
+
+  .compare-cell {
+    background: var(--surface);
+    padding: 16px 20px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  .compare-cell.header {
+    background: var(--surface2);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+  }
+
+  .compare-wrap {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 24px 0;
+  }
+
+  /* MOBILE */
+  @media (max-width: 640px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    section { padding: 72px 16px; }
+    .concept-inner { padding: 0 20px 24px; }
+    .concept-header { padding: 20px; }
+    .golden-rule { padding: 32px 24px; }
+    .flow { gap: 8px; }
+    .flow-node { min-width: 80px; padding: 12px; }
+    .flow-node-value { font-size: 0.72rem; }
+    .network-table { font-size: 0.78rem; }
+    .network-table th, .network-table td { padding: 10px 12px; }
+  }
+</style>
 </head>
-<body class="bg-gray-50">
-    <div class="min-h-screen">
-        <!-- Header -->
-        <div class="gradient-bg text-white py-8 px-6">
-            <div class="max-w-6xl mx-auto">
-                <h1 class="text-4xl font-bold mb-2">🚀 High-Growth Fintech & Crypto Opportunities 2026</h1>
-                <p class="text-purple-100 text-lg">Short-term exponential earning potential analysis</p>
-            </div>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="nav-logo-dot"></span>
+    CryptoClarity
+  </a>
+  <ul class="nav-links">
+    <li><a href="#trading">Trading</a></li>
+    <li><a href="#moving">Moving Crypto</a></li>
+    <li><a href="#networks">Networks</a></li>
+    <li><a href="#rules">Golden Rules</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+
+  <span class="hero-tag">Plain English. No Jargon. No Lost Funds.</span>
+
+  <h1>
+    Crypto,<br/>
+    <span class="line-dim">finally</span><br/>
+    <span class="line-accent">clear.</span>
+  </h1>
+
+  <p class="hero-sub">
+    Everything you need to buy, trade, and move digital assets — explained the way it should've been from the start.
+  </p>
+
+  <div class="hero-cta">
+    <a href="#trading" class="btn-primary">Start Learning →</a>
+    <a href="#moving" class="btn-ghost">How to Move Crypto</a>
+  </div>
+
+  <div class="scroll-hint">
+    <span>scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PART 1: WHERE TO TRADE -->
+<section id="trading">
+  <div class="container">
+    <div class="section-label reveal">Part 01 — Where to Trade</div>
+    <h2 class="section-title reveal reveal-delay-1">Where can you actually<br/>buy &amp; trade crypto?</h2>
+    <p class="section-sub reveal reveal-delay-2">There are three main ways. Think of them like different types of banks or stock brokers — each has trade-offs.</p>
+
+    <div class="platforms-grid reveal reveal-delay-3">
+
+      <!-- CEX -->
+      <div class="platform-card">
+        <span class="platform-icon">🏦</span>
+        <div class="platform-type">Type 01</div>
+        <div class="platform-name">Centralized Exchange</div>
+        <p class="platform-desc">A company holds your crypto for you, like a bank. You log in with email &amp; password. If you forget your password, they can help you recover it.</p>
+        <div class="platform-tags">
+          <span class="tag tag-blue">Coinbase</span>
+          <span class="tag tag-blue">Kraken</span>
+          <span class="tag tag-blue">Binance</span>
+          <span class="tag tag-blue">Gemini</span>
         </div>
-
-        <!-- Tab Navigation -->
-        <div class="max-w-6xl mx-auto px-6 mt-8">
-            <div class="flex gap-3 mb-6 overflow-x-auto pb-2">
-                <button onclick="showTab('stablecoins')" id="tab-stablecoins" class="tab-button active px-6 py-3 rounded-lg font-semibold whitespace-nowrap bg-white border-2 border-purple-200">
-                    💵 Stablecoins & Payments
-                </button>
-                <button onclick="showTab('rwa')" id="tab-rwa" class="tab-button px-6 py-3 rounded-lg font-semibold whitespace-nowrap bg-white border-2 border-purple-200">
-                    🏢 Real-World Assets
-                </button>
-                <button onclick="showTab('ai-agents')" id="tab-ai-agents" class="tab-button px-6 py-3 rounded-lg font-semibold whitespace-nowrap bg-white border-2 border-purple-200">
-                    🤖 AI Agents
-                </button>
-                <button onclick="showTab('infrastructure')" id="tab-infrastructure" class="tab-button px-6 py-3 rounded-lg font-semibold whitespace-nowrap bg-white border-2 border-purple-200">
-                    ⚙️ Infrastructure
-                </button>
-            </div>
-
-            <!-- Stablecoins Tab -->
-            <div id="content-stablecoins" class="tab-content">
-                <div class="bg-white rounded-xl p-6 mb-6 shadow-lg">
-                    <div class="flex items-start justify-between mb-4">
-                        <div>
-                            <h2 class="text-2xl font-bold text-gray-800 mb-2">Stablecoins & Payment Infrastructure</h2>
-                            <p class="text-gray-600">The fastest-growing segment in crypto with regulatory tailwinds</p>
-                        </div>
-                        <span class="px-4 py-2 bg-green-100 text-green-700 rounded-lg font-semibold text-sm">🔥 HOT NOW</span>
-                    </div>
-                    
-                    <div class="grid gap-4 mb-6">
-                        <div class="opportunity-card bg-gray-50 rounded-lg p-5 border-l-4 risk-medium">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="text-xl font-bold text-gray-800">Stablecoin Issuance Platforms</h3>
-                                <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-bold">MEDIUM RISK</span>
-                            </div>
-                            <p class="text-gray-600 mb-3">Global stablecoin supply expanding rapidly. Market could hit $2T by 2028, with compliant issuers capturing significant revenue from reserves.</p>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
-                                <div class="bg-white p-3 rounded">
-                                    <div class="font-semibold text-purple-600">Growth Rate</div>
-                                    <div class="text-2xl font-bold">📈 85%+</div>
-                                </div>
-                                <div class="bg-white p-3 rounded">
-                                    <div class="font-semibold text-purple-600">Time to Market</div>
-                                    <div class="text-2xl font-bold">⚡ 3-6 mo</div>
-                                </div>
-                                <div class="bg-white p-3 rounded">
-                                    <div class="font-semibold text-purple-600">Regulatory Status</div>
-                                    <div class="text-2xl font-bold">✅ Clear</div>
-                                </div>
-                            </div>
-                            <div class="mt-4">
-                                <div class="font-semibold text-gray-700 mb-2">Key Catalysts:</div>
-                                <ul class="text-sm text-gray-600 space-y-1">
-                                    <li>• US GENIUS Act provides regulatory clarity (effective Jan 2027)</li>
-                                    <li>• Banks like JPMorgan launching stablecoins (JPM Coin)</li>
-                                    <li>• Cross-border B2B payments driving adoption</li>
-                                    <li>• Tether compliance creating market opportunities</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="opportunity-card bg-gray-50 rounded-lg p-5 border-l-4 risk-low">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="text-xl font-bold text-gray-800">Payment Rails Integration</h3>
-                                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-bold">LOW RISK</span>
-                            </div>
-                            <p class="text-gray-600 mb-3">Building bridges between crypto payment systems and traditional finance. Stripe & Visa already enabling crypto-to-fiat instant settlement.</p>
-                            <div class="mt-4">
-                                <div class="font-semibold text-gray-700 mb-2">Opportunity Areas:</div>
-                                <ul class="text-sm text-gray-600 space-y-1">
-                                    <li>• Merchant payment processing with instant settlement</li>
-                                    <li>• Remittance corridors (reducing 7% fees to <1%)</li>
-                                    <li>• Card settlement using stablecoins</li>
-                                    <li>• Corporate treasury management solutions</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- RWA Tab -->
-            <div id="content-rwa" class="tab-content hidden">
-                <div class="bg-white rounded-xl p-6 mb-6 shadow-lg">
-                    <div class="flex items-start justify-between mb-4">
-                        <div>
-                            <h2 class="text-2xl font-bold text-gray-800 mb-2">Real-World Asset Tokenization</h2>
-                            <p class="text-gray-600">From pilots to production - institutional money flowing in</p>
-                        </div>
-                        <span class="px-4 py-2 bg-purple-100 text-purple-700 rounded-lg font-semibold text-sm">💎 INSTITUTIONAL</span>
-                    </div>
-                    
-                    <div class="grid gap-4 mb-6">
-                        <div class="opportunity-card bg-gray-50 rounded-lg p-5 border-l-4 risk-low">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="text-xl font-bold text-gray-800">Tokenized US Treasuries</h3>
-                                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-bold">LOW RISK</span>
-                            </div>
-                            <p class="text-gray-600 mb-3">$8.7B already on-chain (45% of RWA market). BlackRock, Franklin Templeton leading the charge. Provides stable yield to crypto markets.</p>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm mb-4">
-                                <div class="bg-white p-3 rounded">
-                                    <div class="font-semibold text-purple-600">Current Market</div>
-                                    <div class="text-2xl font-bold">$8.7B</div>
-                                </div>
-                                <div class="bg-white p-3 rounded">
-                                    <div class="font-semibold text-purple-600">2030 Projection</div>
-                                    <div class="text-2xl font-bold">$2T</div>
-                                </div>
-                                <div class="bg-white p-3 rounded">
-                                    <div class="font-semibold text-purple-600">Current Penetration</div>
-                                    <div class="text-2xl font-bold">0.03%</div>
-                                </div>
-                            </div>
-                            <div class="bg-blue-50 p-4 rounded-lg">
-                                <div class="font-semibold text-blue-900 mb-2">💡 Play:</div>
-                                <p class="text-sm text-blue-800">Build platforms for tokenized treasury issuance/trading, or offer liquidity/market-making services. Ethereum capturing 65% of RWA value.</p>
-                            </div>
-                        </div>
-
-                        <div class="opportunity-card bg-gray-50 rounded-lg p-5 border-l-4 risk-medium">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="text-xl font-bold text-gray-808">Private Credit Tokenization</h3>
-                                <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-bold">MEDIUM RISK</span>
-                            </div>
-                            <p class="text-gray-600 mb-3">Multi-trillion dollar private credit market moving on-chain. Early movers capturing institutional flow.</p>
-                            <div class="mt-4">
-                                <div class="font-semibold text-gray-700 mb-2">Why Now:</div>
-                                <ul class="text-sm text-gray-600 space-y-1">
-                                    <li>• Faster settlement (instant vs. weeks)</li>
-                                    <li>• Fractional ownership opens retail access</li>
-                                    <li>• 24/7 trading vs. quarterly windows</li>
-                                    <li>• Regulatory frameworks (MiCA in EU) providing clarity</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="opportunity-card bg-gray-50 rounded-lg p-5 border-l-4 risk-high">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="text-xl font-bold text-gray-800">Real Estate Fractionalization</h3>
-                                <span class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-xs font-bold">HIGH RISK</span>
-                            </div>
-                            <p class="text-gray-600 mb-3">Tokenizing property allows $1,000 minimum investments vs. traditional $50k-$100k minimums. Legal complexity high but returns significant.</p>
-                            <div class="bg-orange-50 p-4 rounded-lg">
-                                <div class="font-semibold text-orange-900 mb-2">⚠️ Challenges:</div>
-                                <p class="text-sm text-orange-800">Jurisdiction-specific legal frameworks, property custody, and liquidity mechanisms need careful structuring. Partner with established real estate firms.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- AI Agents Tab -->
-            <div id="content-ai-agents" class="tab-content hidden">
-                <div class="bg-white rounded-xl p-6 mb-6 shadow-lg">
-                    <div class="flex items-start justify-between mb-4">
-                        <div>
-                            <h2 class="text-2xl font-bold text-gray-800 mb-2">AI Agents & Autonomous Payments</h2>
-                            <p class="text-gray-600">The intersection of AI and crypto - agents that can transact independently</p>
-                        </div>
-                        <span class="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg font-semibold text-sm">🚀 EMERGING</span>
-                    </div>
-                    
-                    <div class="grid gap-4 mb-6">
-                        <div class="opportunity-card bg-gray-50 rounded-lg p-5 border-l-4 risk-high">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="text-xl font-bold text-gray-800">Agentic Payment Infrastructure</h3>
-                                <span class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-xs font-bold">HIGH RISK</span>
-                            </div>
-                            <p class="text-gray-600 mb-3">Building payment rails for AI agents. Google's AP2, Visa's Trusted Agent Protocol, and x402 standard creating ecosystem.</p>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm mb-4">
-                                <div class="bg-white p-3 rounded">
-                                    <div class="font-semibold text-purple-600">Market Size 2030</div>
-                                    <div class="text-2xl font-bold">$52.6B</div>
-                                    <div class="text-xs text-gray-500">AI Agent Market</div>
-                                </div>
-                                <div class="bg-white p-3 rounded">
-                                    <div class="font-semibold text-purple-600">Growth Rate</div>
-                                    <div class="text-2xl font-bold">46.3%</div>
-                                    <div class="text-xs text-gray-500">CAGR</div>
-                                </div>
-                            </div>
-                            <div class="mt-4">
-                                <div class="font-semibold text-gray-700 mb-2">What's Happening:</div>
-                                <ul class="text-sm text-gray-600 space-y-1">
-                                    <li>• PayPal + OpenAI enabling AI commerce in ChatGPT</li>
-                                    <li>• Visa launching agent verification protocols</li>
-                                    <li>• Coinbase building x402 HTTP payment standard</li>
-                                    <li>• Micropayment rails for sub-cent transactions</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="opportunity-card bg-gray-50 rounded-lg p-5 border-l-4 risk-high">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="text-xl font-bold text-gray-800">AI Agent Tokens & Platforms</h3>
-                                <span class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-xs font-bold">HIGH RISK</span>
-                            </div>
-                            <p class="text-gray-600 mb-3">AI agent crypto market currently $3.6B. Platforms like Virtuals Protocol, Bittensor enabling on-chain AI agents.</p>
-                            <div class="bg-red-50 p-4 rounded-lg mb-4">
-                                <div class="font-semibold text-red-900 mb-2">⚠️ High Volatility Warning:</div>
-                                <p class="text-sm text-red-800">AI agent tokens down 30-50% in 2025. Extremely speculative. Only invest what you can afford to lose. Bittensor down 50% despite strong fundamentals.</p>
-                            </div>
-                            <div class="mt-4">
-                                <div class="font-semibold text-gray-700 mb-2">Notable Projects:</div>
-                                <ul class="text-sm text-gray-600 space-y-1">
-                                    <li>• Bittensor (TAO) - Decentralized AI network, 21M supply like Bitcoin</li>
-                                    <li>• Virtuals Protocol - Create & monetize AI agents on-chain</li>
-                                    <li>• Render (RNDR) - GPU marketplace for AI/rendering compute</li>
-                                    <li>• Fetch.ai (FET) - Autonomous AI agents for crypto</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="opportunity-card bg-gray-50 rounded-lg p-5 border-l-4 risk-medium">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="text-xl font-bold text-gray-800">AI Trading Agent Platforms</h3>
-                                <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-bold">MEDIUM RISK</span>
-                            </div>
-                            <p class="text-gray-600 mb-3">SaaS platforms offering AI-powered trading agents. Monthly recurring revenue model with usage-based pricing gaining traction.</p>
-                            <div class="bg-blue-50 p-4 rounded-lg">
-                                <div class="font-semibold text-blue-900 mb-2">💡 Business Model:</div>
-                                <p class="text-sm text-blue-800">Subscription + performance fees. 3Commas, Bitsgap, Coinrule showing strong growth. Consider white-label solutions for existing exchanges.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Infrastructure Tab -->
-            <div id="content-infrastructure" class="tab-content hidden">
-                <div class="bg-white rounded-xl p-6 mb-6 shadow-lg">
-                    <div class="flex items-start justify-between mb-4">
-                        <div>
-                            <h2 class="text-2xl font-bold text-gray-800 mb-2">Financial Infrastructure & Platforms</h2>
-                            <p class="text-gray-600">The picks and shovels of the fintech gold rush</p>
-                        </div>
-                        <span class="px-4 py-2 bg-green-100 text-green-700 rounded-lg font-semibold text-sm">⚙️ FOUNDATIONAL</span>
-                    </div>
-                    
-                    <div class="grid gap-4 mb-6">
-                        <div class="opportunity-card bg-gray-50 rounded-lg p-5 border-l-4 risk-low">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="text-xl font-bold text-gray-800">Crypto Banking-as-a-Service</h3>
-                                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-bold">LOW RISK</span>
-                            </div>
-                            <p class="text-gray-600 mb-3">Fintechs pursuing national bank charters to offer crypto services. Regulatory clarity driving rapid adoption.</p>
-                            <div class="mt-4">
-                                <div class="font-semibold text-gray-700 mb-2">Opportunity:</div>
-                                <ul class="text-sm text-gray-600 space-y-1">
-                                    <li>• White-label crypto banking for traditional banks</li>
-                                    <li>• Compliance-as-a-service for stablecoin issuers</li>
-                                    <li>• Custody solutions for institutional RWAs</li>
-                                    <li>• KYA (Know Your Agent) infrastructure</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="opportunity-card bg-gray-50 rounded-lg p-5 border-l-4 risk-medium">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="text-xl font-bold text-gray-800">DeFi Protocol Infrastructure</h3>
-                                <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-bold">MEDIUM RISK</span>
-                            </div>
-                            <p class="text-gray-600 mb-3">Building the plumbing for RWA-DeFi integration. Tokenized assets need liquidity, lending, and derivatives.</p>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm mb-4">
-                                <div class="bg-white p-3 rounded">
-                                    <div class="font-semibold text-purple-600">Focus Area</div>
-                                    <div class="text-lg font-bold">RWA Liquidity</div>
-                                </div>
-                                <div class="bg-white p-3 rounded">
-                                    <div class="font-semibold text-purple-600">Ethereum Share</div>
-                                    <div class="text-lg font-bold">65% of RWA</div>
-                                </div>
-                            </div>
-                            <div class="bg-purple-50 p-4 rounded-lg">
-                                <div class="font-semibold text-purple-900 mb-2">💡 Play:</div>
-                                <p class="text-sm text-purple-800">DEXs for tokenized securities, lending protocols accepting RWA collateral, or yield aggregators for institutional assets.</p>
-                            </div>
-                        </div>
-
-                        <div class="opportunity-card bg-gray-50 rounded-lg p-5 border-l-4 risk-low">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="text-xl font-bold text-gray-800">RegTech & Compliance</h3>
-                                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-bold">LOW RISK</span>
-                            </div>
-                            <p class="text-gray-600 mb-3">Regulatory complexity creating massive demand for compliance automation. MiCA (EU) and GENIUS Act (US) driving growth.</p>
-                            <div class="mt-4">
-                                <div class="font-semibold text-gray-700 mb-2">High-Demand Services:</div>
-                                <ul class="text-sm text-gray-600 space-y-1">
-                                    <li>• Automated KYC/AML for stablecoin issuers</li>
-                                    <li>• Privacy-preserving compliance (zero-knowledge proofs)</li>
-                                    <li>• Cross-border regulatory reporting</li>
-                                    <li>• Smart contract auditing for RWA platforms</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Market Timing & Strategy -->
-            <div class="bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl p-6 mb-6 shadow-lg text-white">
-                <h2 class="text-2xl font-bold mb-4">⏰ Market Timing & Strategy</h2>
-                <div class="grid md:grid-cols-3 gap-4">
-                    <div class="bg-white/10 backdrop-blur rounded-lg p-4">
-                        <div class="text-3xl mb-2">Q1-Q2 2026</div>
-                        <div class="font-semibold mb-2">IPO & M&A Wave</div>
-                        <p class="text-sm text-purple-100">Circle, Figure IPOs opening capital. Traditional banks acquiring crypto firms. Ripple at $40B valuation.</p>
-                    </div>
-                    <div class="bg-white/10 backdrop-blur rounded-lg p-4">
-                        <div class="text-3xl mb-2">2026-2027</div>
-                        <div class="font-semibold mb-2">Regulatory Clarity</div>
-                        <p class="text-sm text-purple-100">GENIUS Act effective Jan 2027. MiCA fully implemented. Institutional confidence surging.</p>
-                    </div>
-                    <div class="bg-white/10 backdrop-blur rounded-lg p-4">
-                        <div class="text-3xl mb-2">NOW</div>
-                        <div class="font-semibold mb-2">Infrastructure Phase</div>
-                        <p class="text-sm text-purple-100">Move from pilots to production. Early movers capturing market share before mainstream adoption.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Risk Management -->
-            <div class="bg-white rounded-xl p-6 mb-6 shadow-lg">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4">🛡️ Risk Management Framework</h2>
-                <div class="space-y-3">
-                    <div class="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
-                        <div class="text-2xl">📊</div>
-                        <div>
-                            <div class="font-semibold text-gray-800">Portfolio Allocation</div>
-                            <p class="text-sm text-gray-600">60% infrastructure/stablecoins, 30% RWA, 10% speculative (AI agents). Rebalance quarterly.</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
-                        <div class="text-2xl">⚖️</div>
-                        <div>
-                            <div class="font-semibold text-gray-800">Regulatory Risk</div>
-                            <p class="text-sm text-gray-600">Partner with licensed entities. US/EU regulatory frameworks offer most clarity. Avoid jurisdictions with unclear rules.</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
-                        <div class="text-2xl">💎</div>
-                        <div>
-                            <div class="font-semibold text-gray-800">Liquidity Management</div>
-                            <p class="text-sm text-gray-600">RWA markets can be thin. Ensure exit strategies. Lock-up periods common in private credit tokenization.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Quick Action Checklist -->
-            <div class="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-6 mb-6">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4">✅ Quick Action Checklist</h2>
-                <div class="grid md:grid-cols-2 gap-3">
-                    <div class="space-y-2">
-                        <label class="flex items-center gap-2">
-                            <input type="checkbox" class="w-5 h-5 rounded">
-                            <span class="text-gray-700">Research stablecoin regulatory requirements</span>
-                        </label>
-                        <label class="flex items-center gap-2">
-                            <input type="checkbox" class="w-5 h-5 rounded">
-                            <span class="text-gray-700">Identify institutional RWA partners (BlackRock, Franklin Templeton)</span>
-                        </label>
-                        <label class="flex items-center gap-2">
-                            <input type="checkbox" class="w-5 h-5 rounded">
-                            <span class="text-gray-700">Explore payment infrastructure APIs (Stripe ACP, Visa)</span>
-                        </label>
-                        <label class="flex items-center gap-2">
-                            <input type="checkbox" class="w-5 h-5 rounded">
-                            <span class="text-gray-700">Test AI agent platforms (Virtuals, Bittensor)</span>
-                        </label>
-                    </div>
-                    <div class="space-y-2">
-                        <label class="flex items-center gap-2">
-                            <input type="checkbox" class="w-5 h-5 rounded">
-                            <span class="text-gray-700">Review upcoming IPO calendar (Circle, Figure)</span>
-                        </label>
-                        <label class="flex items-center gap-2">
-                            <input type="checkbox" class="w-5 h-5 rounded">
-                            <span class="text-gray-700">Connect with crypto-friendly banks seeking charters</span>
-                        </label>
-                        <label class="flex items-center gap-2">
-                            <input type="checkbox" class="w-5 h-5 rounded">
-                            <span class="text-gray-700">Build RegTech compliance roadmap</span>
-                        </label>
-                        <label class="flex items-center gap-2">
-                            <input type="checkbox" class="w-5 h-5 rounded">
-                            <span class="text-gray-700">Monitor Ethereum for RWA integration opportunities</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-
+        <div class="pro-con">
+          <div class="pro">Beginner friendly — just sign up and buy</div>
+          <div class="pro">Can recover your account if locked out</div>
+          <div class="pro">USD deposits via bank transfer/card</div>
+          <div class="con">You don't truly "own" your coins (the company holds them)</div>
+          <div class="con">Subject to regulations, can freeze accounts</div>
         </div>
+      </div>
 
-        <!-- Footer -->
-        <div class="bg-gray-800 text-white py-6 px-6 mt-8">
-            <div class="max-w-6xl mx-auto text-center text-sm text-gray-400">
-                <p class="mb-2">Market data as of January 2026. Projections based on industry analysis.</p>
-                <p>⚠️ This is not financial advice. Always conduct your own research and consult licensed professionals.</p>
-            </div>
+      <!-- DEX -->
+      <div class="platform-card featured">
+        <span class="platform-icon">⚙️</span>
+        <div class="platform-type">Type 02</div>
+        <div class="platform-name">Decentralized Exchange</div>
+        <p class="platform-desc">A website (or app) that lets you trade directly from your own wallet. No company involved. No signup. The code runs automatically — no humans in the middle.</p>
+        <div class="platform-tags">
+          <span class="tag tag-green">Uniswap</span>
+          <span class="tag tag-green">Jupiter</span>
+          <span class="tag tag-green">Raydium</span>
+          <span class="tag tag-green">Curve</span>
         </div>
+        <div class="pro-con">
+          <div class="pro">You hold your own coins at all times</div>
+          <div class="pro">Access to thousands of tokens, including new ones</div>
+          <div class="con">No customer support — mistakes are permanent</div>
+          <div class="con">Requires a self-custody wallet to use</div>
+          <div class="con">Can feel complex at first</div>
+        </div>
+      </div>
+
+      <!-- WALLETS -->
+      <div class="platform-card">
+        <span class="platform-icon">👻</span>
+        <div class="platform-type">Type 03</div>
+        <div class="platform-name">Self-Custody Wallets</div>
+        <p class="platform-desc">A wallet app you install. You get a "seed phrase" (12–24 words) that gives total control. Lose this phrase = lose your funds forever. No exceptions.</p>
+        <div class="platform-tags">
+          <span class="tag tag-purple">Phantom</span>
+          <span class="tag tag-purple">MetaMask</span>
+          <span class="tag tag-amber">Ledger</span>
+          <span class="tag tag-amber">Trust Wallet</span>
+        </div>
+        <div class="pro-con">
+          <div class="pro">Total ownership — only you control it</div>
+          <div class="pro">Can connect to any DEX</div>
+          <div class="con">Seed phrase loss = permanent loss</div>
+          <div class="con">No password recovery, no customer support</div>
+        </div>
+      </div>
+
     </div>
 
-    <script>
-        function showTab(tabName) {
-            // Hide all content
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.add('hidden');
-            });
-            
-            // Remove active class from all buttons
-            document.querySelectorAll('.tab-button').forEach(button => {
-                button.classList.remove('active');
-            });
-            
-            // Show selected content and activate button
-            document.getElementById(`content-${tabName}`).classList.remove('hidden');
-            document.getElementById(`tab-${tabName}`).classList.add('active');
-        }
-    </script>
+    <div class="callout callout-blue reveal" style="margin-top:32px;">
+      <span class="callout-icon">💡</span>
+      <div><strong>Good starting point:</strong> Buy on a centralized exchange (like Coinbase) to get started. Once comfortable, move some funds to a wallet like Phantom to explore DEXs and full self-custody.</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PART 2: MOVING CRYPTO -->
+<section id="moving">
+  <div class="container">
+    <div class="section-label reveal">Part 02 — Moving Crypto</div>
+    <h2 class="section-title reveal reveal-delay-1">How to move crypto<br/>without losing it</h2>
+    <p class="section-sub reveal reveal-delay-2">This is where most people get confused — and where mistakes happen. Let's break every scenario down.</p>
+
+    <!-- THE CORE CONCEPT -->
+    <div class="concept-block open reveal">
+      <div class="concept-header" onclick="toggleBlock(this)">
+        <div class="concept-title-wrap">
+          <div class="concept-emoji">🧠</div>
+          <div>
+            <div class="concept-title">The core concept you must understand first</div>
+            <div class="concept-subtitle">Read this before anything else</div>
+          </div>
+        </div>
+        <div class="chevron">▾</div>
+      </div>
+      <div class="concept-body">
+        <div class="concept-inner">
+
+          <p style="margin-bottom:16px;color:var(--text-muted);font-size:0.9rem;">Think of a wallet address like a phone number, and the blockchain like a phone network. The <strong style="color:var(--text)">same coin can travel on different networks</strong> — and each network has a different address format.</p>
+
+          <div class="callout callout-warn">
+            <span class="callout-icon">⚠️</span>
+            <div>Sending a coin on the <strong>wrong network</strong> is the #1 way people permanently lose funds. Your coin arrives at a valid address — but on the wrong network, so it's gone forever.</div>
+          </div>
+
+          <p style="margin:20px 0 12px;font-weight:500;">Here's the mental model:</p>
+
+          <div class="flow">
+            <div class="flow-node">
+              <div class="flow-node-label">Coin</div>
+              <div class="flow-node-value">Bitcoin (BTC)</div>
+            </div>
+            <div class="flow-arrow"><span>→</span></div>
+            <div class="flow-node highlight">
+              <div class="flow-node-label">Network</div>
+              <div class="flow-node-value">Bitcoin Chain</div>
+            </div>
+            <div class="flow-arrow"><span>→</span></div>
+            <div class="flow-node">
+              <div class="flow-node-label">Address type</div>
+              <div class="flow-node-value">bc1q… format</div>
+            </div>
+          </div>
+
+          <div class="flow">
+            <div class="flow-node">
+              <div class="flow-node-label">Coin</div>
+              <div class="flow-node-value">BTC (wrapped)</div>
+            </div>
+            <div class="flow-arrow"><span>→</span></div>
+            <div class="flow-node warn-node">
+              <div class="flow-node-label">Network</div>
+              <div class="flow-node-value">Solana Chain</div>
+            </div>
+            <div class="flow-arrow"><span>→</span></div>
+            <div class="flow-node">
+              <div class="flow-node-label">Address type</div>
+              <div class="flow-node-value">Random… format</div>
+            </div>
+          </div>
+
+          <div class="callout callout-green" style="margin-top:20px;">
+            <span class="callout-icon">✅</span>
+            <div><strong>The rule:</strong> Always match the network you're sending on with the correct receiving address from that same network. We'll show you exactly how to do this in each scenario below.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENARIO 1 -->
+    <div class="concept-block reveal">
+      <div class="concept-header" onclick="toggleBlock(this)">
+        <div class="concept-title-wrap">
+          <div class="concept-emoji">₿</div>
+          <div>
+            <div class="concept-title">Scenario 1: Move Bitcoin from Coinbase → Phantom</div>
+            <div class="concept-subtitle">Bitcoin blockchain, simple case</div>
+          </div>
+        </div>
+        <div class="chevron">▾</div>
+      </div>
+      <div class="concept-body">
+        <div class="concept-inner">
+
+          <div class="callout callout-blue">
+            <span class="callout-icon">📌</span>
+            <div>Phantom supports Bitcoin natively. When you want BTC on the real Bitcoin network, you use the <strong>Bitcoin address</strong> that Phantom gives you.</div>
+          </div>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <div class="step-title">Open Phantom &amp; switch to Bitcoin</div>
+                <div class="step-detail">In the Phantom app, tap the network selector at the top. Switch from Solana to <strong>Bitcoin</strong>. Your wallet now shows a Bitcoin address.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <div class="step-title">Copy your Bitcoin address from Phantom</div>
+                <div class="step-detail">It will start with <code style="font-family:var(--mono);color:var(--accent2);font-size:0.8rem;">bc1q</code> or <code style="font-family:var(--mono);color:var(--accent2);font-size:0.8rem;">1</code> or <code style="font-family:var(--mono);color:var(--accent2);font-size:0.8rem;">3</code>. This is your real Bitcoin address.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <div class="step-title">On Coinbase, choose "Send" → select Bitcoin (BTC)</div>
+                <div class="step-detail">Paste your Phantom Bitcoin address. When asked which network, choose <strong>Bitcoin</strong> (not BEP20, not ERC20, not Solana).</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <div class="step-title">Confirm and wait 10–60 minutes</div>
+                <div class="step-detail">Bitcoin transactions require network confirmations. This takes longer than most other chains — totally normal.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="address-box">
+            <span class="address-label">Correct ✓</span>
+            <span class="address-value"><span class="good">bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq</span></span>
+          </div>
+
+          <div class="callout callout-green">
+            <span class="callout-icon">✅</span>
+            <div>This is the simple, safest case. One coin, one network, one address format. You're moving <strong>native BTC</strong> on the <strong>Bitcoin network</strong>.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENARIO 2 -->
+    <div class="concept-block reveal">
+      <div class="concept-header" onclick="toggleBlock(this)">
+        <div class="concept-title-wrap">
+          <div class="concept-emoji">🌀</div>
+          <div>
+            <div class="concept-title">Scenario 2: Move "BTC" from Coinbase → Phantom via Solana</div>
+            <div class="concept-subtitle">This is where it gets tricky — wrapped tokens</div>
+          </div>
+        </div>
+        <div class="chevron">▾</div>
+      </div>
+      <div class="concept-body">
+        <div class="concept-inner">
+
+          <div class="callout callout-warn">
+            <span class="callout-icon">⚠️</span>
+            <div><strong>Important:</strong> When you send BTC "via the Solana network," you're not sending real Bitcoin. You're sending a <em>wrapped version</em> called <strong>wBTC or cbBTC</strong>. This is a Solana token that represents Bitcoin in value. You need a <em>Solana address</em>, not a Bitcoin address.</div>
+          </div>
+
+          <p style="margin:20px 0 12px;font-weight:500;font-size:0.9rem;">Why would you do this? Speed and lower fees. Bitcoin transfers can take 10–60 min and cost $2–20. The same value on Solana takes under 1 second and costs $0.001.</p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <div class="step-title">Open Phantom &amp; switch to Solana</div>
+                <div class="step-detail">In the Phantom app, make sure you're on the <strong>Solana</strong> network. Your address will be a long random string — this is your Solana wallet address.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <div class="step-title">Copy your Solana address from Phantom</div>
+                <div class="step-detail">It looks like: <code style="font-family:var(--mono);color:var(--accent2);font-size:0.8rem;">7Xkr4…vFqP</code> — a 44-character mix of letters and numbers. No "bc1" prefix here.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <div class="step-title">On Coinbase, select the correct asset</div>
+                <div class="step-detail">Look for <strong>cbBTC</strong> (Coinbase's wrapped Bitcoin on Solana) or a "BTC via Solana" option. <em>Not</em> the regular Bitcoin (BTC).</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <div class="step-title">Select "Solana" as the network, paste address, send</div>
+                <div class="step-detail">Double-check the network says <strong>Solana</strong>. The receiving address should be your 44-char Solana address — not your Bitcoin bc1q address.</div>
+              </div>
+            </div>
+          </div>
+
+          <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;margin-top:8px;">Address format comparison — they look completely different:</p>
+
+          <div class="address-box">
+            <span class="address-label">Bitcoin</span>
+            <span class="address-value"><span class="good">bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq</span></span>
+          </div>
+
+          <div class="address-box">
+            <span class="address-label">Solana</span>
+            <span class="address-value"><span class="good">7XkrMYT5gvp1B9YLpFWpRxDtCvPqY3tPdZbKrjVfQP</span></span>
+          </div>
+
+          <div class="address-box">
+            <span class="address-label">⚠️ Wrong</span>
+            <span class="address-value"><span class="bad">Sending to a Bitcoin address on the Solana network = lost forever</span></span>
+          </div>
+
+          <div class="callout callout-danger">
+            <span class="callout-icon">🚨</span>
+            <div><strong>Never paste a Bitcoin address when sending on the Solana network.</strong> Coinbase may let you do it — but the funds go to an address nobody controls and are permanently lost.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENARIO 3 -->
+    <div class="concept-block reveal">
+      <div class="concept-header" onclick="toggleBlock(this)">
+        <div class="concept-title-wrap">
+          <div class="concept-emoji">💎</div>
+          <div>
+            <div class="concept-title">Scenario 3: Move ETH from Coinbase → MetaMask</div>
+            <div class="concept-subtitle">Ethereum — and its many side networks</div>
+          </div>
+        </div>
+        <div class="chevron">▾</div>
+      </div>
+      <div class="concept-body">
+        <div class="concept-inner">
+
+          <p style="margin-bottom:16px;font-size:0.9rem;color:var(--text-muted);">Ethereum-based wallets like MetaMask use the <strong>same address format across multiple networks</strong> (Ethereum mainnet, Polygon, Arbitrum, Base, etc). But sending on the wrong one still means you might not see your funds where you expect them.</p>
+
+          <div class="callout callout-blue">
+            <span class="callout-icon">ℹ️</span>
+            <div>Your MetaMask address (starts with <code style="font-family:var(--mono);color:#60a5fa;font-size:0.85rem;">0x</code>) is the same on Ethereum, Polygon, Base, and Arbitrum. But each network has its own balance. Sending ETH via Polygon means it arrives as ETH on Polygon — not on Ethereum mainnet.</div>
+          </div>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <div class="step-title">Copy your MetaMask address (starts with 0x…)</div>
+                <div class="step-detail">This same address works on all EVM-compatible networks. Example: <code style="font-family:var(--mono);color:var(--accent2);font-size:0.8rem;">0x742d35Cc6634C0532925a3b8D4C9C5</code></div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <div class="step-title">On Coinbase, choose the network carefully</div>
+                <div class="step-detail">Decide: do you want it on <strong>Ethereum mainnet</strong> (slower, higher fees), or a cheaper network like <strong>Base</strong> or <strong>Arbitrum</strong>? Your MetaMask must be set to show that same network.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <div class="step-title">In MetaMask, switch to the matching network</div>
+                <div class="step-detail">Click the network name at the top of MetaMask. Select the same network you sent on. Your ETH will appear there.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout callout-green">
+            <span class="callout-icon">✅</span>
+            <div>Good news: if you accidentally sent ETH to your MetaMask on the wrong EVM network (like Polygon instead of mainnet), you can often recover it. Just add that network to MetaMask and switch to it — your funds are there, just hidden.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENARIO 4 -->
+    <div class="concept-block reveal">
+      <div class="concept-header" onclick="toggleBlock(this)">
+        <div class="concept-title-wrap">
+          <div class="concept-emoji">🪙</div>
+          <div>
+            <div class="concept-title">Scenario 4: Moving USDC or USDT (stablecoins)</div>
+            <div class="concept-subtitle">The same dollar-pegged coin exists on many chains</div>
+          </div>
+        </div>
+        <div class="chevron">▾</div>
+      </div>
+      <div class="concept-body">
+        <div class="concept-inner">
+
+          <p style="margin-bottom:16px;font-size:0.9rem;color:var(--text-muted);">USDC is available on Ethereum, Solana, Polygon, Arbitrum, Base, and more. It's always worth $1 — but it's a <strong>different token on each chain</strong>. Sending USDC on the wrong chain to a wallet that only supports one chain = lost funds.</p>
+
+          <div class="compare-wrap">
+            <div class="compare-row">
+              <div class="compare-cell header">Network</div>
+              <div class="compare-cell header">Address looks like</div>
+              <div class="compare-cell header">Supported by</div>
+            </div>
+            <div class="compare-row">
+              <div class="compare-cell">Ethereum (ERC-20)</div>
+              <div class="compare-cell" style="font-family:var(--mono);font-size:0.75rem;color:#60a5fa;">0x74…</div>
+              <div class="compare-cell" style="font-size:0.8rem;color:var(--text-muted);">MetaMask, Coinbase Wallet</div>
+            </div>
+            <div class="compare-row">
+              <div class="compare-cell">Solana (SPL)</div>
+              <div class="compare-cell" style="font-family:var(--mono);font-size:0.75rem;color:#a78bfa;">7Xkr…</div>
+              <div class="compare-cell" style="font-size:0.8rem;color:var(--text-muted);">Phantom, Backpack</div>
+            </div>
+            <div class="compare-row">
+              <div class="compare-cell">Polygon (MATIC)</div>
+              <div class="compare-cell" style="font-family:var(--mono);font-size:0.75rem;color:#60a5fa;">0x74… (same!)</div>
+              <div class="compare-cell" style="font-size:0.8rem;color:var(--text-muted);">MetaMask (Polygon network)</div>
+            </div>
+            <div class="compare-row">
+              <div class="compare-cell">Base</div>
+              <div class="compare-cell" style="font-family:var(--mono);font-size:0.75rem;color:#60a5fa;">0x74… (same!)</div>
+              <div class="compare-cell" style="font-size:0.8rem;color:var(--text-muted);">MetaMask, Coinbase Wallet</div>
+            </div>
+          </div>
+
+          <div class="callout callout-warn">
+            <span class="callout-icon">⚠️</span>
+            <div><strong>Example:</strong> If someone tells you to send them USDC to their Phantom wallet, you <em>must</em> send it via the <strong>Solana network</strong> — not Ethereum. Phantom's USDC is the SPL version. Sending ERC-20 USDC to a Solana address will result in lost funds.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- GOLDEN RULES -->
+<section id="rules">
+  <div class="container">
+    <div class="golden-rule reveal">
+      <div class="golden-rule-emoji">⚖️</div>
+      <h3>The 3 Golden Rules of Crypto Transfers</h3>
+      <p>Memorize these. Follow them every single time. No exceptions.</p>
+    </div>
+
+    <div class="quick-ref">
+      <div class="quick-card reveal">
+        <div class="quick-card-coin">🔁</div>
+        <div class="quick-card-title">Rule 1: Match the Network</div>
+        <div class="quick-card-item">
+          <span class="quick-key">Before sending</span>
+          <span class="quick-val">Confirm sender & receiver use same network</span>
+        </div>
+        <div class="quick-card-item">
+          <span class="quick-key">Example</span>
+          <span class="quick-val">Solana USDC → Solana address. Not ETH address.</span>
+        </div>
+      </div>
+
+      <div class="quick-card reveal reveal-delay-1">
+        <div class="quick-card-coin">🧪</div>
+        <div class="quick-card-title">Rule 2: Always Test First</div>
+        <div class="quick-card-item">
+          <span class="quick-key">Protocol</span>
+          <span class="quick-val">Send $1–$5 first. Confirm it arrives. Then send the rest.</span>
+        </div>
+        <div class="quick-card-item">
+          <span class="quick-key">Cost</span>
+          <span class="quick-val">A small test fee is worth protecting your full amount</span>
+        </div>
+      </div>
+
+      <div class="quick-card reveal reveal-delay-2">
+        <div class="quick-card-coin">👀</div>
+        <div class="quick-card-title">Rule 3: Triple-Check the Address</div>
+        <div class="quick-card-item">
+          <span class="quick-key">Check</span>
+          <span class="quick-val">First 4 and last 4 characters of the address</span>
+        </div>
+        <div class="quick-card-item">
+          <span class="quick-key">Why</span>
+          <span class="quick-val">Malware can silently swap clipboard addresses</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- NETWORK QUICK REFERENCE -->
+<section id="networks">
+  <div class="container">
+    <div class="section-label reveal">Part 03 — Quick Reference</div>
+    <h2 class="section-title reveal reveal-delay-1">Address formats<br/>at a glance</h2>
+    <p class="section-sub reveal reveal-delay-2">Not sure which network an address belongs to? Use this table.</p>
+
+    <table class="network-table reveal">
+      <thead>
+        <tr>
+          <th>Network</th>
+          <th>Address Format</th>
+          <th>Example Start</th>
+          <th>Common Coins</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Bitcoin</td>
+          <td>Legacy, SegWit, or Native SegWit</td>
+          <td><span class="chain-badge tag-blue">bc1q… / 1… / 3…</span></td>
+          <td>BTC only</td>
+        </tr>
+        <tr>
+          <td>Ethereum</td>
+          <td>EVM — 42 characters</td>
+          <td><span class="chain-badge tag-purple">0x…</span></td>
+          <td>ETH, USDC, USDT, DAI</td>
+        </tr>
+        <tr>
+          <td>Solana</td>
+          <td>Base58 — 32–44 characters</td>
+          <td><span class="chain-badge tag-green">Random mix, no 0x</span></td>
+          <td>SOL, USDC (SPL), wBTC</td>
+        </tr>
+        <tr>
+          <td>Polygon</td>
+          <td>EVM — same as Ethereum</td>
+          <td><span class="chain-badge tag-purple">0x…</span></td>
+          <td>MATIC, USDC, ETH (bridged)</td>
+        </tr>
+        <tr>
+          <td>Arbitrum / Base / Optimism</td>
+          <td>EVM — same as Ethereum</td>
+          <td><span class="chain-badge tag-purple">0x…</span></td>
+          <td>ETH, USDC, ARB</td>
+        </tr>
+        <tr>
+          <td>BNB Chain</td>
+          <td>EVM — same as Ethereum</td>
+          <td><span class="chain-badge tag-amber">0x… (BEP-20)</span></td>
+          <td>BNB, USDT (BEP-20)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-danger reveal" style="margin-top:16px;">
+      <span class="callout-icon">🚨</span>
+      <div><strong>BEP-20 trap:</strong> Ethereum and BNB Chain both use <code style="font-family:var(--mono);">0x</code> addresses — but they're different networks. Sending ETH to a BNB Chain address (or vice versa) <em>may</em> be recoverable if you control the destination wallet, but can be permanently lost if you don't.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FINAL CHECKLIST -->
+<section>
+  <div class="container">
+    <div class="section-label reveal">Before You Send</div>
+    <h2 class="section-title reveal reveal-delay-1">Your pre-send checklist</h2>
+    <p class="section-sub reveal reveal-delay-2">Run through this every time — even when you're confident.</p>
+
+    <div style="display:grid;gap:12px;" class="reveal reveal-delay-3">
+      <div class="callout callout-blue">
+        <span class="callout-icon">☑</span>
+        <div><strong>1. What coin am I sending?</strong> BTC, ETH, USDC, SOL... name it clearly.</div>
+      </div>
+      <div class="callout callout-blue">
+        <span class="callout-icon">☑</span>
+        <div><strong>2. What network am I sending on?</strong> Bitcoin network? Ethereum? Solana? This is chosen at the sending platform — not automatically.</div>
+      </div>
+      <div class="callout callout-blue">
+        <span class="callout-icon">☑</span>
+        <div><strong>3. Does the receiving wallet support that network?</strong> Phantom supports Solana and Bitcoin. MetaMask supports Ethereum and all EVM chains. Don't assume.</div>
+      </div>
+      <div class="callout callout-blue">
+        <span class="callout-icon">☑</span>
+        <div><strong>4. Is the address format correct for that network?</strong> Bitcoin = bc1q/1/3. Solana = long Base58. ETH = 0x…</div>
+      </div>
+      <div class="callout callout-blue">
+        <span class="callout-icon">☑</span>
+        <div><strong>5. Did I send a small test amount first?</strong> Always. No exceptions.</div>
+      </div>
+      <div class="callout callout-blue">
+        <span class="callout-icon">☑</span>
+        <div><strong>6. Did I check the first and last 4 characters of the address?</strong> Clipboard hijacking malware is real. Always verify manually.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p>CryptoClarity — Making digital assets understandable for everyone. Not financial advice.</p>
+  <p style="margin-top:8px;">Built with care. Share freely.</p>
+</footer>
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const scrollTop = document.documentElement.scrollTop;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = (scrollTop / docHeight) * 100;
+    document.getElementById('progress').style.width = pct + '%';
+  });
+
+  // Accordion
+  function toggleBlock(header) {
+    const block = header.closest('.concept-block');
+    const isOpen = block.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.concept-block.open').forEach(b => b.classList.remove('open'));
+    // Open clicked if it was closed
+    if (!isOpen) block.classList.add('open');
+  }
+
+  // Intersection observer for reveals
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -48px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
