@@ -41,3 +41,4 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: err.message });
   }
 }
+console.log("API KEY:", process.env.ANTHROPIC_API_KEY);
