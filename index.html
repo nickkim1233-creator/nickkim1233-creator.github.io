@@ -89,6 +89,29 @@ nav{
 
 /* ── SECTIONS ───────────────────────────────────── */
 section{padding:80px 64px;border-bottom:1px solid var(--border);}
+
+/* ── SIDE BY SIDE LAYOUT ─────────────────────────── */
+.two-col-section{
+  padding:80px 64px;
+  border-bottom:1px solid var(--border);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+}
+.two-col-pane{
+  padding-right:56px;
+  border-right:1px solid var(--border);
+}
+.two-col-pane+.two-col-pane{
+  padding-right:0;
+  padding-left:56px;
+  border-right:none;
+}
+@media(max-width:900px){
+  .two-col-section{grid-template-columns:1fr;padding:60px 20px;}
+  .two-col-pane{padding-right:0;border-right:none;}
+  .two-col-pane+.two-col-pane{padding-left:0;border-top:1px solid var(--border);padding-top:48px;margin-top:48px;}
+}
 .container{max-width:800px;margin:0 auto;}
 .section-label{font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px;display:flex;align-items:center;gap:9px;}
 .section-label::before{content:'';display:block;width:14px;height:1px;background:var(--text-dim);}
@@ -407,27 +430,61 @@ textarea::placeholder{color:var(--text-dim);}
 /* AI response output */
 .ai-output{
   margin-top:16px;
-  border:1px solid var(--border);border-radius:7px;
-  overflow:hidden;
   display:none;
 }
 .ai-output.visible{display:block;}
 
 .ai-output-header{
-  padding:10px 14px;border-bottom:1px solid var(--border);
-  background:var(--surface2);
   display:flex;align-items:center;gap:8px;
+  margin-bottom:14px;
 }
-.ai-output-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse-dot 2s ease-in-out infinite;}
+.ai-output-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse-dot 2s ease-in-out infinite;flex-shrink:0;}
 @keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:.4;}}
 .ai-output-label{font-family:var(--mono);font-size:.55rem;text-transform:uppercase;letter-spacing:.1em;color:var(--green);}
 
 .ai-output-body{
-  padding:16px;font-size:.84rem;line-height:1.7;color:var(--text-muted);
-  background:var(--surface);
-  white-space:pre-wrap;word-break:break-word;
-  max-height:480px;overflow-y:auto;
+  font-size:.88rem;line-height:1.72;color:var(--text-muted);
+  display:flex;flex-direction:column;gap:10px;
 }
+
+/* Rendered card styles inside AI output */
+.ai-card{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:8px;padding:16px 18px;
+}
+.ai-card.ai-card-highlight{
+  background:var(--green-bg);border-color:var(--green-bd);
+}
+.ai-card.ai-card-warn{
+  background:var(--amber-bg);border-color:var(--amber-bd);
+}
+.ai-card.ai-card-danger{
+  background:var(--red-bg);border-color:var(--red-bd);
+}
+.ai-card-title{
+  font-family:var(--sans);font-weight:600;font-size:.88rem;
+  color:var(--text);margin-bottom:8px;
+  display:flex;align-items:center;gap:8px;
+}
+.ai-card.ai-card-highlight .ai-card-title{color:var(--green);}
+.ai-card.ai-card-warn .ai-card-title{color:var(--amber);}
+.ai-card.ai-card-danger .ai-card-title{color:var(--red);}
+.ai-card-body{font-size:.82rem;color:var(--text-muted);line-height:1.65;}
+.ai-card-body p{margin-bottom:6px;}
+.ai-card-body p:last-child{margin-bottom:0;}
+
+.ai-prose{
+  font-size:.86rem;color:var(--text-muted);line-height:1.7;
+}
+.ai-prose b,.ai-prose strong{color:var(--text);font-weight:600;}
+
+.ai-bottom-line{
+  background:var(--surface);border:1px solid var(--border-mid);
+  border-radius:8px;padding:14px 18px;
+  font-size:.86rem;color:var(--text);font-weight:500;
+  display:flex;align-items:flex-start;gap:10px;
+}
+.ai-bottom-line::before{content:'→';color:var(--green);flex-shrink:0;font-weight:600;}
 
 /* How it works sidebar */
 .hiw-panel{
@@ -523,9 +580,9 @@ textarea::placeholder{color:var(--text-dim);}
   <div class="scroll-hint"><span>scroll</span><div class="scroll-bar"></div></div>
 </section>
 
-<!-- ── PART 1 ──────────────────────────────────────── -->
-<section id="trading">
-  <div class="container">
+<!-- ── PARTS 1 & 2 SIDE BY SIDE ────────────────────── -->
+<div class="two-col-section">
+<div class="two-col-pane" id="trading">
     <div class="section-label reveal">Part 01</div>
     <h2 class="section-title reveal reveal-delay-1">Where to buy &amp; trade crypto</h2>
     <p class="section-sub reveal reveal-delay-2">Three main places. Think of them like different types of financial institutions — each with real trade-offs.</p>
@@ -573,16 +630,13 @@ textarea::placeholder{color:var(--text-dim);}
       </div>
     </div>
 
-    <div class="callout callout-neutral reveal" style="margin-top:20px;">
+<div class="callout callout-neutral reveal" style="margin-top:20px;">
       <span class="callout-icon">→</span>
       <div><b>Where to start:</b> Buy on a centralized exchange like Coinbase. Once comfortable, move some to Phantom to explore DEXs and full ownership.</div>
     </div>
-  </div>
-</section>
 
-<!-- ── PART 2 ──────────────────────────────────────── -->
-<section id="moving">
-  <div class="container">
+</div><!-- close two-col-pane 1 -->
+<div class="two-col-pane" id="moving">
     <div class="section-label reveal">Part 02</div>
     <h2 class="section-title reveal reveal-delay-1">Moving crypto without losing it</h2>
     <p class="section-sub reveal reveal-delay-2">This is where most mistakes happen. Read the first section before anything else.</p>
@@ -689,9 +743,11 @@ textarea::placeholder{color:var(--text-dim);}
       <div class="golden-rule-emoji">⚖️</div>
       <h3>Three rules. Always. No exceptions.</h3>
       <p>Match the network. Test send first. Verify first and last 4 characters of every address.</p>
-    </div>
-  </div>
-</section>
+   </div><!-- /golden rule -->
+
+</div><!-- close two-col-pane 2 -->
+</div><!-- close two-col-section -->
+<!-- ── SIMULATOR
 
 <!-- ── SIMULATOR ─────────────────────────────────────── -->
 <section id="simulator">
@@ -1320,20 +1376,93 @@ function setLoading(btnId, spinnerId, btnTextId, loading) {
   document.getElementById(btnTextId).style.opacity = loading ? '0.5' : '1';
 }
 
+function renderAiResponse(text) {
+  const lines = text.split('\n').filter(l => l.trim() !== '');
+  const cards = [];
+  let currentCard = null;
+  let proseBuf = [];
+
+  function flushProse() {
+    if (!proseBuf.length) return;
+    const p = document.createElement('div');
+    p.className = 'ai-prose';
+    p.innerHTML = proseBuf.join(' ').replace(/\*\*(.*?)\*\*/g,'<b>$1</b>');
+    cards.push(p);
+    proseBuf = [];
+  }
+
+  for (const raw of lines) {
+    const line = raw.trim();
+
+    // Detect headings (markdown ## or lines ending with :)
+    const isHeading = /^#{1,3}\s/.test(line) || /^[A-Z][^a-z]{0,40}:$/.test(line);
+    // Detect bottom line
+    const isBottomLine = /^bottom line/i.test(line);
+    // Detect warning/danger signals
+    const isDanger = /⚠|warning|danger|never|do not|avoid|lost|unrecoverable/i.test(line);
+    const isGood   = /✓|recommend|best route|success|safest|✅/i.test(line);
+    // Detect bullet
+    const isBullet = /^[-•*]\s|^\d+\.\s/.test(line);
+
+    if (isBottomLine) {
+      flushProse();
+      if (currentCard) { cards.push(currentCard); currentCard = null; }
+      const bl = document.createElement('div');
+      bl.className = 'ai-bottom-line';
+      bl.textContent = line.replace(/^bottom line[:\s]*/i, '').replace(/\*\*/g,'');
+      cards.push(bl);
+      continue;
+    }
+
+    if (isHeading) {
+      flushProse();
+      if (currentCard) { cards.push(currentCard); }
+      const title = line.replace(/^#+\s*/,'').replace(/:$/,'');
+      currentCard = document.createElement('div');
+      currentCard.className = 'ai-card' + (isGood ? ' ai-card-highlight' : isDanger ? ' ai-card-warn' : '');
+      const t = document.createElement('div');
+      t.className = 'ai-card-title';
+      t.textContent = title;
+      const b = document.createElement('div');
+      b.className = 'ai-card-body';
+      currentCard.appendChild(t);
+      currentCard.appendChild(b);
+      continue;
+    }
+
+    if (currentCard) {
+      const body = currentCard.querySelector('.ai-card-body');
+      const p = document.createElement('p');
+      const cleaned = line.replace(/^[-•*]\s+|^\d+\.\s+/,'').replace(/\*\*(.*?)\*\*/g,'<b>$1</b>');
+      p.innerHTML = (isBullet ? '· ' : '') + cleaned;
+      body.appendChild(p);
+    } else {
+      proseBuf.push(line.replace(/\*\*(.*?)\*\*/g,'<b>$1</b>'));
+    }
+  }
+
+  flushProse();
+  if (currentCard) cards.push(currentCard);
+  return cards;
+}
+
 function showAiOutput(outputId, bodyId, text) {
-  const out = document.getElementById(outputId);
+  const out  = document.getElementById(outputId);
   const body = document.getElementById(bodyId);
   out.classList.add('visible');
-  // Animate text in word by word for a streaming feel
-  body.textContent = '';
-  const words = text.split(' ');
-  let i = 0;
-  const interval = setInterval(() => {
-    if (i >= words.length) { clearInterval(interval); return; }
-    body.textContent += (i > 0 ? ' ' : '') + words[i];
-    body.scrollTop = body.scrollHeight;
-    i++;
-  }, 18);
+  body.innerHTML = '';
+  const cards = renderAiResponse(text);
+  // Stagger cards in one by one
+  cards.forEach((card, i) => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(10px)';
+    card.style.transition = 'opacity .35s ease, transform .35s ease';
+    body.appendChild(card);
+    setTimeout(() => {
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+    }, i * 80);
+  });
 }
 
 /* ══════════════════════════════════════════════════
