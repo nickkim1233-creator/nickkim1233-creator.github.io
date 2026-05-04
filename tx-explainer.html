@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Transaction Explainer — WooJung Kim</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#f4f3f0;--bg2:#eae8e3;--surface:#ffffff;--surface2:#f0eeea;--border:rgba(0,0,0,0.08);--border-mid:rgba(0,0,0,0.14);--text:#17160f;--text-muted:#5e5c55;--text-dim:#a8a59e;--green:#1a6840;--green-bg:rgba(26,104,64,0.07);--green-bd:rgba(26,104,64,0.22);--amber:#864b00;--amber-bg:rgba(134,75,0,0.07);--amber-bd:rgba(134,75,0,0.22);--red:#9e2626;--red-bg:rgba(158,38,38,0.07);--red-bd:rgba(158,38,38,0.22);--sans:'Plus Jakarta Sans',sans-serif;--mono:'JetBrains Mono',monospace;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:400;line-height:1.65;overflow-x:hidden;}
+.progress-bar{position:fixed;top:0;left:0;width:0%;height:2px;background:var(--green);z-index:300;transition:width .1s linear;}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:56px;padding:0 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(244,243,240,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:var(--sans);font-weight:600;font-size:.95rem;color:var(--text);text-decoration:none;letter-spacing:-.01em;}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{font-family:var(--sans);font-size:.78rem;font-weight:500;color:var(--text-muted);text-decoration:none;letter-spacing:-.01em;transition:color .18s;}
+.nav-links a:hover{color:var(--text);}
+.page-hero{padding:120px 64px 72px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;background:var(--bg2);}
+.page-hero-bg{position:absolute;bottom:-40px;right:2%;font-family:var(--sans);font-weight:600;font-size:clamp(120px,18vw,220px);color:rgba(0,0,0,0.025);pointer-events:none;user-select:none;line-height:1;letter-spacing:-.06em;}
+.page-hero-label{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);margin-bottom:16px;animation:fadeUp .6s ease both;}
+.page-hero h1{font-family:var(--sans);font-weight:600;font-size:clamp(2rem,5vw,4rem);line-height:.97;letter-spacing:-.04em;margin-bottom:18px;animation:fadeUp .6s .06s ease both;}
+.page-hero-sub{font-size:.95rem;color:var(--text-muted);max-width:520px;line-height:1.7;animation:fadeUp .6s .12s ease both;}
+.ai-section{padding:80px 64px;border-bottom:1px solid var(--border);background:var(--bg2);}
+.ai-layout{display:grid;grid-template-columns:1fr 340px;gap:28px;max-width:1200px;margin:0 auto;align-items:start;}
+.ai-main{min-width:0;}
+.ai-how-it-works{position:sticky;top:72px;}
+.section-label{font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px;display:flex;align-items:center;gap:9px;}
+.section-label::before{content:'';display:block;width:14px;height:1px;background:var(--text-dim);}
+.ai-panel{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.ai-panel-header{padding:16px 20px;border-bottom:1px solid var(--border);background:var(--surface2);}
+.ai-panel-title{font-family:var(--sans);font-weight:600;font-size:.9rem;margin-bottom:2px;}
+.ai-panel-sub{font-size:.74rem;color:var(--text-muted);}
+.ai-panel-body{padding:20px;}
+.ai-row{display:flex;flex-direction:column;gap:5px;margin-bottom:14px;}
+.ai-row label{font-family:var(--mono);font-size:.54rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim);}
+textarea{width:100%;padding:10px 13px;border:1px solid var(--border-mid);border-radius:4px;background:var(--bg);color:var(--text);font-family:var(--mono);font-size:.76rem;line-height:1.55;resize:vertical;min-height:80px;transition:border-color .14s,box-shadow .14s;outline:none;}
+textarea:focus{border-color:var(--text-muted);box-shadow:0 0 0 3px rgba(0,0,0,0.05);}
+textarea::placeholder{color:var(--text-dim);}
+select,input[type="text"]{width:100%;padding:9px 12px;border:1px solid var(--border-mid);border-radius:4px;background:var(--bg);color:var(--text);font-family:var(--mono);font-size:.76rem;transition:border-color .14s,box-shadow .14s;appearance:none;-webkit-appearance:none;outline:none;}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='6'%3E%3Cpath d='M1 1l4.5 4L10 1' stroke='%23a8a59e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;padding-right:30px;cursor:pointer;}
+select:focus,input:focus{border-color:var(--text-muted);box-shadow:0 0 0 3px rgba(0,0,0,0.05);}
+label{font-family:var(--mono);font-size:.54rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim);}
+.ai-btn{width:100%;padding:12px;margin-top:14px;background:var(--text);color:var(--bg);border:none;border-radius:4px;font-family:var(--sans);font-weight:600;font-size:.84rem;cursor:pointer;transition:background .16s,transform .16s;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:.01em;}
+.ai-btn:hover:not(:disabled){background:#2a2920;transform:translateY(-1px);}
+.ai-btn:disabled{background:var(--text-dim);cursor:not-allowed;transform:none;}
+.spinner{width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);border-top-color:white;animation:spin .7s linear infinite;flex-shrink:0;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.ai-output{margin-top:16px;display:none;}
+.ai-output.visible{display:block;}
+.ai-output-header{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+.ai-output-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse-dot 2s ease-in-out infinite;flex-shrink:0;}
+@keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:.4;}}
+.ai-output-label{font-family:var(--mono);font-size:.55rem;text-transform:uppercase;letter-spacing:.1em;color:var(--green);}
+.ai-output-body{font-size:.88rem;line-height:1.72;color:var(--text-muted);display:flex;flex-direction:column;gap:10px;}
+.ai-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px 18px;}
+.ai-card.ai-card-highlight{background:var(--green-bg);border-color:var(--green-bd);}
+.ai-card.ai-card-warn{background:var(--amber-bg);border-color:var(--amber-bd);}
+.ai-card.ai-card-danger{background:var(--red-bg);border-color:var(--red-bd);}
+.ai-card-title{font-family:var(--sans);font-weight:600;font-size:.88rem;color:var(--text);margin-bottom:8px;}
+.ai-card.ai-card-highlight .ai-card-title{color:var(--green);}
+.ai-card.ai-card-warn .ai-card-title{color:var(--amber);}
+.ai-card.ai-card-danger .ai-card-title{color:var(--red);}
+.ai-card-body{font-size:.82rem;color:var(--text-muted);line-height:1.65;}
+.ai-card-body p{margin-bottom:6px;}
+.ai-card-body p:last-child{margin-bottom:0;}
+.ai-prose{font-size:.86rem;color:var(--text-muted);line-height:1.7;}
+.ai-prose b,.ai-prose strong{color:var(--text);font-weight:600;}
+.ai-bottom-line{background:var(--surface);border:1px solid var(--border-mid);border-radius:8px;padding:14px 18px;font-size:.86rem;color:var(--text);font-weight:500;display:flex;align-items:flex-start;gap:10px;}
+.ai-bottom-line::before{content:'→';color:var(--green);flex-shrink:0;font-weight:600;}
+.hiw-panel{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.hiw-header{padding:14px 18px;border-bottom:1px solid var(--border);background:var(--surface2);}
+.hiw-title{font-family:var(--sans);font-weight:600;font-size:.82rem;}
+.hiw-body{padding:14px 18px;}
+.hiw-step{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border);}
+.hiw-step:last-child{border-bottom:none;}
+.hiw-num{font-family:var(--mono);font-size:.6rem;color:var(--text-dim);flex-shrink:0;min-width:18px;margin-top:1px;}
+.hiw-text{font-size:.78rem;color:var(--text-muted);line-height:1.5;}
+.hiw-text b{color:var(--text);font-weight:600;}
+.example-pills{display:flex;flex-direction:column;gap:5px;margin-top:14px;}
+.pill{font-family:var(--mono);font-size:.62rem;color:var(--text-muted);background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:7px 11px;cursor:pointer;transition:all .16s;line-height:1.4;}
+.pill:hover{border-color:var(--border-mid);color:var(--text);}
+footer{padding:40px 64px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;border-top:1px solid var(--border);}
+.footer-note{font-family:var(--mono);font-size:.58rem;letter-spacing:.05em;color:var(--text-dim);}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .55s cubic-bezier(.4,0,.2,1),transform .55s cubic-bezier(.4,0,.2,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:.06s;}
+.reveal-delay-2{transition-delay:.12s;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+@media(max-width:960px){.ai-layout{grid-template-columns:1fr;}.ai-how-it-works{position:static;}}
+@media(max-width:680px){nav{padding:0 16px;}.nav-links{display:none;}.page-hero{padding:96px 20px 48px;}.ai-section{padding:60px 20px;}footer{padding:32px 20px;}}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress"></div>
+<nav>
+  <a href="/" class="nav-logo">WooJung Kim</a>
+  <ul class="nav-links">
+    <li><a href="/guide">Guide &amp; Simulator</a></li>
+    <li><a href="/route-advisor">Route Advisor</a></li>
+    <li><a href="/tx-explainer">TX Explainer</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-bg">?</div>
+  <div class="page-hero-label">AI Tool 02</div>
+  <h1>Transaction<br/>Explainer</h1>
+  <p class="page-hero-sub">Paste any transaction hash or describe what you saw. The AI translates it into plain English — no hex, no jargon, no confusion.</p>
+</div>
+
+<div class="ai-section">
+  <div class="ai-layout">
+    <div class="ai-main">
+      <div class="section-label reveal">Paste your transaction</div>
+      <div class="ai-panel reveal reveal-delay-1">
+        <div class="ai-panel-header">
+          <div class="ai-panel-title">What happened?</div>
+          <div class="ai-panel-sub">Transaction hash, receipt text, or just describe what you saw on screen.</div>
+        </div>
+        <div class="ai-panel-body">
+          <div class="ai-row">
+            <label>Blockchain network</label>
+            <select id="tx-chain">
+              <option value="">Select network (optional)</option>
+              <option value="Bitcoin">Bitcoin</option>
+              <option value="Ethereum">Ethereum</option>
+              <option value="Solana">Solana</option>
+              <option value="Polygon">Polygon</option>
+              <option value="Arbitrum">Arbitrum</option>
+              <option value="Base">Base</option>
+              <option value="BNB Chain">BNB Chain</option>
+              <option value="unknown">Not sure</option>
+            </select>
+          </div>
+          <div class="ai-row">
+            <label>Transaction hash or description</label>
+            <textarea id="tx-input" rows="4" placeholder="Paste a transaction hash like 0x4f3a... or 5KHnY8...&#10;&#10;Or just describe it: 'I sent 0.1 ETH and got back 312 USDC, it cost me $4 in gas and the status says Success'"></textarea>
+          </div>
+          <div class="ai-row">
+            <label>What's confusing you? (optional)</label>
+            <textarea id="tx-question" rows="2" placeholder="e.g. Why did I receive less than I sent? What is this contract interaction? Why did it fail?"></textarea>
+          </div>
+          <button class="ai-btn" id="tx-btn" onclick="runTxExplainer()">
+            <span id="tx-btn-text">Explain This Transaction →</span>
+            <div class="spinner" id="tx-spinner" style="display:none;"></div>
+          </button>
+          <div class="ai-output" id="tx-output">
+            <div class="ai-output-header"><div class="ai-output-dot"></div><div class="ai-output-label">Plain English Explanation</div></div>
+            <div class="ai-output-body" id="tx-output-body"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-how-it-works reveal reveal-delay-2">
+      <div class="hiw-panel">
+        <div class="hiw-header"><div class="hiw-title">What gets explained</div></div>
+        <div class="hiw-body">
+          <div class="hiw-step"><span class="hiw-num">→</span><span class="hiw-text"><b>What happened</b> — who sent what to whom, and did it succeed?</span></div>
+          <div class="hiw-step"><span class="hiw-num">→</span><span class="hiw-text"><b>Fees paid</b> — what the gas fee was and whether it was normal.</span></div>
+          <div class="hiw-step"><span class="hiw-num">→</span><span class="hiw-text"><b>Contract interactions</b> — if a DEX, bridge, or smart contract was involved.</span></div>
+          <div class="hiw-step"><span class="hiw-num">→</span><span class="hiw-text"><b>Why it failed</b> — if the transaction reverted, what likely caused it.</span></div>
+          <div class="hiw-step"><span class="hiw-num">→</span><span class="hiw-text"><b>Red flags</b> — anything unexpected or worth investigating.</span></div>
+        </div>
+      </div>
+      <div class="hiw-panel" style="margin-top:12px;">
+        <div class="hiw-header"><div class="hiw-title">Try an example</div></div>
+        <div class="hiw-body">
+          <div class="example-pills">
+            <div class="pill" onclick="fillTxExample('Ethereum','0x4a7d...3f2e','I swapped ETH for USDC and got way less than expected')">Unexpected USDC amount on swap</div>
+            <div class="pill" onclick="fillTxExample('Solana','5KHnY8bXPQ...','Transaction failed but I was still charged a fee')">Solana TX failed but I paid a fee</div>
+            <div class="pill" onclick="fillTxExample('Ethereum','','I approved a contract but I\'m not sure what I agreed to')">What did I just approve?</div>
+            <div class="pill" onclick="fillTxExample('Bitcoin','a1b2c3d4...','My BTC transfer shows 3 confirmations — is it done?')">BTC confirmations — is it safe?</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-note"><a href="/" style="color:inherit;text-decoration:none;">← WooJung Kim</a></span>
+  <span class="footer-note">Not financial advice</span>
+</footer>
+
+<script>
+const TX_SYSTEM=`You are a crypto transaction explainer. Decode crypto transactions and explain them in plain English for non-technical people.
+
+Always cover:
+1. WHAT HAPPENED — what was sent or swapped, by whom, to whom, did it succeed?
+2. FEES — what was paid in gas/network fees, is that normal?
+3. CONTRACT INTERACTION — if a DEX swap, bridge, NFT, approval, or smart contract was involved, explain it simply
+4. FINALITY — if confirmations are mentioned, is it considered done?
+5. IF IT FAILED — explain the likely reason in simple terms
+6. BOTTOM LINE — one clear sentence summarising and whether anything needs action
+
+Rules:
+- Never show raw hex — translate to English
+- If given only a hash, explain what it IS and walk through what a typical receipt for that type of transaction would show
+- Be reassuring but honest about risks
+- Keep under 400 words
+- Always end with "Bottom line:" followed by one plain-English sentence`;
+
+function renderAiResponse(text){const lines=text.split('\n').filter(l=>l.trim()!=='');const cards=[];let currentCard=null;let proseBuf=[];function flushProse(){if(!proseBuf.length)return;const p=document.createElement('div');p.className='ai-prose';p.innerHTML=proseBuf.join(' ').replace(/\*\*(.*?)\*\*/g,'<b>$1</b>');cards.push(p);proseBuf=[];}for(const raw of lines){const line=raw.trim();const isHeading=/^#{1,3}\s/.test(line)||/^[A-Z][^a-z]{0,40}:$/.test(line);const isBottomLine=/^bottom line/i.test(line);const isDanger=/⚠|warning|danger|never|do not|avoid|lost|unrecoverable/i.test(line);const isGood=/✓|recommend|best route|success|safest|✅/.test(line);const isBullet=/^[-•*]\s|^\d+\.\s/.test(line);if(isBottomLine){flushProse();if(currentCard){cards.push(currentCard);currentCard=null;}const bl=document.createElement('div');bl.className='ai-bottom-line';bl.textContent=line.replace(/^bottom line[:\s]*/i,'').replace(/\*\*/g,'');cards.push(bl);continue;}if(isHeading){flushProse();if(currentCard)cards.push(currentCard);const title=line.replace(/^#+\s*/,'').replace(/:$/,'');currentCard=document.createElement('div');currentCard.className='ai-card'+(isGood?' ai-card-highlight':isDanger?' ai-card-warn':'');const t=document.createElement('div');t.className='ai-card-title';t.textContent=title;const b=document.createElement('div');b.className='ai-card-body';currentCard.appendChild(t);currentCard.appendChild(b);continue;}if(currentCard){const body=currentCard.querySelector('.ai-card-body');const p=document.createElement('p');const cleaned=line.replace(/^[-•*]\s+|^\d+\.\s+/,'').replace(/\*\*(.*?)\*\*/g,'<b>$1</b>');p.innerHTML=(isBullet?'· ':'')+cleaned;body.appendChild(p);}else{proseBuf.push(line.replace(/\*\*(.*?)\*\*/g,'<b>$1</b>'));}}flushProse();if(currentCard)cards.push(currentCard);return cards;}
+
+function showAiOutput(outputId,bodyId,text){const out=document.getElementById(outputId);const body=document.getElementById(bodyId);out.classList.add('visible');body.innerHTML='';const cards=renderAiResponse(text);cards.forEach((card,i)=>{card.style.opacity='0';card.style.transform='translateY(10px)';card.style.transition='opacity .35s ease, transform .35s ease';body.appendChild(card);setTimeout(()=>{card.style.opacity='1';card.style.transform='translateY(0)';},i*80);});}
+
+async function callClaude(systemPrompt,userMessage){const response=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:systemPrompt,messages:[{role:'user',content:userMessage}],max_tokens:1000})});if(!response.ok)throw new Error(`API error ${response.status}`);const data=await response.json();return data.content?.[0]?.text||'No response received.';}
+
+function setLoading(btnId,spinnerId,btnTextId,loading){document.getElementById(btnId).disabled=loading;document.getElementById(spinnerId).style.display=loading?'block':'none';document.getElementById(btnTextId).style.opacity=loading?'0.5':'1';}
+
+async function runTxExplainer(){const chain=document.getElementById('tx-chain').value;const txInput=document.getElementById('tx-input').value.trim();const question=document.getElementById('tx-question').value.trim();if(!txInput){alert('Please paste a transaction hash or describe the transaction first.');return;}const userMsg=`${chain?'Network: '+chain+'\n':''}Transaction: ${txInput}${question?'\n\nSpecific question: '+question:''}\n\nPlease explain this transaction in plain English.`;setLoading('tx-btn','tx-spinner','tx-btn-text',true);document.getElementById('tx-output').classList.remove('visible');try{const result=await callClaude(TX_SYSTEM,userMsg);showAiOutput('tx-output','tx-output-body',result);}catch(e){showAiOutput('tx-output','tx-output-body','Something went wrong. Please try again.\n\nError: '+e.message);}finally{setLoading('tx-btn','tx-spinner','tx-btn-text',false);}}
+
+function fillTxExample(chain,hash,question){document.getElementById('tx-chain').value=chain;document.getElementById('tx-input').value=hash;document.getElementById('tx-question').value=question;document.getElementById('tx-btn').scrollIntoView({behavior:'smooth',block:'center'});}
+
+window.addEventListener('scroll',()=>{const pct=(document.documentElement.scrollTop/(document.documentElement.scrollHeight-window.innerHeight))*100;document.getElementById('progress').style.width=pct+'%';});
+const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}});},{threshold:.07,rootMargin:'0px 0px -32px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
