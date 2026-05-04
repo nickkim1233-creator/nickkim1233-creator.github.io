@@ -23,7 +23,7 @@ export default async function handler(req, res) {
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
+        model: 'claude-sonnet-4-20250514',
         max_tokens: max_tokens || 1000,
         system,
         messages,
@@ -33,8 +33,7 @@ export default async function handler(req, res) {
     const data = await response.json();
 
     if (!response.ok) {
-      console.error("ANTHROPIC ERROR:", data);
-      return res.status(response.status).json(data);
+      return res.status(response.status).json({ error: data });
     }
 
     return res.status(200).json(data);
@@ -42,5 +41,3 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: err.message });
   }
 }
-console.log("API KEY:", process.env.ANTHROPIC_API_KEY);
-console.log("KEY LENGTH:", process.env.ANTHROPIC_API_KEY?.length);
