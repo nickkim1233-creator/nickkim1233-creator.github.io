@@ -3,244 +3,731 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>WooJung Kim — Product Manager</title>
+<title>WooJung Kim</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
+/* ── PALETTE ─────────────────────────────────────────────
+   Everything lives in one warm monochromatic scale.
+   No colour. No shadows. Vintage = restraint.
+──────────────────────────────────────────────────────── */
 :root {
-  --bg:         #f4f3f0;
-  --bg2:        #eae8e3;
-  --surface:    #ffffff;
-  --surface2:   #f0eeea;
-  --border:     rgba(0,0,0,0.08);
-  --border-mid: rgba(0,0,0,0.14);
-  --text:       #17160f;
-  --text-muted: #5e5c55;
-  --text-dim:   #a8a59e;
-  --green:      #1a6840;
-  --green-bg:   rgba(26,104,64,0.07);
-  --green-bd:   rgba(26,104,64,0.22);
-  --sans: 'Plus Jakarta Sans', sans-serif;
-  --mono: 'JetBrains Mono', monospace;
+  --cream:      #f0ebe3;    /* desktop bg */
+  --paper:      #ede8df;    /* window bg */
+  --paper-2:    #e8e2d8;    /* titlebar, sidebar bg */
+  --paper-3:    #ddd7cb;    /* hover, pressed */
+  --paper-4:    #ccc5b7;    /* strong border */
+  --ink-dim:    #a09a8e;    /* muted text, icons */
+  --ink-mid:    #6b6660;    /* secondary text */
+  --ink:        #2a2520;    /* primary text */
+  --rule:       #d4cec4;    /* 1px dividers */
+  --sans:       'Plus Jakarta Sans', sans-serif;
+  --mono:       'JetBrains Mono', monospace;
 }
 
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:400;line-height:1.65;overflow-x:hidden;min-height:100vh;}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { height: 100%; }
 
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:200;
-  height:56px;padding:0 48px;
-  display:flex;align-items:center;justify-content:space-between;
-  background:rgba(244,243,240,0.92);backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--border);
-}
-.nav-logo{font-family:var(--sans);font-weight:600;font-size:.95rem;color:var(--text);text-decoration:none;letter-spacing:-.01em;}
-
-/* ── LANDING LAYOUT ─────────────────────────────── */
-.landing{
-  min-height:100vh;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  border-top:56px solid transparent; /* offset for fixed nav */
+body {
+  background: var(--cream);
+  /* Subtle dot-grid — the one texture reference uses */
+  background-image: radial-gradient(circle, var(--paper-4) 1px, transparent 1px);
+  background-size: 24px 24px;
+  min-height: 100vh;
+  font-family: var(--sans);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-/* Left pane — identity */
-.landing-left{
-  padding:80px 64px;
-  border-right:1px solid var(--border);
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  position:relative;
-  overflow:hidden;
+/* ── MENUBAR (top, macOS style) ─────────────────────── */
+.menubar {
+  height: 24px;
+  background: var(--paper-2);
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 0;
+  flex-shrink: 0;
+  z-index: 50;
 }
 
-.landing-left-bg{
-  position:absolute;bottom:-40px;left:-20px;
-  font-family:var(--sans);font-weight:600;
-  font-size:clamp(120px,18vw,240px);
-  color:rgba(0,0,0,0.025);pointer-events:none;user-select:none;
-  line-height:1;letter-spacing:-.06em;
+.menubar-logo {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -.01em;
+  margin-right: 16px;
 }
 
-.identity-label{
-  font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--text-dim);margin-bottom:24px;
-  animation:fadeUp .6s ease both;
+.menubar-item {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-mid);
+  padding: 0 10px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  cursor: default;
+  letter-spacing: .01em;
+  transition: background .1s, color .1s;
+}
+.menubar-item:hover { background: var(--ink); color: var(--paper); }
+
+.menubar-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
-.identity-name{
-  font-family:var(--sans);font-weight:600;
-  font-size:clamp(2.4rem,5vw,4.5rem);
-  line-height:.95;letter-spacing:-.04em;
-  margin-bottom:12px;
-  animation:fadeUp .6s .06s ease both;
+.menubar-clock {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-mid);
+  letter-spacing: .04em;
 }
 
-.identity-title{
-  font-family:var(--sans);font-weight:300;
-  font-size:clamp(1rem,2vw,1.5rem);
-  color:var(--text-muted);letter-spacing:-.01em;
-  margin-bottom:40px;
-  animation:fadeUp .6s .12s ease both;
+/* ── DESKTOP ─────────────────────────────────────────── */
+.desktop {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 32px 40px 40px;
+  overflow: hidden;
 }
 
-.identity-bio{
-  font-size:.9rem;color:var(--text-muted);line-height:1.75;
-  max-width:420px;margin-bottom:36px;
-  animation:fadeUp .6s .18s ease both;
+/* ── WINDOW BASE ─────────────────────────────────────── */
+.win {
+  background: var(--paper);
+  border: 1px solid var(--paper-4);
+  width: 400px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  /* The reference uses NO shadows at all */
+  position: relative;
+  animation: winIn .22s cubic-bezier(.4,0,.2,1) both;
+  cursor: default;
+  user-select: none;
 }
 
-.identity-links{
-  display:flex;gap:12px;flex-wrap:wrap;
-  animation:fadeUp .6s .24s ease both;
+.win:nth-child(2) { animation-delay: .07s; }
+
+@keyframes winIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.identity-link{
-  display:inline-flex;align-items:center;gap:7px;
-  font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--text-muted);text-decoration:none;
-  border:1px solid var(--border-mid);border-radius:4px;
-  padding:8px 14px;transition:all .16s;
+/* ── TITLEBAR ────────────────────────────────────────── */
+.win-titlebar {
+  height: 28px;
+  background: var(--paper-2);
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  padding: 0 10px 0 8px;
+  gap: 6px;
+  flex-shrink: 0;
+  cursor: grab;
 }
-.identity-link:hover{color:var(--text);border-color:var(--text-muted);}
-.identity-link svg{flex-shrink:0;opacity:.6;}
+.win-titlebar:active { cursor: grabbing; }
 
-/* Right pane — navigation */
-.landing-right{
-  padding:80px 64px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  gap:0;
-}
-
-.nav-section-label{
-  font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--text-dim);
-  margin-bottom:28px;
-  animation:fadeUp .6s .1s ease both;
+/* Traffic lights — flat circles, no colour */
+.win-dots {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  flex-shrink: 0;
 }
 
-/* Big nav cards */
-.page-card{
-  display:block;text-decoration:none;
-  padding:28px 0;
-  border-top:1px solid var(--border);
-  position:relative;
-  transition:padding-left .2s cubic-bezier(.4,0,.2,1);
-  animation:fadeUp .6s ease both;
-}
-.page-card:last-child{border-bottom:1px solid var(--border);}
-.page-card:hover{padding-left:16px;}
-
-.page-card-num{
-  font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--text-dim);
-  margin-bottom:8px;display:block;
+.win-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid var(--paper-4);
+  background: var(--paper-3);
+  flex-shrink: 0;
 }
 
-.page-card-title{
-  font-family:var(--sans);font-weight:600;
-  font-size:clamp(1.2rem,2.2vw,1.75rem);
-  letter-spacing:-.03em;color:var(--text);
-  line-height:1.15;margin-bottom:8px;
-  transition:color .16s;
-}
-.page-card:hover .page-card-title{color:var(--green);}
-
-.page-card-desc{
-  font-size:.8rem;color:var(--text-dim);line-height:1.5;
-  max-width:340px;
+.win-title {
+  flex: 1;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--ink-mid);
+  letter-spacing: .06em;
+  text-transform: uppercase;
 }
 
-.page-card-arrow{
-  position:absolute;right:0;top:50%;transform:translateY(-50%);
-  font-size:1.1rem;color:var(--text-dim);
-  transition:transform .2s cubic-bezier(.4,0,.2,1),color .16s;
+/* ── TOOLBAR ─────────────────────────────────────────── */
+.win-toolbar {
+  height: 28px;
+  background: var(--paper-2);
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  gap: 2px;
+  flex-shrink: 0;
 }
-.page-card:hover .page-card-arrow{transform:translateY(-50%) translateX(6px);color:var(--green);}
 
-.page-card:nth-child(2){animation-delay:.08s;}
-.page-card:nth-child(3){animation-delay:.14s;}
-.page-card:nth-child(4){animation-delay:.20s;}
-
-/* FOOTER */
-footer{
-  padding:28px 48px;
-  border-top:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  gap:14px;flex-wrap:wrap;
+.tb-btn {
+  height: 18px;
+  padding: 0 8px;
+  background: none;
+  border: 1px solid transparent;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 400;
+  color: var(--ink-dim);
+  letter-spacing: .04em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: border-color .1s, background .1s, color .1s;
+  white-space: nowrap;
 }
-.footer-note{font-family:var(--mono);font-size:.56rem;letter-spacing:.05em;color:var(--text-dim);}
+.tb-btn:hover { border-color: var(--rule); background: var(--paper-3); color: var(--ink); }
+.tb-btn.disabled { opacity: .35; cursor: default; pointer-events: none; }
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.tb-sep {
+  width: 1px;
+  height: 14px;
+  background: var(--rule);
+  margin: 0 4px;
+  flex-shrink: 0;
+}
 
-@media(max-width:800px){
-  .landing{grid-template-columns:1fr;border-top:56px solid transparent;}
-  .landing-left{padding:56px 24px;border-right:none;border-bottom:1px solid var(--border);justify-content:flex-start;}
-  .landing-right{padding:48px 24px;}
-  nav{padding:0 20px;}
-  footer{padding:24px 20px;}
+/* ── ADDRESS BAR ─────────────────────────────────────── */
+.win-addr {
+  height: 24px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.addr-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--ink-dim);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.addr-path {
+  flex: 1;
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--ink-mid);
+  letter-spacing: .02em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: var(--cream);
+  border: 1px solid var(--rule);
+  padding: 1px 6px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+}
+
+/* ── WINDOW CONTENT AREA ─────────────────────────────── */
+.win-body {
+  flex: 1;
+  padding: 20px 20px;
+  background: var(--paper);
+  overflow-y: auto;
+}
+
+/* Custom scrollbar */
+.win-body::-webkit-scrollbar { width: 8px; }
+.win-body::-webkit-scrollbar-track { background: var(--paper); }
+.win-body::-webkit-scrollbar-thumb { background: var(--rule); }
+
+/* ── STATUSBAR ───────────────────────────────────────── */
+.win-status {
+  height: 20px;
+  background: var(--paper-2);
+  border-top: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.status-seg {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--ink-dim);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.status-seg + .status-seg::before {
+  content: '|';
+  margin-right: 12px;
+  color: var(--rule);
+}
+
+/* ── WINDOW 1 — BIO CONTENT ──────────────────────────── */
+.bio-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 16px;
+}
+
+.bio-avatar {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--paper-4);
+  background: var(--paper-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+
+.bio-name {
+  font-family: var(--sans);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -.03em;
+  line-height: 1.1;
+}
+
+.bio-role {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-top: 3px;
+}
+
+.bio-section-head {
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-bottom: 8px;
+}
+
+.bio-text {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--ink-mid);
+  line-height: 1.75;
+  margin-bottom: 18px;
+}
+
+.bio-link-wrap {
+  padding-top: 14px;
+  border-top: 1px solid var(--rule);
+}
+
+.bio-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .06em;
+  color: var(--ink-mid);
+  text-decoration: none;
+  border: 1px solid var(--paper-4);
+  padding: 5px 12px;
+  background: var(--paper-2);
+  transition: background .15s, border-color .15s, color .15s;
+  text-transform: uppercase;
+}
+.bio-link:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+.bio-link-icon { font-size: 10px; }
+
+/* ── WINDOW 2 — PROJECT LIST ─────────────────────────── */
+.proj-header {
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.proj-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+  color: inherit;
+  transition: background .12s;
+  margin: 0 -20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  cursor: pointer;
+}
+.proj-row:last-child { border-bottom: none; }
+.proj-row:hover { background: var(--paper-2); }
+.proj-row:hover .proj-row-title { color: var(--ink); }
+.proj-row:hover .proj-row-arrow { opacity: 1; }
+
+.proj-row-icon {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--rule);
+  background: var(--paper-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background .12s, border-color .12s;
+}
+.proj-row:hover .proj-row-icon {
+  background: var(--paper-3);
+  border-color: var(--paper-4);
+}
+
+.proj-row-glyph {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-mid);
+}
+
+.proj-row-body { flex: 1; min-width: 0; }
+
+.proj-row-meta {
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-bottom: 3px;
+}
+
+.proj-row-title {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-mid);
+  letter-spacing: -.02em;
+  line-height: 1.25;
+  margin-bottom: 3px;
+  transition: color .12s;
+}
+
+.proj-row-desc {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 300;
+  color: var(--ink-dim);
+  line-height: 1.5;
+}
+
+.proj-row-arrow {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--ink-mid);
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity .12s;
+}
+
+/* ── TASKBAR (bottom, Windows style) ─────────────────── */
+.taskbar {
+  height: 28px;
+  background: var(--paper-2);
+  border-top: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  gap: 4px;
+  flex-shrink: 0;
+  z-index: 50;
+}
+
+.taskbar-pill {
+  height: 18px;
+  padding: 0 10px;
+  background: var(--paper-3);
+  border: 1px solid var(--paper-4);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 400;
+  color: var(--ink-mid);
+  letter-spacing: .04em;
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+  cursor: default;
+  transition: background .1s;
+}
+.taskbar-pill:hover { background: var(--paper-4); }
+
+.taskbar-sep {
+  width: 1px;
+  height: 14px;
+  background: var(--rule);
+  margin: 0 4px;
+}
+
+.taskbar-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.taskbar-clock {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--ink-mid);
+  letter-spacing: .06em;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────── */
+@media (max-width: 880px) {
+  .desktop {
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 16px 40px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  body { overflow: hidden auto; }
+  .win { width: 100%; max-width: 440px; }
+}
+
+@media (max-width: 480px) {
+  .win { width: 100%; }
 }
 </style>
 </head>
 <body>
 
-<nav>
-  <a href="/" class="nav-logo">WooJung Kim</a>
-</nav>
-
-<div class="landing">
-
-  <!-- LEFT — Identity -->
-  <div class="landing-left">
-    <div class="landing-left-bg">WK</div>
-    <div class="identity-label">Product Manager</div>
-    <div class="identity-name">WooJung<br/>Kim</div>
-    <div class="identity-title">Product Manager</div>
-    <p class="identity-bio">Product Manager with 4 years' experience building financial infrastructure at BlackRock and Amex, spanning $1T+ in notional exposure and global digital wallet integrations. Now focused on crypto and on-chain systems, leveraging AI-driven prototyping to rapidly ship and iterate on new product concepts.</p>
-    <div class="identity-links">
-      <a href="https://linkedin.com/in/woojung-n-kim/" target="_blank" rel="noopener" class="identity-link">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
-        LinkedIn
-      </a>
-    </div>
-  </div>
-
-  <!-- RIGHT — Navigation -->
-  <div class="landing-right">
-    <div class="nav-section-label">Projects</div>
-
-    <a href="/guide" class="page-card">
-      <span class="page-card-num">01</span>
-      <div class="page-card-title">Transfer Guide<br/>&amp; Simulator</div>
-      <div class="page-card-desc">Plain-English crypto guide covering wallets, networks, and how to move assets safely — with an interactive simulator to practice.</div>
-      <span class="page-card-arrow">→</span>
-    </a>
-
-    <a href="/route-advisor" class="page-card">
-      <span class="page-card-num">02</span>
-      <div class="page-card-title">Agentic Transfer<br/>Route Advisor</div>
-      <div class="page-card-desc">AI-powered tool that compares every viable route for your transfer — fees, speed, risk — and tells you exactly what to do.</div>
-      <span class="page-card-arrow">→</span>
-    </a>
-
-    <a href="/tx-explainer" class="page-card">
-      <span class="page-card-num">03</span>
-      <div class="page-card-title">Agentic Transaction<br/>Explainer</div>
-      <div class="page-card-desc">Paste any transaction hash or receipt. The AI translates it into plain English — no hex, no jargon, no confusion.</div>
-      <span class="page-card-arrow">→</span>
-    </a>
-
+<!-- TOP MENUBAR -->
+<div class="menubar">
+  <span class="menubar-logo">WK</span>
+  <div class="menubar-item">File</div>
+  <div class="menubar-item">Edit</div>
+  <div class="menubar-item">View</div>
+  <div class="menubar-item">Window</div>
+  <div class="menubar-item">Help</div>
+  <div class="menubar-right">
+    <span class="menubar-clock" id="mclock"></span>
   </div>
 </div>
 
-<footer>
-  <span class="footer-note">WooJung Kim · Not financial advice</span>
-  <span class="footer-note">Built with Claude</span>
-</footer>
+<!-- DESKTOP -->
+<div class="desktop">
 
+  <!-- WINDOW 1: ABOUT -->
+  <div class="win" id="win-bio">
+    <div class="win-titlebar" id="bio-bar">
+      <div class="win-dots">
+        <div class="win-dot"></div>
+        <div class="win-dot"></div>
+        <div class="win-dot"></div>
+      </div>
+      <div class="win-title">about.txt</div>
+    </div>
+    <div class="win-toolbar">
+      <div class="tb-btn disabled">← Back</div>
+      <div class="tb-btn disabled">→ Forward</div>
+      <div class="tb-sep"></div>
+      <div class="tb-btn">↺ Reload</div>
+      <div class="tb-btn">⌂ Home</div>
+    </div>
+    <div class="win-addr">
+      <span class="addr-label">Path</span>
+      <div class="addr-path">~/woojung/about.txt</div>
+    </div>
+    <div class="win-body">
+      <div class="bio-top">
+        <div class="bio-avatar">WK</div>
+        <div>
+          <div class="bio-name">WooJung Kim</div>
+          <div class="bio-role">Product Manager</div>
+        </div>
+      </div>
+      <div class="bio-section-head">Bio</div>
+      <div class="bio-text">Product Manager with 4 years' experience building financial infrastructure at BlackRock and Amex, spanning $1T+ in notional exposure and global digital wallet integrations. Now focused on crypto and on-chain systems, leveraging AI-driven prototyping to rapidly ship and iterate on new product concepts.</div>
+      <div class="bio-link-wrap">
+        <a href="https://linkedin.com/in/woojung-n-kim/" target="_blank" rel="noopener" class="bio-link">
+          <span class="bio-link-icon">↗</span> linkedin.com/in/woojung-n-kim
+        </a>
+      </div>
+    </div>
+    <div class="win-status">
+      <span class="status-seg">1 file</span>
+      <span class="status-seg" id="bio-date"></span>
+    </div>
+  </div>
+
+  <!-- WINDOW 2: PROJECTS -->
+  <div class="win" id="win-proj">
+    <div class="win-titlebar" id="proj-bar">
+      <div class="win-dots">
+        <div class="win-dot"></div>
+        <div class="win-dot"></div>
+        <div class="win-dot"></div>
+      </div>
+      <div class="win-title">projects/</div>
+    </div>
+    <div class="win-toolbar">
+      <div class="tb-btn disabled">← Back</div>
+      <div class="tb-btn disabled">→ Forward</div>
+      <div class="tb-sep"></div>
+      <div class="tb-btn">↺ Reload</div>
+      <div class="tb-btn">⌂ Home</div>
+    </div>
+    <div class="win-addr">
+      <span class="addr-label">Path</span>
+      <div class="addr-path">~/woojung/projects/</div>
+    </div>
+    <div class="win-body">
+      <div class="proj-header">
+        <span>Name</span>
+        <span>3 items</span>
+      </div>
+
+      <a class="proj-row" href="/guide">
+        <div class="proj-row-icon"><div class="proj-row-glyph">₿</div></div>
+        <div class="proj-row-body">
+          <div class="proj-row-meta">01 — guide</div>
+          <div class="proj-row-title">Transfer Guide &amp; Simulator</div>
+          <div class="proj-row-desc">Plain-English crypto guide + interactive simulator.</div>
+        </div>
+        <div class="proj-row-arrow">→</div>
+      </a>
+
+      <a class="proj-row" href="/route-advisor">
+        <div class="proj-row-icon"><div class="proj-row-glyph">→</div></div>
+        <div class="proj-row-body">
+          <div class="proj-row-meta">02 — route-advisor</div>
+          <div class="proj-row-title">Agentic Transfer Route Advisor</div>
+          <div class="proj-row-desc">AI compares every viable route — fees, speed, risk.</div>
+        </div>
+        <div class="proj-row-arrow">→</div>
+      </a>
+
+      <a class="proj-row" href="/tx-explainer">
+        <div class="proj-row-icon"><div class="proj-row-glyph">?</div></div>
+        <div class="proj-row-body">
+          <div class="proj-row-meta">03 — tx-explainer</div>
+          <div class="proj-row-title">Agentic Transaction Explainer</div>
+          <div class="proj-row-desc">Paste any tx hash. AI translates it to plain English.</div>
+        </div>
+        <div class="proj-row-arrow">→</div>
+      </a>
+
+    </div>
+    <div class="win-status">
+      <span class="status-seg">3 items</span>
+      <span class="status-seg">~/projects</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- TASKBAR -->
+<div class="taskbar">
+  <div class="taskbar-pill">about.txt</div>
+  <div class="taskbar-sep"></div>
+  <div class="taskbar-pill">projects/</div>
+  <div class="taskbar-right">
+    <div class="taskbar-clock" id="tclock"></div>
+  </div>
+</div>
+
+<script>
+/* Clock */
+function tick() {
+  const now  = new Date();
+  const h    = String(now.getHours()).padStart(2,'0');
+  const m    = String(now.getMinutes()).padStart(2,'0');
+  const time = h + ':' + m;
+  const date = now.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
+  document.getElementById('mclock').textContent  = date + '  ' + time;
+  document.getElementById('tclock').textContent  = time;
+  const bd = document.getElementById('bio-date');
+  if (bd) bd.textContent = date;
+}
+tick();
+setInterval(tick, 10000);
+
+/* Draggable windows */
+document.querySelectorAll('.win').forEach(win => {
+  const bar = win.querySelector('.win-titlebar');
+  if (!bar) return;
+  let active = false, ox = 0, oy = 0;
+
+  bar.addEventListener('mousedown', e => {
+    active = true;
+    const r = win.getBoundingClientRect();
+    if (win.style.position !== 'fixed') {
+      win.style.position = 'fixed';
+      win.style.margin   = '0';
+      win.style.left     = r.left + 'px';
+      win.style.top      = r.top  + 'px';
+      win.style.width    = r.width + 'px';
+    }
+    ox = e.clientX - parseFloat(win.style.left);
+    oy = e.clientY - parseFloat(win.style.top);
+    win.style.zIndex = '30';
+    document.body.style.userSelect = 'none';
+  });
+
+  window.addEventListener('mousemove', e => {
+    if (!active) return;
+    win.style.left = (e.clientX - ox) + 'px';
+    win.style.top  = (e.clientY - oy) + 'px';
+  });
+
+  window.addEventListener('mouseup', () => {
+    active = false;
+    document.body.style.userSelect = '';
+  });
+
+  win.addEventListener('mousedown', () => {
+    document.querySelectorAll('.win').forEach(w => w.style.zIndex = '10');
+    win.style.zIndex = '20';
+  });
+});
+</script>
 </body>
 </html>
