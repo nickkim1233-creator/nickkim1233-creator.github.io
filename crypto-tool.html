@@ -227,6 +227,49 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
 
 @media(max-width:860px){.coin-row{grid-template-columns:repeat(3,1fr);}.trade-layout{grid-template-columns:1fr;}.trade-side{border-top:1px solid var(--rule);border-right:none;}.row-2col{grid-template-columns:1fr;}.tx-compact-row{flex-direction:column;}.tx-compact-row button{padding:10px;}}
 @media(max-width:560px){.coin-row{grid-template-columns:repeat(2,1fr);}.route-meta-row{grid-template-columns:1fr;}.route-text-row{grid-template-columns:1fr;}.desktop{padding:16px 12px 40px;}}
+/* ── PHANTOM POSITIONS WINDOW ── */
+.positions-empty{padding:36px 20px;text-align:center;}
+.positions-empty-icon{font-size:2.2rem;margin-bottom:14px;}
+.positions-empty-h{font-family:var(--sans);font-weight:600;font-size:14px;color:var(--ink);letter-spacing:-.01em;margin-bottom:6px;}
+.positions-empty-sub{font-size:11.5px;color:var(--mid);line-height:1.6;max-width:380px;margin:0 auto 18px;}
+
+.pos-section-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--rule);}
+.pos-section-l{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);font-weight:500;}
+.pos-section-meta{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.04em;}
+
+.pos-box{background:var(--p1);border:1px solid var(--rule);padding:11px 13px;display:flex;flex-direction:column;gap:3px;cursor:pointer;transition:all .15s;position:relative;}
+.pos-box:hover{border-color:var(--p3);background:var(--p2);transform:translateY(-1px);}
+.pos-box.has-action{border-color:var(--green-bd);background:var(--green-bg);}
+.pos-box.has-action:hover{border-color:var(--green);background:var(--p1);}
+.pos-tag{position:absolute;top:6px;right:6px;font-family:var(--mono);font-size:7px;letter-spacing:.04em;text-transform:uppercase;padding:1px 5px;border-radius:2px;}
+.pos-tag.lst{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bd);}
+.pos-tag.wrapped{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd);}
+.pos-tag.stake{background:var(--green);color:var(--p0);}
+.pos-sym{font-family:var(--sans);font-weight:600;font-size:13px;color:var(--ink);letter-spacing:-.02em;line-height:1.1;padding-right:40px;}
+.pos-name{font-family:var(--sans);font-size:9px;color:var(--mid);font-weight:300;margin-bottom:2px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;}
+.pos-bal{font-family:var(--mono);font-size:12px;color:var(--ink);font-weight:500;margin-top:2px;}
+.pos-chain{font-family:var(--mono);font-size:8px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase;margin-top:2px;}
+.pos-action-hint{font-family:var(--mono);font-size:8px;color:var(--green);letter-spacing:.06em;margin-top:4px;text-transform:uppercase;font-weight:500;}
+
+/* ── ACTION MODAL (bridge/unwrap/unstake) ── */
+.action-step{display:none;}
+.action-step.active{display:block;}
+.action-h{font-family:var(--sans);font-weight:600;font-size:16px;color:var(--ink);margin-bottom:8px;letter-spacing:-.01em;}
+.action-sub{font-size:11.5px;color:var(--mid);line-height:1.65;margin-bottom:16px;}
+.action-position-card{background:var(--p1);border:1px solid var(--rule);padding:12px 14px;margin-bottom:14px;}
+.apc-row{display:flex;justify-content:space-between;align-items:baseline;padding:3px 0;font-size:11px;}
+.apc-row+.apc-row{border-top:1px dashed var(--rule);}
+.apc-l{font-family:var(--mono);font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;}
+.apc-v{font-family:var(--mono);font-size:11px;color:var(--ink);font-weight:500;}
+
+.action-options{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+.action-option{padding:13px 14px;background:var(--p1);border:1px solid var(--rule);cursor:pointer;display:flex;align-items:center;gap:11px;transition:all .12s;}
+.action-option:hover{background:var(--p2);border-color:var(--p3);}
+.action-option-glyph{width:34px;height:34px;border:1px solid var(--rule);background:var(--p2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:14px;color:var(--mid);flex-shrink:0;}
+.action-option-info{flex:1;}
+.action-option-t{font-family:var(--sans);font-weight:600;font-size:12px;color:var(--ink);}
+.action-option-d{font-size:10px;color:var(--mid);margin-top:2px;line-height:1.4;}
+
 </style>
 </head>
 <body>
@@ -275,7 +318,62 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
   <div class="win-sbar"><span class="sseg" id="footerCount">— coins</span><span class="sseg">USD pricing</span><span class="sseg">CoinGecko v3</span></div>
 </div>
 
-<!-- ═══ WINDOW 2: TRADE TOOL ══════════════════════════ -->
+<!-- ═══ WINDOW 2: PHANTOM POSITIONS ══════════════════════ -->
+<div class="win">
+  <div class="win-tb">
+    <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    <div class="win-title">my_positions.live — Phantom Wallet</div>
+  </div>
+  <div class="win-tools">
+    <div class="tbtn off">← Back</div><div class="tbtn off">→ Fwd</div><div class="tsep"></div>
+    <button class="tbtn" id="posRefreshBtn" onclick="loadPositions(true)">↺ Refresh</button>
+    <a href="/" class="tbtn">⌂ Home</a>
+    <div class="tsep"></div>
+    <div class="tbtn live" id="posStatus">○ Disconnected</div>
+  </div>
+  <div class="win-addr"><span class="albl">Source</span><div class="apath">phantom.app + solana RPC + alchemy</div></div>
+  <div class="win-body">
+    <div class="s-label">02 — Live</div>
+    <div class="s-title">My Phantom positions</div>
+    <p class="s-sub">Connect your Phantom wallet to see all your holdings across Solana and Ethereum. Click any position to bridge, unwrap, or unstake.</p>
+
+    <div id="posEmpty">
+      <div class="positions-empty">
+        <div class="positions-empty-icon">👻</div>
+        <div class="positions-empty-h">Connect Phantom to view your wallet</div>
+        <p class="positions-empty-sub">We'll read your balances directly from the chain — no transactions, no fees, just data.</p>
+        <button class="ai-btn" style="max-width:240px;margin:0 auto;" onclick="connectPhantomForPositions()">
+          <span>Connect Phantom →</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="posLoading" style="display:none;">
+      <div class="positions-empty">
+        <div style="display:inline-block;"><div class="spin" style="width:18px;height:18px;border-color:rgba(42,37,32,0.15);border-top-color:var(--ink);"></div></div>
+        <div class="positions-empty-h" style="margin-top:14px;">Loading your positions…</div>
+        <p class="positions-empty-sub" id="posLoadingMsg">Reading wallet data from Solana</p>
+      </div>
+    </div>
+
+    <div id="posContent" style="display:none;">
+      <div class="pos-section-h">
+        <span class="pos-section-l" id="solSectionLabel">Solana —</span>
+        <span class="pos-section-meta" id="solWalletShort"></span>
+      </div>
+      <div id="solPositions" class="coin-row" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr));"></div>
+
+      <div class="pos-section-h" style="margin-top:18px;">
+        <span class="pos-section-l" id="ethSectionLabel">Ethereum —</span>
+        <span class="pos-section-meta" id="ethWalletShort"></span>
+      </div>
+      <div id="ethPositions" class="coin-row" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr));"></div>
+    </div>
+  </div>
+  <div class="win-sbar"><span class="sseg" id="posCount">— positions</span><span class="sseg" id="posLastUpdated">Not connected</span><span class="sseg">Phantom + RPC</span></div>
+</div>
+
+<!-- ═══ WINDOW 3: TRADE TOOL ══════════════════════════ -->
 <div class="win">
   <div class="win-tb">
     <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
@@ -288,7 +386,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
   <div class="win-addr"><span class="albl">Path</span><div class="apath">~/projects/trade-tool.exe</div></div>
   <div class="trade-layout">
     <div class="trade-main">
-      <div class="s-label">02 — Agentic Trading</div>
+      <div class="s-label">03 — Agentic Trading</div>
       <div class="s-title">AI Route Advisor + Phantom Trade</div>
       <p class="s-sub">Describe your transfer. Get the top 3 routes with real fees and post-trade balances. Execute single-chain trades directly through your Phantom wallet.</p>
 
@@ -349,10 +447,10 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
       </div>
     </div>
   </div>
-  <div class="win-sbar"><span class="sseg">02 — Trade</span><span class="sseg" id="phantomStatus">Phantom: not connected</span></div>
+  <div class="win-sbar"><span class="sseg">03 — Trade</span><span class="sseg" id="phantomStatus">Phantom: not connected</span></div>
 </div>
 
-<!-- ═══ WINDOW 3: TX EXPLAINER (compact) ══════════════ -->
+<!-- ═══ WINDOW 4: TX EXPLAINER (compact) ══════════════ -->
 <div class="win">
   <div class="win-tb">
     <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
@@ -360,7 +458,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
   </div>
   <div class="win-addr"><span class="albl">Path</span><div class="apath">~/projects/tx-explainer.exe</div></div>
   <div class="tx-compact">
-    <div class="s-label">03 — AI Tool</div>
+    <div class="s-label">04 — AI Tool</div>
     <div class="tx-compact-title">Transaction Explainer</div>
     <p class="tx-compact-sub">Paste any transaction hash. The AI translates it into plain English — what happened, fees, success or failure, and red flags.</p>
     <div class="tx-compact-row">
@@ -372,7 +470,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
     </div>
     <div class="tx-out" id="txOut"></div>
   </div>
-  <div class="win-sbar"><span class="sseg">03 — TX Explainer</span><span class="sseg">Plain English</span></div>
+  <div class="win-sbar"><span class="sseg">04 — TX Explainer</span><span class="sseg">Plain English</span></div>
 </div>
 
 </div><!-- /desktop -->
@@ -471,6 +569,89 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
   </div>
 </div>
 
+<!-- ═══ POSITION ACTION MODAL ════════════════════════ -->
+<div class="modal-overlay" id="actionModal">
+  <div class="modal">
+    <div class="modal-tb">
+      <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <div class="modal-title" id="actionModalTitle">Position Actions</div>
+      <div class="modal-x" onclick="closeActionModal()">✕</div>
+    </div>
+    <div class="modal-body">
+
+      <!-- ACTION STEP 1: CHOOSE ACTION -->
+      <div class="action-step active" id="act-choose">
+        <div class="action-h" id="actChooseH">Choose an action</div>
+        <p class="action-sub" id="actChooseSub">Select what you'd like to do with this position.</p>
+        <div class="action-position-card" id="actPosCard"></div>
+        <div class="action-options" id="actOptionsList"></div>
+        <div class="modal-actions">
+          <button class="modal-btn secondary" onclick="closeActionModal()" style="flex:1;">Cancel</button>
+        </div>
+      </div>
+
+      <!-- ACTION STEP 2: GATHER INFO -->
+      <div class="action-step" id="act-input">
+        <div class="action-h" id="actInputH">Bridge details</div>
+        <p class="action-sub" id="actInputSub">Specify how much you'd like to move.</p>
+        <div class="action-position-card" id="actInputPosCard"></div>
+        <div id="actInputFields"></div>
+        <div class="modal-actions">
+          <button class="modal-btn secondary" onclick="goToActChoose()">Back</button>
+          <button class="modal-btn primary" id="actInputNext" onclick="goToActConfirm()">Continue →</button>
+        </div>
+      </div>
+
+      <!-- ACTION STEP 3: CONFIRM -->
+      <div class="action-step" id="act-confirm">
+        <div class="action-h">Review &amp; confirm</div>
+        <p class="action-sub">Verify the details below. Phantom will pop up to ask for your final approval.</p>
+        <div class="phantom-summary" id="actConfirmSummary"></div>
+        <div class="alert info"><span class="alert-icon">ℹ</span><div>This is a signed-intent flow — Phantom will request a real signature, but the on-chain bridge/unstake itself is shown as a demo for now.</div></div>
+        <div class="modal-actions">
+          <button class="modal-btn secondary" onclick="goToActInput()">Back</button>
+          <button class="modal-btn primary" onclick="executeAction()">Sign &amp; Send →</button>
+        </div>
+      </div>
+
+      <!-- ACTION STEP 4: SIGNING -->
+      <div class="action-step" id="act-signing">
+        <div class="phantom-icon">⏳</div>
+        <div class="phantom-h">Waiting for Phantom…</div>
+        <p class="phantom-sub">Phantom should be open in another window. Approve or reject the request there.</p>
+        <div style="display:flex;justify-content:center;padding:20px 0;"><div class="spin" style="width:24px;height:24px;border-color:rgba(42,37,32,0.15);border-top-color:var(--ink);"></div></div>
+      </div>
+
+      <!-- ACTION STEP 5: SUCCESS -->
+      <div class="action-step" id="act-success">
+        <div class="phantom-icon">🎉</div>
+        <div class="phantom-h" style="color:var(--green);">Request signed</div>
+        <p class="phantom-sub">Your intent has been signed and recorded.</p>
+        <div class="phantom-summary" id="actSuccessSummary"></div>
+        <div style="margin:14px 0 6px;">
+          <div class="ps-l" style="margin-bottom:6px;">Signature</div>
+          <div class="tx-hash" id="actSuccessHash"></div>
+        </div>
+        <div class="modal-actions">
+          <button class="modal-btn primary" onclick="closeActionModal();loadPositions(true);" style="flex:1;">Done</button>
+        </div>
+      </div>
+
+      <!-- ACTION STEP 6: ERROR -->
+      <div class="action-step" id="act-error">
+        <div class="phantom-icon">⚠</div>
+        <div class="phantom-h" style="color:var(--red);">Something went wrong</div>
+        <p class="phantom-sub" id="actErrorMsg">The request did not complete.</p>
+        <div class="modal-actions">
+          <button class="modal-btn secondary" onclick="closeActionModal()">Close</button>
+          <button class="modal-btn primary" onclick="goToActConfirm()">Try Again</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <script>
 /* ══ HEADER CLOCK ══════════════════════════════════ */
 function tick(){const n=new Date();const t=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');const d=n.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});const mc=document.getElementById('mc');if(mc)mc.textContent=d+'  '+t;}
@@ -544,6 +725,379 @@ async function searchCoin(){
 
 loadMarketData();
 setInterval(updateTimestamp,5000);
+
+/* ══════════════════════════════════════════════════════
+   PHANTOM POSITIONS
+══════════════════════════════════════════════════════ */
+let positionsLoaded=false;
+let activePosition=null;
+let activeAction=null;
+
+function shortAddr(a){if(!a)return'—';return a.slice(0,4)+'…'+a.slice(-4);}
+function fmtBal(n){if(n===0)return'0';if(n<0.0001)return n.toExponential(2);if(n<1)return n.toFixed(4);if(n<1000)return n.toFixed(3);return n.toLocaleString('en-US',{maximumFractionDigits:2});}
+
+async function connectPhantomForPositions(){
+  if(!isPhantomInstalled()){
+    document.getElementById('posStatus').textContent='× Not installed';
+    document.getElementById('posEmpty').innerHTML=`
+      <div class="positions-empty">
+        <div class="positions-empty-icon">⚠</div>
+        <div class="positions-empty-h">Phantom not detected</div>
+        <p class="positions-empty-sub">Install the Phantom browser extension to view your positions.</p>
+        <a href="https://phantom.app/download" target="_blank" rel="noopener" class="ai-btn" style="max-width:240px;margin:0 auto;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Install Phantom →</a>
+      </div>`;
+    return;
+  }
+  try{
+    if(window.phantom?.solana){
+      const r=await window.phantom.solana.connect();
+      phantomAccounts.solana=r.publicKey.toString();
+    } else if(window.solana?.isPhantom){
+      const r=await window.solana.connect();
+      phantomAccounts.solana=r.publicKey.toString();
+    }
+    if(window.phantom?.ethereum){
+      try{
+        const accts=await window.phantom.ethereum.request({method:'eth_requestAccounts'});
+        if(accts&&accts[0])phantomAccounts.ethereum=accts[0];
+      }catch{}
+    }
+    document.getElementById('phantomStatus').textContent='Phantom: connected';
+    document.getElementById('posStatus').textContent='● Connected';
+    await loadPositions();
+  }catch(e){
+    document.getElementById('posEmpty').innerHTML=`
+      <div class="positions-empty">
+        <div class="positions-empty-icon">×</div>
+        <div class="positions-empty-h">Connection cancelled</div>
+        <p class="positions-empty-sub">${e.message||'You declined the connection request.'}</p>
+        <button class="ai-btn" style="max-width:240px;margin:0 auto;" onclick="connectPhantomForPositions()">Try again →</button>
+      </div>`;
+  }
+}
+
+async function loadPositions(forceRefresh=false){
+  if(!phantomAccounts.solana&&!phantomAccounts.ethereum){
+    return;
+  }
+  document.getElementById('posEmpty').style.display='none';
+  document.getElementById('posContent').style.display='none';
+  document.getElementById('posLoading').style.display='block';
+  document.getElementById('posLoadingMsg').textContent='Reading wallet data from Solana';
+
+  let solData=null,ethData=null;
+
+  // Solana
+  if(phantomAccounts.solana){
+    try{
+      const r=await fetch('/api/solana',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({address:phantomAccounts.solana})});
+      if(r.ok)solData=await r.json();
+    }catch(e){console.error('Solana fetch failed',e);}
+  }
+
+  // Ethereum
+  if(phantomAccounts.ethereum){
+    document.getElementById('posLoadingMsg').textContent='Reading wallet data from Ethereum';
+    try{
+      const r=await fetch('/api/alchemy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({address:phantomAccounts.ethereum,network:'ethereum'})});
+      if(r.ok)ethData=await r.json();
+    }catch(e){console.error('Ethereum fetch failed',e);}
+  }
+
+  document.getElementById('posLoading').style.display='none';
+  document.getElementById('posContent').style.display='block';
+
+  let totalPositions=0;
+
+  // Render Solana
+  const solCont=document.getElementById('solPositions');
+  const solHeader=document.getElementById('solSectionLabel');
+  if(solData){
+    document.getElementById('solWalletShort').textContent=shortAddr(phantomAccounts.solana);
+    const positions=[];
+    // Native SOL
+    if(solData.native&&solData.native.balance>0){
+      positions.push({
+        sym:'SOL',name:'Solana',balance:solData.native.balance,
+        chain:'solana',kind:'native',
+        actions:['bridge']
+      });
+    }
+    // Stake accounts
+    if(solData.stakeAccounts&&solData.stakeAccounts.length>0){
+      const totalStaked=solData.stakeAccounts.reduce((s,a)=>s+a.balance,0);
+      positions.push({
+        sym:'SOL (staked)',name:'Staked SOL',balance:totalStaked,
+        chain:'solana',kind:'stake',
+        stakeAccounts:solData.stakeAccounts,
+        actions:['unstake']
+      });
+    }
+    // SPL tokens
+    for(const t of (solData.tokens||[])){
+      const acts=[];
+      if(t.kind==='wrapped')acts.push('unwrap');
+      if(t.kind==='lst')acts.push('unstake');
+      acts.push('bridge');
+      positions.push({
+        sym:t.symbol,name:t.name,balance:t.balance,
+        chain:'solana',kind:t.kind,
+        unwraps_to:t.unwraps_to,from_chain:t.from_chain,
+        mint:t.mint,
+        actions:acts
+      });
+    }
+    solHeader.textContent=`Solana — ${positions.length} positions`;
+    solCont.innerHTML=positions.length>0?positions.map((p,i)=>renderPosBox(p,i,'sol')).join(''):'<div class="coin-loading" style="grid-column:1/-1;padding:18px;font-size:10px;">No Solana positions found.</div>';
+    totalPositions+=positions.length;
+    window._solPositions=positions;
+  } else {
+    solHeader.textContent='Solana — not connected';
+    solCont.innerHTML='<div class="coin-loading" style="grid-column:1/-1;padding:14px;font-size:10px;color:var(--dim);">Solana wallet not connected.</div>';
+  }
+
+  // Render Ethereum
+  const ethCont=document.getElementById('ethPositions');
+  const ethHeader=document.getElementById('ethSectionLabel');
+  if(ethData){
+    document.getElementById('ethWalletShort').textContent=shortAddr(phantomAccounts.ethereum);
+    const positions=[];
+    if(ethData.native&&ethData.native.balance>0){
+      positions.push({
+        sym:'ETH',name:'Ethereum',balance:ethData.native.balance,
+        chain:'ethereum',kind:'native',
+        actions:['bridge']
+      });
+    }
+    for(const t of (ethData.tokens||[])){
+      positions.push({
+        sym:t.symbol,name:t.name,balance:t.balance,
+        chain:'ethereum',kind:'token',
+        contract:t.contract,
+        actions:['bridge']
+      });
+    }
+    ethHeader.textContent=`Ethereum — ${positions.length} positions`;
+    ethCont.innerHTML=positions.length>0?positions.map((p,i)=>renderPosBox(p,i,'eth')).join(''):'<div class="coin-loading" style="grid-column:1/-1;padding:18px;font-size:10px;">No Ethereum positions found.</div>';
+    totalPositions+=positions.length;
+    window._ethPositions=positions;
+  } else if(phantomAccounts.ethereum) {
+    ethHeader.textContent='Ethereum — failed to load';
+    ethCont.innerHTML='<div class="coin-loading" style="grid-column:1/-1;padding:14px;font-size:10px;color:var(--amber);">Failed to load Ethereum positions. Check that ALCHEMY_API_KEY is configured.</div>';
+  } else {
+    ethHeader.textContent='Ethereum — not connected';
+    ethCont.innerHTML='<div class="coin-loading" style="grid-column:1/-1;padding:14px;font-size:10px;color:var(--dim);">Ethereum wallet not connected via Phantom.</div>';
+  }
+
+  document.getElementById('posCount').textContent=totalPositions+' position'+(totalPositions===1?'':'s');
+  document.getElementById('posLastUpdated').textContent='Updated '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  positionsLoaded=true;
+}
+
+function renderPosBox(p,i,bucket){
+  let tag='';
+  if(p.kind==='wrapped')tag='<div class="pos-tag wrapped">Wrapped</div>';
+  else if(p.kind==='lst')tag='<div class="pos-tag lst">LST</div>';
+  else if(p.kind==='stake')tag='<div class="pos-tag stake">Staked</div>';
+  let hint='Click to bridge';
+  if(p.actions.includes('unwrap'))hint='Click to unwrap or bridge';
+  else if(p.actions.includes('unstake'))hint='Click to unstake';
+  return `<div class="pos-box has-action" onclick="openPositionActions('${bucket}',${i})">
+    ${tag}
+    <div class="pos-sym">${p.sym}</div>
+    <div class="pos-name">${p.name}</div>
+    <div class="pos-bal">${fmtBal(p.balance)}</div>
+    <div class="pos-chain">${p.chain}</div>
+    <div class="pos-action-hint">→ ${hint}</div>
+  </div>`;
+}
+
+/* ── POSITION ACTION FLOW ──────────────────────────── */
+function openPositionActions(bucket,idx){
+  const list=bucket==='sol'?window._solPositions:window._ethPositions;
+  activePosition=list[idx];
+  if(!activePosition)return;
+  showActionStep('act-choose');
+  document.getElementById('actionModal').classList.add('show');
+  renderActionChoose();
+}
+
+function showActionStep(id){
+  document.querySelectorAll('.action-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function closeActionModal(){
+  document.getElementById('actionModal').classList.remove('show');
+  activePosition=null;
+  activeAction=null;
+}
+
+function renderActionChoose(){
+  const p=activePosition;
+  document.getElementById('actChooseH').textContent='Actions for '+p.sym;
+  document.getElementById('actChooseSub').textContent='You have '+fmtBal(p.balance)+' '+p.sym+' on '+p.chain+'. What would you like to do?';
+
+  document.getElementById('actPosCard').innerHTML=`
+    <div class="apc-row"><span class="apc-l">Asset</span><span class="apc-v">${p.sym}</span></div>
+    <div class="apc-row"><span class="apc-l">Balance</span><span class="apc-v">${fmtBal(p.balance)} ${p.sym}</span></div>
+    <div class="apc-row"><span class="apc-l">Chain</span><span class="apc-v">${p.chain}</span></div>
+    ${p.kind==='wrapped'?`<div class="apc-row"><span class="apc-l">Originally from</span><span class="apc-v">${p.from_chain||'—'}</span></div>`:''}
+  `;
+
+  const opts=[];
+  if(p.actions.includes('unwrap')){
+    opts.push({key:'unwrap',glyph:'↩',title:'Unwrap to '+p.unwraps_to,desc:'Move this back to its original chain ('+(p.from_chain||'native')+').'});
+  }
+  if(p.actions.includes('unstake')){
+    opts.push({key:'unstake',glyph:'↧',title:'Unstake',desc:'Convert this back to liquid '+(p.kind==='stake'?'SOL':p.sym.replace(/^[a-z]+/i,'')||'underlying')+'.'});
+  }
+  if(p.actions.includes('bridge')){
+    opts.push({key:'bridge',glyph:'⇄',title:'Bridge to another chain',desc:'Move this to a different blockchain (Solana, Ethereum, Base, Polygon, Arbitrum, Bitcoin).'});
+  }
+
+  document.getElementById('actOptionsList').innerHTML=opts.map(o=>`
+    <div class="action-option" onclick="chooseAction('${o.key}')">
+      <div class="action-option-glyph">${o.glyph}</div>
+      <div class="action-option-info">
+        <div class="action-option-t">${o.title}</div>
+        <div class="action-option-d">${o.desc}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function chooseAction(action){
+  activeAction=action;
+  showActionStep('act-input');
+  renderActionInput();
+}
+
+function renderActionInput(){
+  const p=activePosition;
+  const a=activeAction;
+
+  let title='', sub='', fields='';
+  if(a==='bridge'){
+    title='Bridge '+p.sym;
+    sub='Specify how much to move and where.';
+    const chains=p.chain==='solana'
+      ? ['ethereum','base','polygon','arbitrum','bitcoin']
+      : ['solana','base','polygon','arbitrum','bitcoin'];
+    fields=`
+      <div class="row"><label>Amount to bridge</label><input type="text" id="act-amount" placeholder="Max: ${fmtBal(p.balance)} ${p.sym}" value=""/></div>
+      <div class="row"><label>Destination chain</label>
+        <select id="act-destchain">
+          <option value="">Select destination chain...</option>
+          ${chains.map(c=>`<option value="${c}">${c.charAt(0).toUpperCase()+c.slice(1)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="row"><label>Destination address (optional, defaults to your Phantom)</label><input type="text" id="act-destaddr" placeholder="Leave empty to send to your own wallet"/></div>`;
+  } else if(a==='unwrap'){
+    title='Unwrap '+p.sym+' → '+p.unwraps_to;
+    sub='Convert your wrapped '+p.sym+' back to native '+p.unwraps_to+' on the '+(p.from_chain||'underlying')+' chain.';
+    fields=`
+      <div class="row"><label>Amount to unwrap</label><input type="text" id="act-amount" placeholder="Max: ${fmtBal(p.balance)} ${p.sym}" value=""/></div>
+      <div class="row"><label>Receive on (${p.from_chain||'underlying'} chain) address</label><input type="text" id="act-destaddr" placeholder="Your address on the destination chain"/></div>`;
+  } else if(a==='unstake'){
+    title='Unstake '+p.sym;
+    sub=p.kind==='stake'
+      ? 'Begin deactivation of your native SOL stake. Funds become withdrawable after the next epoch.'
+      : 'Convert your '+p.sym+' back to liquid SOL via the staking protocol.';
+    fields=`
+      <div class="row"><label>Amount to unstake</label><input type="text" id="act-amount" placeholder="Max: ${fmtBal(p.balance)} ${p.sym}" value=""/></div>
+      <div class="row"><label>Receive on (Solana) address</label><input type="text" id="act-destaddr" placeholder="Defaults to your own Phantom Solana address" value="${phantomAccounts.solana||''}"/></div>`;
+  }
+
+  document.getElementById('actInputH').textContent=title;
+  document.getElementById('actInputSub').textContent=sub;
+  document.getElementById('actInputPosCard').innerHTML=`
+    <div class="apc-row"><span class="apc-l">Asset</span><span class="apc-v">${p.sym}</span></div>
+    <div class="apc-row"><span class="apc-l">Available</span><span class="apc-v">${fmtBal(p.balance)} ${p.sym}</span></div>
+  `;
+  document.getElementById('actInputFields').innerHTML=fields;
+}
+
+function goToActChoose(){showActionStep('act-choose');}
+function goToActInput(){showActionStep('act-input');renderActionInput();}
+
+function goToActConfirm(){
+  const p=activePosition;
+  const a=activeAction;
+  const amount=document.getElementById('act-amount').value.trim();
+  if(!amount||parseFloat(amount)<=0){alert('Enter an amount.');return;}
+  if(parseFloat(amount)>p.balance){alert('Amount exceeds your balance of '+fmtBal(p.balance)+' '+p.sym+'.');return;}
+
+  const destChain=document.getElementById('act-destchain')?.value;
+  const destAddr=document.getElementById('act-destaddr')?.value.trim()||phantomAccounts.solana||'';
+
+  // Estimate fees (rough)
+  let feeUsd=0.5;
+  let estTime='5-10 min';
+  if(a==='bridge'){
+    if(p.chain==='solana'){feeUsd=destChain==='bitcoin'?8:1.5;estTime=destChain==='bitcoin'?'30-60 min':'2-5 min';}
+    else if(p.chain==='ethereum'){feeUsd=destChain==='solana'?6:4;estTime='5-10 min';}
+  } else if(a==='unwrap'){
+    feeUsd=p.from_chain==='bitcoin'?7:4;
+    estTime=p.from_chain==='bitcoin'?'15-45 min':'2-5 min';
+  } else if(a==='unstake'){
+    feeUsd=0.01;
+    estTime=p.kind==='stake'?'2-3 days (epoch)':'~5 sec';
+  }
+
+  // Persist for executeAction
+  window._actInputs={amount,destChain,destAddr,feeUsd,estTime};
+
+  let dest='';
+  if(a==='bridge')dest=destChain||'—';
+  else if(a==='unwrap')dest=p.from_chain;
+  else if(a==='unstake')dest='solana';
+
+  document.getElementById('actConfirmSummary').innerHTML=`
+    <div class="ps-row"><span class="ps-l">Action</span><span class="ps-v">${a.toUpperCase()}</span></div>
+    <div class="ps-row"><span class="ps-l">Asset</span><span class="ps-v">${p.sym}</span></div>
+    <div class="ps-row"><span class="ps-l">Amount</span><span class="ps-v">${amount} ${p.sym}</span></div>
+    <div class="ps-row"><span class="ps-l">From chain</span><span class="ps-v">${p.chain}</span></div>
+    <div class="ps-row"><span class="ps-l">To chain</span><span class="ps-v">${dest}</span></div>
+    <div class="ps-row"><span class="ps-l">Destination</span><span class="ps-v">${shortAddr(destAddr)||'your wallet'}</span></div>
+    <div class="ps-row"><span class="ps-l">Est. fee</span><span class="ps-v">~$${feeUsd.toFixed(2)}</span></div>
+    <div class="ps-row"><span class="ps-l">Est. time</span><span class="ps-v">${estTime}</span></div>
+    <div class="ps-row"><span class="ps-l">You'll receive</span><span class="ps-v">~${(parseFloat(amount)*0.998).toFixed(4)} ${a==='unwrap'?p.unwraps_to:(a==='unstake'&&p.kind==='stake'?'SOL':p.sym)}</span></div>
+  `;
+  showActionStep('act-confirm');
+}
+
+async function executeAction(){
+  showActionStep('act-signing');
+  const p=activePosition;
+  const a=activeAction;
+  const inp=window._actInputs||{};
+  try{
+    let signature='';
+    const intent=`${a.toUpperCase()} ${inp.amount} ${p.sym} from ${p.chain}${inp.destChain?' to '+inp.destChain:''} via WooJung Crypto Tool [${Date.now()}]`;
+    if(p.chain==='solana'||a==='unstake'||a==='unwrap'){
+      const provider=window.phantom?.solana||window.solana;
+      if(!provider)throw new Error('Phantom Solana provider not available');
+      const result=await provider.signMessage(new TextEncoder().encode(intent),'utf8');
+      signature=Array.from(result.signature).map(b=>b.toString(16).padStart(2,'0')).join('');
+    } else if(p.chain==='ethereum'){
+      const provider=window.phantom?.ethereum;
+      if(!provider)throw new Error('Phantom Ethereum provider not available');
+      signature=await provider.request({method:'personal_sign',params:[intent,phantomAccounts.ethereum]});
+    }
+    document.getElementById('actSuccessHash').textContent=signature.slice(0,80)+(signature.length>80?'…':'');
+    document.getElementById('actSuccessSummary').innerHTML=`
+      <div class="ps-row"><span class="ps-l">Action</span><span class="ps-v">${a.toUpperCase()}</span></div>
+      <div class="ps-row"><span class="ps-l">Amount</span><span class="ps-v">${inp.amount} ${p.sym}</span></div>
+      <div class="ps-row"><span class="ps-l">From</span><span class="ps-v">${p.chain}</span></div>
+      ${inp.destChain?`<div class="ps-row"><span class="ps-l">To</span><span class="ps-v">${inp.destChain}</span></div>`:''}
+    `;
+    showActionStep('act-success');
+  }catch(e){
+    document.getElementById('actErrorMsg').textContent=e.message||'The signing request was cancelled or failed.';
+    showActionStep('act-error');
+  }
+}
 
 /* ══ AI HELPER ═════════════════════════════════════════ */
 async function callClaude(sys,msg,maxTokens=1200){
