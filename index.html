@@ -8,315 +8,128 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
 <style>
 :root{
-  --yellow:    #f5c518;
-  --yellow-dk: #d9ad14;
-  --paper:     #f5f0e1;
-  --paper-2:   #ebe5d3;
-  --ink:       #1a1a1a;
-  --ink-soft:  #2a2a2a;
-  --mid:       #555550;
-  --dim:       #8a8780;
-  --rule:      #1a1a1a;
-  --halftone:  rgba(26,26,26,0.18);
-  --sans:      'Space Grotesk', system-ui, sans-serif;
-  --mono:      'JetBrains Mono', monospace;
-  --shadow:    8px 8px 0 var(--ink);
-  --shadow-sm: 4px 4px 0 var(--ink);
+  --yellow:   #f5c518;
+  --paper:    #f5f0e1;
+  --paper-2:  #ebe5d3;
+  --ink:      #1a1a1a;
+  --ink-soft: #2a2a2a;
+  --mid:      #555550;
+  --dim:      #8a8780;
+  --sans:     'Space Grotesk', system-ui, sans-serif;
+  --mono:     'JetBrains Mono', monospace;
+  --shadow:   8px 8px 0 var(--ink);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;}
-body{
-  background:var(--yellow);
-  font-family:var(--sans);
-  color:var(--ink);
-  display:flex;flex-direction:column;
-  overflow:hidden;
-}
+html,body{height:100%;overflow:hidden;}
+body{background:var(--yellow);font-family:var(--sans);color:var(--ink);display:flex;flex-direction:column;}
 
-/* ── MENUBAR ─────────────────────────────────── */
-.mbar{
-  height:32px;background:var(--paper);
-  border-bottom:2.5px solid var(--ink);
-  display:flex;align-items:center;
-  padding:0 16px;flex-shrink:0;z-index:50;
-  font-weight:600;
-}
-.mbar-logo{
-  font-family:var(--sans);font-weight:700;font-size:13px;
-  color:var(--ink);margin-right:24px;letter-spacing:-.01em;
-}
-.mbar-logo::before{
-  content:'◆';margin-right:7px;
-}
-.mbar-item{
-  font-size:12px;font-weight:500;
-  color:var(--ink);padding:0 12px;height:100%;
-  display:flex;align-items:center;cursor:default;
-}
+/* ── MENUBAR ── */
+.mbar{height:32px;background:var(--paper);border-bottom:2.5px solid var(--ink);display:flex;align-items:center;padding:0 16px;flex-shrink:0;z-index:100;}
+.mbar-logo{font-family:var(--sans);font-weight:700;font-size:13px;color:var(--ink);margin-right:24px;letter-spacing:-.01em;}
+.mbar-logo::before{content:'◆';margin-right:7px;}
+.mbar-item{font-size:12px;font-weight:500;color:var(--ink);padding:0 12px;height:100%;display:flex;align-items:center;cursor:default;}
 .mbar-item:hover{background:var(--ink);color:var(--paper);}
 .mbar-r{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink);font-weight:500;}
 
-/* ── DESKTOP ─────────────────────────────────── */
-.desktop{
-  flex:1;display:flex;align-items:flex-start;justify-content:center;
-  gap:36px;padding:40px 48px 48px;overflow:hidden;
-  position:relative;
-}
-.desktop-right{
-  display:flex;flex-direction:column;gap:24px;flex-shrink:0;width:520px;
-}
+/* ── DESKTOP ── */
+.desktop{flex:1;position:relative;overflow:hidden;}
 
-/* Floating desktop icons — top-right corner */
-.desktop-icons{
-  position:absolute;top:48px;right:48px;
-  display:flex;gap:36px;
+/* ── DESKTOP FOLDER ICONS ── */
+.desk-folder{
+  position:absolute;
+  display:flex;flex-direction:column;align-items:center;gap:7px;
+  cursor:pointer;user-select:none;width:88px;
+  padding:8px 6px;border-radius:6px;
+  transition:background .12s;
+  -webkit-tap-highlight-color:transparent;
 }
-.dicon{
-  display:flex;flex-direction:column;align-items:center;gap:6px;
-  cursor:pointer;width:64px;
-}
-.dicon-img{
-  width:48px;height:48px;
-  display:flex;align-items:center;justify-content:center;
-}
-.dicon-img svg{width:48px;height:48px;}
-.dicon-label{
+.desk-folder:hover{background:rgba(26,26,26,0.1);}
+.desk-folder.selected{background:rgba(26,26,26,0.18);}
+.folder-svg-wrap{width:72px;height:60px;transition:transform .1s;display:flex;align-items:center;justify-content:center;}
+.folder-svg-wrap svg{width:72px;height:60px;overflow:visible;}
+.desk-folder:active .folder-svg-wrap{transform:scale(0.93);}
+.desk-folder-label{
   font-family:var(--sans);font-weight:700;font-size:12px;
-  color:var(--ink);text-align:center;letter-spacing:-.01em;
+  color:var(--ink);text-align:center;letter-spacing:-.01em;line-height:1.2;
+  background:var(--paper);border:1.5px solid var(--ink);border-radius:3px;padding:2px 8px;
 }
+.desk-folder.selected .desk-folder-label{background:var(--ink);color:var(--paper);}
 
-/* ── WINDOWS ─────────────────────────────────── */
+/* ── WINDOWS ── */
 .win{
+  position:absolute;
   background:var(--paper);
   border:2.5px solid var(--ink);
   border-radius:6px;
-  width:520px;flex-shrink:0;
-  display:flex;flex-direction:column;
+  display:none; /* hidden until opened */
+  flex-direction:column;
   box-shadow:var(--shadow);
-  position:relative;
-  animation:winIn .25s cubic-bezier(.4,0,.2,1) both;
+  min-width:240px;
 }
-.win:nth-child(2){animation-delay:.08s;}
+.win.open{display:flex;}
+@keyframes winPop{from{opacity:0;transform:translate(-5px,-5px) scale(0.96);}to{opacity:1;transform:translate(0,0) scale(1);}}
+.win.popping{animation:winPop .18s cubic-bezier(.4,0,.2,1) both;}
+
+/* About window always visible */
+#w-about{display:flex;}
 @keyframes winIn{from{opacity:0;transform:translate(-4px,-4px);}to{opacity:1;transform:translate(0,0);}}
+#w-about{animation:winIn .25s cubic-bezier(.4,0,.2,1) both;}
 
-/* Title bar — flat, same color as body, separated by rule */
-.win-tb{
-  height:36px;
-  display:flex;align-items:center;
-  padding:0 14px;gap:8px;
-  border-bottom:2px solid var(--ink);
-  cursor:grab;
-  border-radius:4px 4px 0 0;
-}
+.win-tb{height:36px;display:flex;align-items:center;padding:0 14px;gap:8px;border-bottom:2px solid var(--ink);cursor:grab;flex-shrink:0;border-radius:4px 4px 0 0;}
 .win-tb:active{cursor:grabbing;}
-
 .dots{display:flex;gap:7px;align-items:center;flex-shrink:0;}
-.dot{
-  width:14px;height:14px;border-radius:50%;
-  border:2px solid var(--ink);
-  background:transparent;
-}
+.dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--ink);background:transparent;}
+.dot-close{cursor:pointer;}
+.dot-close:hover{background:var(--ink);}
+.win-title{flex:1;text-align:center;font-family:var(--sans);font-weight:600;font-size:12px;color:var(--ink);letter-spacing:-.01em;}
 
-.win-title{
-  flex:1;text-align:center;
-  font-family:var(--sans);font-weight:600;font-size:12px;
-  color:var(--ink);letter-spacing:-.01em;
-}
-
-/* Toolbar — icons + dropdown style */
-.win-tools{
-  height:38px;
-  display:flex;align-items:center;
-  padding:0 12px;gap:8px;
-  border-bottom:2px solid var(--ink);
-}
-.tbtn{
-  height:24px;min-width:24px;padding:0 8px;
-  background:var(--paper);border:1.5px solid var(--ink);border-radius:3px;
-  font-family:var(--sans);font-size:11px;font-weight:600;color:var(--ink);
-  display:flex;align-items:center;justify-content:center;gap:4px;
-  cursor:pointer;
-  transition:transform .08s, box-shadow .08s;
-}
+.win-tools{height:38px;display:flex;align-items:center;padding:0 12px;gap:8px;border-bottom:2px solid var(--ink);flex-shrink:0;}
+.tbtn{height:24px;min-width:24px;padding:0 8px;background:var(--paper);border:1.5px solid var(--ink);border-radius:3px;font-family:var(--sans);font-size:11px;font-weight:600;color:var(--ink);display:flex;align-items:center;justify-content:center;gap:4px;cursor:pointer;transition:transform .08s,box-shadow .08s;}
 .tbtn:hover{transform:translate(-1px,-1px);box-shadow:2px 2px 0 var(--ink);}
 .tbtn:active{transform:translate(0,0);box-shadow:none;}
 .tbtn.off{opacity:.4;cursor:not-allowed;pointer-events:none;}
 .tsep{width:2px;height:20px;background:var(--ink);margin:0 4px;}
 
-.win-addr{
-  height:32px;
-  display:flex;align-items:center;
-  padding:0 12px;gap:10px;
-  border-bottom:2px solid var(--ink);
-}
-.albl{
-  font-family:var(--mono);font-size:10px;font-weight:600;
-  color:var(--ink);text-transform:uppercase;letter-spacing:.06em;
-}
-.apath{
-  flex:1;
-  font-family:var(--mono);font-size:10px;color:var(--ink-soft);
-  background:var(--paper-2);border:1.5px solid var(--ink);border-radius:3px;
-  padding:2px 8px;height:22px;
-  display:flex;align-items:center;font-weight:500;
-}
+.win-addr{height:32px;display:flex;align-items:center;padding:0 12px;gap:10px;border-bottom:2px solid var(--ink);flex-shrink:0;}
+.albl{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--ink);text-transform:uppercase;letter-spacing:.06em;}
+.apath{flex:1;font-family:var(--mono);font-size:10px;color:var(--ink-soft);background:var(--paper-2);border:1.5px solid var(--ink);border-radius:3px;padding:2px 8px;height:22px;display:flex;align-items:center;font-weight:500;}
 
-.win-body{
-  flex:1;padding:24px;background:var(--paper);
-  overflow-y:auto;min-height:340px;
-  position:relative;
-}
-
-/* Halftone scrollbar */
+.win-body{flex:1;padding:24px;background:var(--paper);overflow-y:auto;}
 .win-body::-webkit-scrollbar{width:14px;}
-.win-body::-webkit-scrollbar-track{
-  background:var(--paper);
-  border-left:2px solid var(--ink);
-}
-.win-body::-webkit-scrollbar-thumb{
-  background-image:radial-gradient(circle,var(--ink) 1.4px,transparent 1.4px);
-  background-size:5px 5px;
-  border-left:2px solid var(--ink);
-}
+.win-body::-webkit-scrollbar-track{background:var(--paper);border-left:2px solid var(--ink);}
+.win-body::-webkit-scrollbar-thumb{background-image:radial-gradient(circle,var(--ink) 1.4px,transparent 1.4px);background-size:5px 5px;border-left:2px solid var(--ink);}
 
-/* Status bar */
-.win-sbar{
-  height:28px;
-  display:flex;align-items:center;
-  padding:0 12px;gap:0;
-  border-top:2px solid var(--ink);
-  background:var(--paper-2);
-}
-.sseg{
-  font-family:var(--mono);font-size:10px;font-weight:600;
-  color:var(--ink);letter-spacing:.04em;
-  padding:0 10px;
-}
+.win-sbar{height:28px;display:flex;align-items:center;padding:0 12px;border-top:2px solid var(--ink);background:var(--paper-2);flex-shrink:0;}
+.sseg{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--ink);letter-spacing:.04em;padding:0 10px;}
 .sseg+.sseg{border-left:1.5px solid var(--ink);}
 
-/* ── BIO CONTENT ─────────────────────────────── */
-.bio-top{
-  display:flex;flex-direction:column;align-items:center;
-  text-align:center;
-  padding:8px 0 22px;
-  border-bottom:2px solid var(--ink);
-  margin-bottom:22px;
-  position:relative;
-}
-
-.bio-mark{
-  width:90px;height:90px;
-  display:flex;align-items:center;justify-content:center;
-  margin-bottom:14px;
-}
+/* ── BIO CONTENT ── */
+.bio-top{display:flex;flex-direction:column;align-items:center;text-align:center;padding:8px 0 22px;border-bottom:2px solid var(--ink);margin-bottom:22px;}
+.bio-mark{width:90px;height:90px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
 .bio-mark svg{width:90px;height:90px;}
-
-.bio-greeting{
-  font-family:var(--sans);font-weight:700;
-  font-size:32px;letter-spacing:-.03em;
-  color:var(--ink);margin-bottom:4px;line-height:1;
-}
-.bio-name{
-  font-family:var(--sans);font-weight:600;font-size:14px;
-  color:var(--ink);letter-spacing:-.01em;
-}
-
-.bio-section-h{
-  font-family:var(--mono);font-size:10px;font-weight:700;
-  letter-spacing:.14em;text-transform:uppercase;
-  color:var(--ink);margin-bottom:10px;
-}
-
-.bio-text{
-  font-family:var(--sans);font-size:13px;font-weight:400;
-  color:var(--ink-soft);line-height:1.7;margin-bottom:22px;
-}
-
-.bio-actions{
-  display:flex;flex-direction:column;gap:10px;
-  padding-top:18px;border-top:2px solid var(--ink);
-}
-
-.heavy-btn{
-  display:block;width:100%;
-  padding:11px 16px;
-  background:var(--paper);
-  border:2.5px solid var(--ink);border-radius:5px;
-  font-family:var(--sans);font-weight:600;font-size:13px;
-  color:var(--ink);text-decoration:none;text-align:center;
-  cursor:pointer;
-  transition:transform .1s, box-shadow .1s;
-  letter-spacing:-.01em;
-}
+.bio-greeting{font-family:var(--sans);font-weight:700;font-size:32px;letter-spacing:-.03em;color:var(--ink);margin-bottom:4px;line-height:1;}
+.bio-name{font-family:var(--sans);font-weight:600;font-size:14px;color:var(--ink);letter-spacing:-.01em;}
+.bio-section-h{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);margin-bottom:10px;}
+.bio-text{font-family:var(--sans);font-size:13px;font-weight:400;color:var(--ink-soft);line-height:1.7;margin-bottom:22px;}
+.bio-actions{display:flex;flex-direction:column;gap:10px;padding-top:18px;border-top:2px solid var(--ink);}
+.heavy-btn{display:block;width:100%;padding:11px 16px;background:var(--paper);border:2.5px solid var(--ink);border-radius:5px;font-family:var(--sans);font-weight:600;font-size:13px;color:var(--ink);text-decoration:none;text-align:center;cursor:pointer;transition:transform .1s,box-shadow .1s;letter-spacing:-.01em;}
 .heavy-btn:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink);}
 .heavy-btn:active{transform:translate(0,0);box-shadow:none;}
+.bio-footer{margin-top:18px;padding-top:14px;border-top:2px solid var(--ink);text-align:center;font-family:var(--mono);font-size:9px;font-weight:600;color:var(--mid);letter-spacing:.08em;text-transform:uppercase;}
 
-.bio-footer{
-  margin-top:18px;padding-top:14px;border-top:2px solid var(--ink);
-  text-align:center;
-  font-family:var(--mono);font-size:9px;font-weight:600;
-  color:var(--ink-soft);letter-spacing:.08em;text-transform:uppercase;
-}
-
-/* ── PROJECTS CONTENT (file grid) ─────────────── */
-.file-grid{
-  display:grid;grid-template-columns:1fr;
-  gap:0;padding:0;
-}
-
-.file{
-  display:flex;flex-direction:column;align-items:center;gap:8px;
-  text-decoration:none;color:inherit;
-  cursor:pointer;
-  padding:8px 4px;border-radius:4px;
-  transition:background .12s;
-}
+/* ── PROJECTS CONTENT ── */
+.file{display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;color:inherit;cursor:pointer;padding:20px 4px;border-radius:4px;transition:background .12s;}
 .file:hover{background:var(--paper-2);}
-
-.file-icon{
-  width:64px;height:72px;
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;
-}
+.file-icon{width:64px;height:72px;display:flex;align-items:center;justify-content:center;}
 .file-icon svg{width:64px;height:72px;}
+.file-label{font-family:var(--sans);font-weight:700;font-size:12.5px;color:var(--ink);text-align:center;letter-spacing:-.01em;}
+.file-meta{font-family:var(--mono);font-size:9px;font-weight:600;color:var(--mid);letter-spacing:.06em;text-transform:uppercase;}
 
-.file-label{
-  font-family:var(--sans);font-weight:700;font-size:12.5px;
-  color:var(--ink);text-align:center;letter-spacing:-.01em;
-  line-height:1.25;
-}
-.file-meta{
-  font-family:var(--mono);font-size:9px;font-weight:600;
-  color:var(--mid);letter-spacing:.06em;text-transform:uppercase;
-  margin-top:-2px;
-}
-
-/* ── TASKBAR ──────────────────────────────────── */
-.tbar{
-  height:32px;background:var(--paper);
-  border-top:2.5px solid var(--ink);
-  display:flex;align-items:center;
-  padding:0 12px;gap:6px;flex-shrink:0;
-  font-weight:600;
-}
-.tpill{
-  height:22px;padding:0 10px;
-  background:var(--paper-2);border:1.5px solid var(--ink);border-radius:3px;
-  font-family:var(--sans);font-size:11px;font-weight:600;color:var(--ink);
-  display:flex;align-items:center;cursor:default;letter-spacing:-.01em;
-}
-.tr{margin-left:auto;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--ink);}
-
-/* ── RESPONSIVE ──────────────────────────────── */
-@media(max-width:1180px){
-  .desktop-icons{display:none;}
-  .win{width:460px;}
-}
-@media(max-width:980px){
-  .desktop{flex-direction:column;align-items:center;overflow-y:auto;padding:24px 20px 48px;}
-  .desktop-right{width:100%;max-width:520px;}
-  .win{width:100%;max-width:520px;}
-  body{overflow:hidden auto;}
+/* ── RESPONSIVE (mobile fallback — show everything stacked) ── */
+@media(max-width:700px){
+  .desk-folder{display:none;}
+  .desktop{overflow-y:auto;display:flex;flex-direction:column;align-items:center;gap:20px;padding:20px 12px 40px;}
+  .win{position:static!important;box-shadow:none!important;animation:none!important;display:flex!important;width:100%!important;max-width:480px!important;}
 }
 </style>
 </head>
@@ -332,36 +145,16 @@ body{
   <div class="mbar-r" id="mc"></div>
 </div>
 
-<div class="desktop">
+<div class="desktop" id="desktop">
 
-  <!-- DESKTOP ICONS (top-right) -->
-  <div class="desktop-icons">
-    <div class="dicon">
-      <div class="dicon-img">
-        <svg viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round">
-          <circle cx="24" cy="24" r="20"/>
-          <line x1="24" y1="6" x2="24" y2="42"/>
-          <line x1="6" y1="24" x2="42" y2="24"/>
-          <path d="M24 6 Q14 24 24 42 Q34 24 24 6"/>
-        </svg>
-      </div>
-      <div class="dicon-label">Network</div>
-    </div>
-    <div class="dicon">
-      <div class="dicon-img">
-        <svg viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round">
-          <circle cx="24" cy="24" r="20"/>
-          <polyline points="24,12 24,24 32,28"/>
-        </svg>
-      </div>
-      <div class="dicon-label">Clock</div>
-    </div>
-  </div>
-
-  <!-- WINDOW 1: ABOUT -->
-  <div class="win" id="w1">
+  <!-- ═══ ABOUT WINDOW — always open ══════════════════ -->
+  <div class="win" id="w-about" style="width:460px;top:40px;left:60px;z-index:10;">
     <div class="win-tb">
-      <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <div class="dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
       <div class="win-title">about — woojung_kim</div>
     </div>
     <div class="win-tools">
@@ -392,14 +185,11 @@ body{
         <div class="bio-greeting">Hello!</div>
         <div class="bio-name">WooJung Kim — Product Manager</div>
       </div>
-
       <div class="bio-section-h">About</div>
       <p class="bio-text">Product Manager with 4 years' experience building financial infrastructure at BlackRock and Amex, spanning $1T+ in notional exposure and global digital wallet integrations. Now focused on crypto and on-chain systems, leveraging AI-driven prototyping to rapidly ship and iterate on new product concepts.</p>
-
       <div class="bio-actions">
         <a href="https://linkedin.com/in/woojung-n-kim/" target="_blank" rel="noopener" class="heavy-btn">↗ LinkedIn</a>
       </div>
-
       <div class="bio-footer">WK Soft inc. 2025</div>
     </div>
     <div class="win-sbar">
@@ -408,9 +198,43 @@ body{
     </div>
   </div>
 
-  <!-- WINDOW 2: PROJECTS -->
-  <div class="win" id="w2" style="width:260px;">    <div class="win-tb">
-      <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+  <!-- ═══ PROJECTS FOLDER ICON ═══════════════════════ -->
+  <div class="desk-folder" id="folder-projects"
+       style="top:80px;right:80px;"
+       onclick="selectFolder('projects')"
+       ondblclick="openWindow('w-projects','folder-projects')">
+    <div class="folder-svg-wrap">
+      <svg viewBox="0 0 72 60" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M4 16 L22 16 L28 24 L68 24 L68 56 L4 56 Z" fill="#f5f0e1"/>
+        <line x1="18" y1="36" x2="54" y2="36" stroke-width="2"/>
+        <line x1="18" y1="43" x2="44" y2="43" stroke-width="2"/>
+      </svg>
+    </div>
+    <div class="desk-folder-label">projects</div>
+  </div>
+
+  <!-- ═══ COLLECTIBLES FOLDER ICON ════════════════════ -->
+  <div class="desk-folder" id="folder-collectibles"
+       style="top:210px;right:80px;"
+       onclick="selectFolder('collectibles')"
+       ondblclick="openWindow('w-collectibles','folder-collectibles')">
+    <div class="folder-svg-wrap">
+      <svg viewBox="0 0 72 60" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M4 16 L22 16 L28 24 L68 24 L68 56 L4 56 Z" fill="#f5f0e1"/>
+        <polygon points="36,31 39,39 47,39 41,44 43,52 36,47 29,52 31,44 25,39 33,39" fill="none" stroke-width="1.8"/>
+      </svg>
+    </div>
+    <div class="desk-folder-label">collectibles</div>
+  </div>
+
+  <!-- ═══ PROJECTS WINDOW — hidden until double-click ═ -->
+  <div class="win" id="w-projects" style="width:260px;z-index:15;">
+    <div class="win-tb">
+      <div class="dots">
+        <div class="dot dot-close" onclick="closeWindow('w-projects','folder-projects')" title="Close"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
       <div class="win-title">projects — Finder</div>
     </div>
     <div class="win-tools">
@@ -419,45 +243,41 @@ body{
       <div class="tsep"></div>
       <button class="tbtn">↺</button>
       <button class="tbtn">⌂</button>
-      <div class="tsep"></div>
-      <button class="tbtn">⊞</button>
-      <button class="tbtn">≣</button>
     </div>
     <div class="win-addr">
       <span class="albl">Path</span>
       <div class="apath">~/woojung/projects/</div>
     </div>
-    <div class="win-body">
-      <div class="file-grid">
-
-        <a class="file" href="/crypto-tool">
-          <div class="file-icon">
-            <svg viewBox="0 0 64 72" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
-              <path d="M8 6 L46 6 L58 18 L58 66 L8 66 Z" fill="#f5f0e1"/>
-              <polyline points="46,6 46,18 58,18" fill="none"/>
-              <polygon points="32,28 44,38 38,52 26,52 20,38" fill="none"/>
-              <line x1="20" y1="38" x2="44" y2="38"/>
-              <line x1="32" y1="28" x2="26" y2="52"/>
-              <line x1="32" y1="28" x2="38" y2="52"/>
-            </svg>
-          </div>
-          <div class="file-label">crypto-tool</div>
-          <div class="file-meta">app · 1 mb</div>
-        </a>
-
-
-      </div>
+    <div class="win-body" style="display:flex;align-items:center;justify-content:center;">
+      <a class="file" href="/crypto-tool">
+        <div class="file-icon">
+          <svg viewBox="0 0 64 72" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+            <path d="M8 6 L46 6 L58 18 L58 66 L8 66 Z" fill="#f5f0e1"/>
+            <polyline points="46,6 46,18 58,18" fill="none"/>
+            <polygon points="32,28 44,38 38,52 26,52 20,38" fill="none"/>
+            <line x1="20" y1="38" x2="44" y2="38"/>
+            <line x1="32" y1="28" x2="26" y2="52"/>
+            <line x1="32" y1="28" x2="38" y2="52"/>
+          </svg>
+        </div>
+        <div class="file-label">crypto-tool</div>
+        <div class="file-meta">app · 1 mb</div>
+      </a>
     </div>
-<div class="win-sbar">
-      <span class="sseg">1 items</span>
+    <div class="win-sbar">
+      <span class="sseg">1 item</span>
       <span class="sseg">~/projects</span>
     </div>
   </div>
 
-  <!-- WINDOW 3: COLLECTIBLES -->
-  <div class="win" id="w3" style="width:220px;flex-shrink:0;">
+  <!-- ═══ COLLECTIBLES WINDOW — hidden until double-click -->
+  <div class="win" id="w-collectibles" style="width:220px;z-index:15;">
     <div class="win-tb">
-      <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <div class="dots">
+        <div class="dot dot-close" onclick="closeWindow('w-collectibles','folder-collectibles')" title="Close"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
       <div class="win-title">collectibles — 1 item</div>
     </div>
     <div class="win-tools">
@@ -469,17 +289,19 @@ body{
     </div>
     <div class="win-addr">
       <span class="albl">Chain</span>
-      <div class="apath">ethereum · ERC-721 · 0x56f9…f6bd</div>
+      <div class="apath">ethereum · ERC-721</div>
     </div>
-  <div class="win-body" style="padding:16px;">
-      <a href="https://opensea.io/assets/ethereum/0x56f9fb3f5c4c83e362bc1520ba235370f65ef6bd/63" target="_blank" rel="noopener" style="display:block;text-decoration:none;color:inherit;max-width:150px;margin:0 auto;">
-        <div style="border:2px solid var(--ink);border-radius:4px;overflow:hidden;transition:transform .1s,box-shadow .1s;" onmouseover="this.style.transform='translate(-2px,-2px)';this.style.boxShadow='4px 4px 0 var(--ink)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-          <img
-            src="https://ipfs.io/ipfs/QmPK2QbhRX6LL7NQnh8QiYG9tBhsdWevV6DH8p8PipRuP2/63"
-            alt="Makima #63"
-            style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-bottom:2px solid var(--ink);"
-            onerror="this.style.display='none';document.getElementById('nft-fallback').style.display='flex';"
-          />
+    <div class="win-body" style="padding:16px;">
+      <a href="https://opensea.io/assets/ethereum/0x56f9fb3f5c4c83e362bc1520ba235370f65ef6bd/63"
+         target="_blank" rel="noopener"
+         style="display:block;text-decoration:none;color:inherit;max-width:150px;margin:0 auto;">
+        <div style="border:2px solid var(--ink);border-radius:4px;overflow:hidden;transition:transform .1s,box-shadow .1s;"
+             onmouseover="this.style.transform='translate(-2px,-2px)';this.style.boxShadow='4px 4px 0 var(--ink)'"
+             onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <img src="https://ipfs.io/ipfs/QmPK2QbhRX6LL7NQnh8QiYG9tBhsdWevV6DH8p8PipRuP2/63"
+               alt="Makima #63"
+               style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-bottom:2px solid var(--ink);"
+               onerror="this.style.display='none';document.getElementById('nft-fallback').style.display='flex';"/>
           <div id="nft-fallback" style="display:none;width:100%;aspect-ratio:1/1;align-items:center;justify-content:center;background:var(--paper-2);font-family:var(--mono);font-size:9px;color:var(--mid);border-bottom:2px solid var(--ink);">Loading…</div>
           <div style="padding:7px 9px;background:var(--paper-2);">
             <div style="font-family:var(--mono);font-size:8px;font-weight:700;color:var(--mid);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px;">1/1 · Shout226</div>
@@ -493,10 +315,12 @@ body{
       <span class="sseg">1 collectible</span>
       <span class="sseg">Ethereum</span>
     </div>
+  </div>
 
-</div>
+</div><!-- /desktop -->
 
 <script>
+/* ── CLOCK ── */
 function tick(){
   const n=new Date();
   const t=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
@@ -506,32 +330,110 @@ function tick(){
 }
 tick();setInterval(tick,10000);
 
-document.querySelectorAll('.win').forEach(win=>{
+/* ── Z-INDEX MANAGEMENT ── */
+let topZ=20;
+function bringToFront(win){topZ++;win.style.zIndex=topZ;}
+
+/* ── FOLDER SELECTION ── */
+function selectFolder(name){
+  document.querySelectorAll('.desk-folder').forEach(f=>f.classList.remove('selected'));
+  document.getElementById('folder-'+name).classList.add('selected');
+}
+
+/* ── OPEN WINDOW ── */
+function openWindow(winId,folderId){
+  const win=document.getElementById(winId);
+  const folder=document.getElementById(folderId);
+
+  // Already open — just raise it
+  if(win.classList.contains('open')){bringToFront(win);return;}
+
+  // Position spawned near the folder icon
+  const fRect=folder.getBoundingClientRect();
+  const dRect=document.getElementById('desktop').getBoundingClientRect();
+  const winW=parseInt(win.style.width)||280;
+
+  let left=fRect.left-dRect.left-winW-32;
+  let top=fRect.top-dRect.top-16;
+
+  // Clamp inside desktop
+  left=Math.max(16,Math.min(left,dRect.width-winW-16));
+  top=Math.max(16,Math.min(top,dRect.height-200));
+
+  win.style.left=left+'px';
+  win.style.top=top+'px';
+  win.style.right='auto';
+
+  // Pop open with animation
+  win.classList.remove('popping');
+  win.classList.add('open');
+  void win.offsetWidth;
+  win.classList.add('popping');
+  bringToFront(win);
+
+  // Deselect folder shortly after
+  setTimeout(()=>folder.classList.remove('selected'),350);
+}
+
+/* ── CLOSE WINDOW ── */
+function closeWindow(winId,folderId){
+  document.getElementById(winId).classList.remove('open','popping');
+  const folder=document.getElementById(folderId);
+  folder.classList.add('selected');
+  setTimeout(()=>folder.classList.remove('selected'),480);
+}
+
+/* ── DRAGGABLE WINDOWS ── */
+function makeDraggable(win){
   const bar=win.querySelector('.win-tb');if(!bar)return;
-  let on=false,ox=0,oy=0;
+  let dragging=false,ox=0,oy=0;
+
   bar.addEventListener('mousedown',e=>{
-    on=true;
+    if(e.target.classList.contains('dot-close'))return;
+    dragging=true;
+    const dRect=document.getElementById('desktop').getBoundingClientRect();
     const r=win.getBoundingClientRect();
-    if(win.style.position!=='fixed'){
-      win.style.position='fixed';win.style.margin='0';
-      win.style.left=r.left+'px';win.style.top=r.top+'px';
-      win.style.width=r.width+'px';
+    // Normalise to desktop-relative coords
+    if(!win.style.left||win.style.right==='auto'&&!win.style.left){
+      win.style.left=(r.left-dRect.left)+'px';
+      win.style.top=(r.top-dRect.top)+'px';
     }
     ox=e.clientX-parseFloat(win.style.left);
     oy=e.clientY-parseFloat(win.style.top);
-    win.style.zIndex='30';
+    bringToFront(win);
     document.body.style.userSelect='none';
   });
+
   window.addEventListener('mousemove',e=>{
-    if(!on)return;
+    if(!dragging)return;
     win.style.left=(e.clientX-ox)+'px';
     win.style.top=(e.clientY-oy)+'px';
+    win.style.right='auto';
   });
-  window.addEventListener('mouseup',()=>{on=false;document.body.style.userSelect='';});
-  win.addEventListener('mousedown',()=>{
-    document.querySelectorAll('.win').forEach(w=>w.style.zIndex='10');
-    win.style.zIndex='20';
+
+  window.addEventListener('mouseup',()=>{dragging=false;document.body.style.userSelect='';});
+  win.addEventListener('mousedown',()=>bringToFront(win));
+}
+
+document.querySelectorAll('.win').forEach(makeDraggable);
+
+/* ── CLICK OUTSIDE DESELECTS FOLDERS ── */
+document.getElementById('desktop').addEventListener('click',e=>{
+  if(!e.target.closest('.desk-folder'))
+    document.querySelectorAll('.desk-folder').forEach(f=>f.classList.remove('selected'));
+});
+
+/* ── ESC closes topmost open window ── */
+window.addEventListener('keydown',e=>{
+  if(e.key!=='Escape')return;
+  const map={'w-projects':'folder-projects','w-collectibles':'folder-collectibles'};
+  let highest=0,topWin=null;
+  document.querySelectorAll('.win.open').forEach(w=>{
+    if(w.id==='w-about')return;
+    const z=parseInt(w.style.zIndex||0);
+    if(z>highest){highest=z;topWin=w;}
   });
+  if(topWin)closeWindow(topWin.id,map[topWin.id]);
 });
 </script>
 </body>
