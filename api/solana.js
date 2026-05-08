@@ -11,7 +11,7 @@ const KNOWN_TOKENS = {
   'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v': { symbol: 'USDC', name: 'USD Coin', kind: 'stable' },
   'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB': { symbol: 'USDT', name: 'Tether USD', kind: 'stable' },
   'mSoLzYCxHdYgdzU16g5QSh3i5K3z3KZK7ytfqcJm7So': { symbol: 'mSOL', name: 'Marinade Staked SOL', kind: 'lst' },
-  '7vfCXTUXx5WJV5JADk17DUJ4ksgau7utNKj4b963voxs': { symbol: 'wETH', name: 'Wrapped Ether (Wormhole)', kind: 'wrapped', unwraps_to: 'ETH', from_chain: 'ethereum' },  
+  '7vfCXTUXx5WJV5JADk17DUJ4ksgau7utNKj4b963voxs': { symbol: 'ETH', name: 'Ether (Wormhole)', kind: 'wrapped', unwraps_to: 'ETH', from_chain: 'ethereum' },  
   'J1toso1uCk3RLmjorhTtrVwY9HJ7X8V9yYac6Y7kGCPn': { symbol: 'JitoSOL', name: 'Jito Staked SOL', kind: 'lst' },
   'pSo1f9nQXWgXibFtKf7NWYxb5enAM4qfP6UJSiXRQfL': { symbol: 'pSOL', name: 'Phantom Staked SOL', kind: 'lst' },
   'bSo13r4TkiE4KumL71LsHTPpL2euBYLFx6h9HP3piy1': { symbol: 'bSOL', name: 'BlazeStake Staked SOL', kind: 'lst' },
