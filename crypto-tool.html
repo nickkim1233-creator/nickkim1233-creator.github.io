@@ -5,271 +5,354 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Crypto Tool — WooJung Kim</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
 <style>
 :root{
-  --cream:#f0ebe3;--p0:#ede8df;--p1:#e8e2d8;--p2:#ddd7cb;--p3:#ccc5b7;
-  --rule:#d4cec4;--dim:#a09a8e;--mid:#6b6660;--ink:#2a2520;
-  --green:#1a6840;--green-bg:rgba(26,104,64,0.08);--green-bd:rgba(26,104,64,0.25);
-  --amber:#864b00;--amber-bg:rgba(134,75,0,0.08);--amber-bd:rgba(134,75,0,0.25);
-  --red:#9e2626;--red-bg:rgba(158,38,38,0.08);--red-bd:rgba(158,38,38,0.25);
-  --sans:'Plus Jakarta Sans',sans-serif;--mono:'JetBrains Mono',monospace;
+  --yellow:    #f5c518;
+  --yellow-dk: #d9ad14;
+  --paper:     #f5f0e1;
+  --paper-2:   #ebe5d3;
+  --paper-3:   #ddd6c0;
+  --ink:       #1a1a1a;
+  --ink-soft:  #2a2a2a;
+  --mid:       #555550;
+  --dim:       #8a8780;
+  --green:     #1a6840;
+  --green-bg:  #d8e8d8;
+  --amber:     #864b00;
+  --amber-bg:  #f3e3c4;
+  --red:       #9e2626;
+  --red-bg:    #f1d5d1;
+  --sans:      'Space Grotesk', system-ui, sans-serif;
+  --mono:      'JetBrains Mono', monospace;
+  --shadow:    8px 8px 0 var(--ink);
+  --shadow-sm: 4px 4px 0 var(--ink);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{background:var(--cream);background-image:radial-gradient(circle,var(--p3) 1px,transparent 1px);background-size:24px 24px;font-family:var(--sans);min-height:100vh;}
+body{
+  background:var(--yellow);
+  font-family:var(--sans);color:var(--ink);
+  min-height:100vh;
+}
 
-/* ── MENUBAR ── */
-.mbar{position:sticky;top:0;z-index:200;height:24px;background:var(--p1);border-bottom:1px solid var(--rule);display:flex;align-items:center;padding:0 12px;}
-.mbar-logo{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--ink);margin-right:16px;text-decoration:none;}
-.mbar-item{font-family:var(--sans);font-size:11px;font-weight:500;color:var(--mid);padding:0 10px;height:100%;display:flex;align-items:center;cursor:default;transition:background .1s,color .1s;text-decoration:none;}
-.mbar-item:hover{background:var(--ink);color:var(--p0);}
-.mbar-r{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.04em;}
+/* ── MENUBAR ───────────────────── */
+.mbar{
+  position:sticky;top:0;z-index:200;
+  height:32px;background:var(--paper);
+  border-bottom:2.5px solid var(--ink);
+  display:flex;align-items:center;padding:0 16px;
+}
+.mbar-logo{font-family:var(--sans);font-weight:700;font-size:13px;color:var(--ink);margin-right:24px;text-decoration:none;}
+.mbar-logo::before{content:'◆';margin-right:7px;}
+.mbar-item{font-size:12px;font-weight:500;color:var(--ink);padding:0 12px;height:100%;display:flex;align-items:center;cursor:default;text-decoration:none;}
+.mbar-item:hover{background:var(--ink);color:var(--paper);}
+.mbar-r{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink);font-weight:500;}
 
-.desktop{padding:28px 32px 48px;display:flex;flex-direction:column;gap:24px;align-items:center;}
-.win{background:var(--p0);border:1px solid var(--p3);width:100%;max-width:1040px;display:flex;flex-direction:column;animation:winIn .22s cubic-bezier(.4,0,.2,1) both;}
-.win:nth-child(2){animation-delay:.05s;}.win:nth-child(3){animation-delay:.10s;}
-@keyframes winIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
-.win-tb{height:28px;background:var(--p1);border-bottom:1px solid var(--rule);display:flex;align-items:center;padding:0 10px 0 8px;gap:6px;flex-shrink:0;}
-.dots{display:flex;gap:5px;}.dot{width:10px;height:10px;border-radius:50%;border:1px solid var(--p3);background:var(--p2);}
-.win-title{flex:1;text-align:center;font-family:var(--mono);font-size:10px;color:var(--mid);letter-spacing:.06em;text-transform:uppercase;}
-.win-tools{height:26px;background:var(--p1);border-bottom:1px solid var(--rule);display:flex;align-items:center;padding:0 8px;gap:2px;}
-.tbtn{height:18px;padding:0 8px;background:none;border:1px solid transparent;font-family:var(--mono);font-size:9px;color:var(--dim);display:flex;align-items:center;cursor:pointer;letter-spacing:.04em;transition:all .12s;text-decoration:none;}
-.tbtn:hover{border-color:var(--rule);background:var(--p2);color:var(--ink);}
-.tbtn.off{opacity:.35;pointer-events:none;}
-.tbtn.live{border-color:var(--rule);color:var(--ink);}
-.tsep{width:1px;height:14px;background:var(--rule);margin:0 4px;}
-.win-addr{height:24px;background:var(--p0);border-bottom:1px solid var(--rule);display:flex;align-items:center;padding:0 8px;gap:6px;}
-.albl{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase;}
-.apath{flex:1;font-family:var(--mono);font-size:9px;color:var(--mid);background:var(--cream);border:1px solid var(--rule);padding:1px 6px;height:16px;display:flex;align-items:center;}
-.win-body{padding:24px;background:var(--p0);}
-.win-sbar{height:20px;background:var(--p1);border-top:1px solid var(--rule);display:flex;align-items:center;padding:0 10px;}
-.sseg{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.04em;text-transform:uppercase;}
-.sseg+.sseg{border-left:1px solid var(--rule);margin-left:10px;padding-left:10px;}
+.desktop{
+  padding:32px 40px 56px;
+  display:flex;flex-direction:column;
+  gap:32px;align-items:center;
+}
 
-/* ── HEADERS ── */
-.s-label{font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:8px;}
-.s-title{font-family:var(--sans);font-weight:600;font-size:22px;letter-spacing:-.03em;color:var(--ink);margin-bottom:4px;line-height:1.1;}
-.s-sub{font-family:var(--sans);font-size:12px;font-weight:300;color:var(--mid);line-height:1.7;margin-bottom:18px;}
+/* ── WINDOW ───────────────────── */
+.win{
+  background:var(--paper);
+  border:2.5px solid var(--ink);
+  border-radius:6px;
+  width:100%;max-width:1080px;
+  display:flex;flex-direction:column;
+  box-shadow:var(--shadow);
+  animation:winIn .25s cubic-bezier(.4,0,.2,1) both;
+}
+.win:nth-child(2){animation-delay:.06s;}
+.win:nth-child(3){animation-delay:.12s;}
+.win:nth-child(4){animation-delay:.18s;}
+@keyframes winIn{from{opacity:0;transform:translate(-3px,-3px);}to{opacity:1;transform:translate(0,0);}}
 
-/* ── MARKET DATA WINDOW ── */
-.mkt-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
-.mkt-search{flex:1;min-width:180px;display:flex;gap:6px;}
-.mkt-search input{flex:1;padding:7px 10px;border:1px solid var(--rule);background:var(--cream);font-family:var(--mono);font-size:11px;color:var(--ink);outline:none;}
-.mkt-search input:focus{border-color:var(--p3);}
-.mkt-search button{padding:7px 14px;background:var(--ink);color:var(--p0);border:none;font-family:var(--sans);font-weight:600;font-size:11px;cursor:pointer;letter-spacing:.01em;transition:opacity .15s;}
-.mkt-search button:hover{opacity:.85;}
-.mkt-meta{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.04em;}
-.refresh-btn{padding:5px 10px;background:var(--p1);border:1px solid var(--rule);font-family:var(--mono);font-size:9px;color:var(--mid);cursor:pointer;letter-spacing:.04em;text-transform:uppercase;transition:all .15s;}
-.refresh-btn:hover{background:var(--p2);color:var(--ink);}
-.refresh-btn:disabled{opacity:.5;cursor:not-allowed;}
+.win-tb{height:36px;display:flex;align-items:center;padding:0 14px;gap:8px;border-bottom:2px solid var(--ink);border-radius:4px 4px 0 0;}
+.dots{display:flex;gap:7px;}
+.dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--ink);background:transparent;}
+.win-title{flex:1;text-align:center;font-family:var(--sans);font-weight:600;font-size:12px;color:var(--ink);letter-spacing:-.01em;}
 
-.coin-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
-.coin-row+.coin-row{margin-top:8px;}
-.coin-box{background:var(--p1);border:1px solid var(--rule);padding:10px 12px;display:flex;flex-direction:column;gap:3px;transition:border-color .15s;}
-.coin-box:hover{border-color:var(--p3);}
-.coin-box.searched{border-color:var(--green-bd);background:var(--green-bg);}
-.coin-rank{font-family:var(--mono);font-size:8px;letter-spacing:.06em;color:var(--dim);text-transform:uppercase;}
-.coin-sym{font-family:var(--sans);font-weight:600;font-size:13px;color:var(--ink);letter-spacing:-.02em;line-height:1.1;}
-.coin-name{font-family:var(--sans);font-size:9px;color:var(--mid);font-weight:300;margin-bottom:2px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;}
-.coin-price{font-family:var(--mono);font-size:13px;color:var(--ink);font-weight:500;margin-top:2px;}
-.coin-changes{display:flex;gap:6px;margin-top:3px;}
-.coin-chg{font-family:var(--mono);font-size:9px;letter-spacing:.02em;display:flex;flex-direction:column;}
-.coin-chg-l{color:var(--dim);font-size:7.5px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:1px;}
-.coin-chg-v{font-weight:500;}
+.win-tools{height:38px;display:flex;align-items:center;padding:0 12px;gap:8px;border-bottom:2px solid var(--ink);}
+.tbtn{height:24px;min-width:24px;padding:0 8px;background:var(--paper);border:1.5px solid var(--ink);border-radius:3px;font-family:var(--sans);font-size:11px;font-weight:600;color:var(--ink);display:flex;align-items:center;justify-content:center;gap:4px;cursor:pointer;transition:transform .08s,box-shadow .08s;text-decoration:none;}
+.tbtn:hover{transform:translate(-1px,-1px);box-shadow:2px 2px 0 var(--ink);}
+.tbtn:active{transform:translate(0,0);box-shadow:none;}
+.tbtn.off{opacity:.4;cursor:not-allowed;pointer-events:none;}
+.tbtn.live{background:var(--green-bg);}
+.tsep{width:2px;height:20px;background:var(--ink);margin:0 4px;}
+
+.win-addr{height:32px;display:flex;align-items:center;padding:0 12px;gap:10px;border-bottom:2px solid var(--ink);}
+.albl{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--ink);text-transform:uppercase;letter-spacing:.06em;}
+.apath{flex:1;font-family:var(--mono);font-size:10px;color:var(--ink-soft);background:var(--paper-2);border:1.5px solid var(--ink);border-radius:3px;padding:2px 8px;height:22px;display:flex;align-items:center;font-weight:500;}
+
+.win-body{padding:24px;background:var(--paper);}
+.win-sbar{height:28px;display:flex;align-items:center;padding:0 12px;gap:0;border-top:2px solid var(--ink);background:var(--paper-2);}
+.sseg{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--ink);letter-spacing:.04em;padding:0 10px;}
+.sseg+.sseg{border-left:1.5px solid var(--ink);}
+
+/* ── HEADERS ───────────── */
+.s-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);margin-bottom:8px;}
+.s-title{font-family:var(--sans);font-weight:700;font-size:24px;letter-spacing:-.03em;color:var(--ink);margin-bottom:6px;line-height:1.1;}
+.s-sub{font-family:var(--sans);font-size:13px;font-weight:400;color:var(--ink-soft);line-height:1.65;margin-bottom:20px;}
+
+/* ── HEAVY BUTTON ───────── */
+.heavy-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:10px 18px;
+  background:var(--paper);
+  border:2px solid var(--ink);border-radius:4px;
+  font-family:var(--sans);font-weight:600;font-size:12.5px;color:var(--ink);
+  text-decoration:none;cursor:pointer;
+  transition:transform .1s,box-shadow .1s;
+  letter-spacing:-.01em;
+}
+.heavy-btn:hover:not(:disabled){transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink);}
+.heavy-btn:active{transform:translate(0,0);box-shadow:none;}
+.heavy-btn:disabled{opacity:.4;cursor:not-allowed;}
+.heavy-btn.primary{background:var(--ink);color:var(--paper);}
+.heavy-btn.full{display:flex;width:100%;}
+
+.spin{width:13px;height:13px;border-radius:50%;border:2.5px solid var(--ink);border-top-color:transparent;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ── MARKET DATA ──────── */
+.mkt-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px;}
+.mkt-search{flex:1;min-width:220px;display:flex;gap:8px;}
+.mkt-search input{flex:1;padding:9px 12px;border:2px solid var(--ink);border-radius:4px;background:var(--paper);font-family:var(--mono);font-size:12px;color:var(--ink);outline:none;font-weight:500;}
+.mkt-search input:focus{background:var(--paper-2);}
+.mkt-meta{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;color:var(--ink-soft);font-weight:600;text-transform:uppercase;letter-spacing:.06em;}
+
+.coin-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
+.coin-row+.coin-row{margin-top:10px;}
+.coin-box{
+  background:var(--paper);
+  border:2px solid var(--ink);border-radius:4px;
+  padding:11px 12px;
+  display:flex;flex-direction:column;gap:3px;
+  transition:transform .08s,box-shadow .08s;
+  position:relative;
+}
+.coin-box:hover{transform:translate(-1px,-1px);box-shadow:2px 2px 0 var(--ink);}
+.coin-box.searched{background:var(--green-bg);}
+.coin-rank{font-family:var(--mono);font-size:9px;font-weight:600;color:var(--mid);text-transform:uppercase;letter-spacing:.06em;}
+.coin-sym{font-family:var(--sans);font-weight:700;font-size:14px;color:var(--ink);letter-spacing:-.02em;line-height:1.1;}
+.coin-name{font-family:var(--sans);font-size:9.5px;color:var(--mid);font-weight:500;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;}
+.coin-price{font-family:var(--mono);font-size:13px;color:var(--ink);font-weight:700;margin-top:3px;}
+.coin-changes{display:flex;gap:8px;margin-top:3px;}
+.coin-chg{font-family:var(--mono);font-size:10px;display:flex;flex-direction:column;}
+.coin-chg-l{color:var(--mid);font-size:8px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:1px;}
+.coin-chg-v{font-weight:700;}
 .up{color:var(--green);}
 .down{color:var(--red);}
 
-.coin-loading{padding:32px;text-align:center;font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase;}
+.coin-loading{padding:32px;text-align:center;font-family:var(--mono);font-size:11px;color:var(--mid);font-weight:600;letter-spacing:.06em;text-transform:uppercase;border:2px dashed var(--ink);border-radius:4px;}
 
-/* ── TRADE TOOL ── */
-.trade-layout{display:grid;grid-template-columns:1fr 280px;gap:0;}
-.trade-main{padding:24px;border-right:1px solid var(--rule);}
-.trade-side{padding:20px;}
+/* ── POSITIONS ──────── */
+.positions-empty{padding:36px 20px;text-align:center;border:2px dashed var(--ink);border-radius:4px;}
+.positions-empty-icon{font-size:2.4rem;margin-bottom:14px;}
+.positions-empty-h{font-family:var(--sans);font-weight:700;font-size:16px;color:var(--ink);letter-spacing:-.02em;margin-bottom:6px;}
+.positions-empty-sub{font-size:12px;color:var(--ink-soft);line-height:1.6;max-width:400px;margin:0 auto 18px;}
 
-.panel{background:var(--p1);border:1px solid var(--rule);}
-.ph{padding:12px 16px;border-bottom:1px solid var(--rule);background:var(--p2);}
-.pt{font-family:var(--sans);font-weight:600;font-size:12px;color:var(--ink);}
-.ps{font-size:10px;color:var(--mid);margin-top:2px;font-family:var(--mono);}
-.pb{padding:16px;}
-.row{display:flex;flex-direction:column;gap:4px;margin-bottom:12px;}
-.row label{font-family:var(--mono);font-size:8px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);}
-.row-2col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
-input[type="text"],input[type="number"],select,textarea{width:100%;padding:7px 10px;border:1px solid var(--rule);background:var(--cream);color:var(--ink);font-family:var(--mono);font-size:10px;outline:none;transition:border-color .12s;appearance:none;-webkit-appearance:none;}
-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23a09a8e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center;padding-right:26px;cursor:pointer;}
-input:focus,select:focus,textarea:focus{border-color:var(--p3);}
-input::placeholder,textarea::placeholder{color:var(--dim);}
-textarea{resize:vertical;min-height:60px;line-height:1.55;}
+.pos-section-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid var(--ink);}
+.pos-section-l{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);}
+.pos-section-meta{font-family:var(--mono);font-size:10px;color:var(--ink-soft);font-weight:600;letter-spacing:.04em;}
 
-.ai-btn{width:100%;padding:11px;margin-top:2px;background:var(--ink);color:var(--p0);border:none;font-family:var(--sans);font-weight:600;font-size:12px;cursor:pointer;transition:opacity .15s;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:.01em;}
-.ai-btn:hover:not(:disabled){opacity:.85;}
-.ai-btn:disabled{opacity:.45;cursor:not-allowed;}
-.spin{width:13px;height:13px;border-radius:50%;border:2px solid rgba(237,232,223,0.3);border-top-color:var(--p0);animation:spin .7s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
+.pos-box{
+  background:var(--paper);
+  border:2px solid var(--ink);border-radius:4px;
+  padding:11px 12px;
+  display:flex;flex-direction:column;gap:3px;
+  cursor:pointer;
+  transition:transform .08s,box-shadow .08s;
+  position:relative;
+}
+.pos-box:hover{transform:translate(-2px,-2px);box-shadow:3px 3px 0 var(--ink);}
+.pos-box.has-action{background:var(--paper-2);}
+.pos-tag{position:absolute;top:6px;right:6px;font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:1px 5px;border:1.5px solid var(--ink);border-radius:2px;}
+.pos-tag.lst{background:var(--amber-bg);color:var(--ink);}
+.pos-tag.wrapped{background:var(--green-bg);color:var(--ink);}
+.pos-tag.stake{background:var(--ink);color:var(--paper);}
+.pos-sym{font-family:var(--sans);font-weight:700;font-size:14px;color:var(--ink);letter-spacing:-.02em;line-height:1.1;padding-right:48px;}
+.pos-name{font-family:var(--sans);font-size:9.5px;color:var(--mid);font-weight:500;margin-bottom:2px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;}
+.pos-bal{font-family:var(--mono);font-size:13px;color:var(--ink);font-weight:700;margin-top:3px;}
+.pos-chain{font-family:var(--mono);font-size:9px;color:var(--mid);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:2px;}
+.pos-action-hint{font-family:var(--mono);font-size:8.5px;color:var(--ink);font-weight:700;letter-spacing:.06em;margin-top:4px;text-transform:uppercase;}
 
-/* ── ROUTE OUTPUT ── */
-.routes{margin-top:18px;display:none;flex-direction:column;gap:10px;}
+/* ── TRADE TOOL ─────── */
+.trade-layout{display:grid;grid-template-columns:1fr 300px;gap:0;}
+.trade-main{padding:24px;border-right:2px solid var(--ink);}
+.trade-side{padding:20px;background:var(--paper-2);}
+
+.panel{background:var(--paper);border:2px solid var(--ink);border-radius:4px;}
+.ph{padding:12px 16px;border-bottom:2px solid var(--ink);background:var(--paper-2);border-radius:2px 2px 0 0;}
+.pt{font-family:var(--sans);font-weight:700;font-size:13px;color:var(--ink);letter-spacing:-.01em;}
+.ps{font-size:11px;color:var(--ink-soft);margin-top:2px;font-family:var(--mono);font-weight:500;}
+.pb{padding:18px;}
+
+.row{display:flex;flex-direction:column;gap:5px;margin-bottom:14px;}
+.row label{font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink);}
+.row-2col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+
+input[type="text"],input[type="number"],select,textarea{
+  width:100%;padding:8px 11px;
+  border:2px solid var(--ink);border-radius:3px;
+  background:var(--paper);color:var(--ink);
+  font-family:var(--mono);font-size:11px;font-weight:500;
+  outline:none;appearance:none;-webkit-appearance:none;
+  transition:background .1s;
+}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%231a1a1a' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;cursor:pointer;}
+input:focus,select:focus,textarea:focus{background:var(--paper-2);}
+input::placeholder,textarea::placeholder{color:var(--dim);font-weight:400;}
+textarea{resize:vertical;min-height:62px;line-height:1.55;}
+
+/* ── ROUTE OUTPUT ─────── */
+.routes{margin-top:20px;display:none;flex-direction:column;gap:12px;}
 .routes.vis{display:flex;}
-.routes-h{display:flex;align-items:center;gap:7px;margin-bottom:4px;}
-.routes-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pd 2s ease-in-out infinite;}
-@keyframes pd{0%,100%{opacity:1;}50%{opacity:.4;}}
-.routes-lbl{font-family:var(--mono);font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:var(--green);}
+.routes-h{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.routes-dot{width:10px;height:10px;border:2px solid var(--ink);background:var(--green);}
+.routes-lbl{font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink);}
 
-.route-card{background:var(--p1);border:1px solid var(--rule);padding:14px 16px;}
-.route-card.best{background:var(--green-bg);border-color:var(--green-bd);}
-.route-card-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;gap:10px;}
-.route-card-name{font-family:var(--sans);font-weight:600;font-size:13px;color:var(--ink);letter-spacing:-.01em;}
-.route-card.best .route-card-name{color:var(--green);}
-.route-card-rank{font-family:var(--mono);font-size:8px;color:var(--dim);background:var(--p2);border:1px solid var(--rule);padding:2px 6px;text-transform:uppercase;letter-spacing:.08em;flex-shrink:0;}
-.route-card.best .route-card-rank{color:var(--p0);background:var(--green);border-color:var(--green);}
-.route-meta-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0 10px;padding:8px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);}
-.route-meta{display:flex;flex-direction:column;gap:1px;}
-.route-meta-l{font-family:var(--mono);font-size:7.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;}
-.route-meta-v{font-family:var(--mono);font-size:11px;color:var(--ink);font-weight:500;}
-.route-card.best .route-meta-v{color:var(--green);}
-.route-text-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:10.5px;line-height:1.5;color:var(--mid);}
-.route-text-row > div b{color:var(--ink);font-weight:600;display:block;margin-bottom:2px;font-family:var(--mono);font-size:8px;text-transform:uppercase;letter-spacing:.06em;}
+.route-card{background:var(--paper);border:2px solid var(--ink);border-radius:4px;padding:14px 16px;}
+.route-card.best{background:var(--green-bg);}
+.route-card-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:10px;}
+.route-card-name{font-family:var(--sans);font-weight:700;font-size:14px;color:var(--ink);letter-spacing:-.01em;}
+.route-card-rank{font-family:var(--mono);font-size:9px;font-weight:700;color:var(--ink);background:var(--paper-2);border:1.5px solid var(--ink);padding:2px 7px;text-transform:uppercase;letter-spacing:.08em;flex-shrink:0;border-radius:2px;}
+.route-card.best .route-card-rank{background:var(--ink);color:var(--paper);}
+.route-meta-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0 12px;padding:10px;background:var(--paper-2);border:1.5px solid var(--ink);border-radius:3px;}
+.route-meta{display:flex;flex-direction:column;gap:2px;}
+.route-meta-l{font-family:var(--mono);font-size:8.5px;color:var(--mid);font-weight:600;text-transform:uppercase;letter-spacing:.06em;}
+.route-meta-v{font-family:var(--mono);font-size:12px;color:var(--ink);font-weight:700;}
+.route-text-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:11.5px;line-height:1.55;color:var(--ink-soft);}
+.route-text-row > div b{color:var(--ink);font-weight:700;display:block;margin-bottom:3px;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.06em;}
 
-.route-final{margin-top:6px;padding:10px 14px;background:var(--p2);border:1px solid var(--p3);font-family:var(--mono);font-size:11px;color:var(--ink);font-weight:500;display:flex;justify-content:space-between;align-items:center;}
-.route-final span:last-child{color:var(--green);font-weight:600;}
+.route-final{margin-top:8px;padding:11px 14px;background:var(--paper-2);border:1.5px solid var(--ink);border-radius:3px;font-family:var(--mono);font-size:12px;color:var(--ink);font-weight:700;display:flex;justify-content:space-between;align-items:center;}
+.route-final span:last-child{color:var(--green);}
 
-.execute-trade-btn{width:100%;padding:13px;background:var(--ink);color:var(--p0);border:none;font-family:var(--sans);font-weight:600;font-size:13px;cursor:pointer;transition:opacity .15s;letter-spacing:.01em;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px;}
-.execute-trade-btn:hover{opacity:.85;}
+.execute-trade-btn{width:100%;padding:13px;background:var(--ink);color:var(--paper);border:2px solid var(--ink);border-radius:4px;font-family:var(--sans);font-weight:700;font-size:13px;cursor:pointer;letter-spacing:-.01em;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;transition:transform .1s,box-shadow .1s;}
+.execute-trade-btn:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink);}
+.execute-trade-btn:active{transform:translate(0,0);box-shadow:none;}
 
-/* ── SIDEBAR ── */
-.hiw{background:var(--p1);border:1px solid var(--rule);margin-bottom:12px;overflow:hidden;}
-.hiw-h{padding:10px 13px;border-bottom:1px solid var(--rule);background:var(--p2);}
-.hiw-t{font-family:var(--sans);font-weight:600;font-size:11px;color:var(--ink);}
-.hiw-b{padding:12px 13px;}
-.hiw-step{display:flex;gap:9px;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--rule);}
+/* ── SIDEBAR ─────── */
+.hiw{background:var(--paper);border:2px solid var(--ink);border-radius:4px;margin-bottom:14px;overflow:hidden;}
+.hiw-h{padding:11px 14px;border-bottom:2px solid var(--ink);background:var(--paper-2);}
+.hiw-t{font-family:var(--sans);font-weight:700;font-size:12px;color:var(--ink);letter-spacing:-.01em;}
+.hiw-b{padding:14px;}
+.hiw-step{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1.5px dashed var(--paper-3);}
 .hiw-step:last-child{border-bottom:none;}
-.hiw-n{font-family:var(--mono);font-size:9px;color:var(--dim);flex-shrink:0;min-width:14px;}
-.hiw-tx{font-size:10.5px;color:var(--mid);line-height:1.5;}
-.hiw-tx b{color:var(--ink);font-weight:600;}
+.hiw-n{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--ink);flex-shrink:0;min-width:16px;}
+.hiw-tx{font-size:11px;color:var(--ink-soft);line-height:1.55;font-weight:500;}
+.hiw-tx b{color:var(--ink);font-weight:700;}
 
-/* ── PHANTOM MODAL ── */
-.modal-overlay{position:fixed;inset:0;background:rgba(42,37,32,0.55);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;padding:20px;}
+/* ── MODAL ─────── */
+.modal-overlay{position:fixed;inset:0;background:rgba(26,26,26,0.55);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;padding:20px;}
 .modal-overlay.show{opacity:1;pointer-events:all;}
-.modal{background:var(--p0);border:1px solid var(--p3);max-width:480px;width:100%;transform:translateY(12px);transition:transform .28s cubic-bezier(.4,0,.2,1);}
-.modal-overlay.show .modal{transform:translateY(0);}
-.modal-tb{height:28px;background:var(--p1);border-bottom:1px solid var(--rule);display:flex;align-items:center;padding:0 10px 0 8px;gap:6px;}
-.modal-title{flex:1;text-align:center;font-family:var(--mono);font-size:10px;color:var(--mid);letter-spacing:.06em;text-transform:uppercase;}
-.modal-x{font-family:var(--mono);font-size:11px;color:var(--dim);cursor:pointer;padding:0 6px;line-height:1;}
-.modal-x:hover{color:var(--ink);}
+.modal{background:var(--paper);border:2.5px solid var(--ink);border-radius:6px;box-shadow:var(--shadow);max-width:480px;width:100%;transform:translate(-4px,-4px);transition:transform .2s cubic-bezier(.4,0,.2,1);}
+.modal-overlay.show .modal{transform:translate(0,0);}
+.modal-tb{height:36px;display:flex;align-items:center;padding:0 14px;gap:8px;border-bottom:2px solid var(--ink);border-radius:4px 4px 0 0;}
+.modal-title{flex:1;text-align:center;font-family:var(--sans);font-weight:600;font-size:12px;color:var(--ink);letter-spacing:-.01em;}
+.modal-x{font-family:var(--sans);font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;padding:0 8px;line-height:1;}
 .modal-body{padding:24px 28px;}
 
-.phantom-step{display:none;}
-.phantom-step.active{display:block;}
+.phantom-step,.action-step{display:none;}
+.phantom-step.active,.action-step.active{display:block;}
 
-.phantom-icon{font-size:2rem;text-align:center;margin-bottom:14px;}
-.phantom-h{font-family:var(--sans);font-weight:600;font-size:16px;color:var(--ink);margin-bottom:8px;text-align:center;letter-spacing:-.01em;}
-.phantom-sub{font-size:11.5px;color:var(--mid);line-height:1.65;text-align:center;margin-bottom:20px;}
+.phantom-icon{font-size:2.2rem;text-align:center;margin-bottom:14px;}
+.phantom-h{font-family:var(--sans);font-weight:700;font-size:18px;color:var(--ink);margin-bottom:8px;text-align:center;letter-spacing:-.02em;}
+.phantom-sub{font-size:12px;color:var(--ink-soft);line-height:1.65;text-align:center;margin-bottom:20px;font-weight:500;}
 
-.phantom-summary{background:var(--p1);border:1px solid var(--rule);padding:13px 16px;margin-bottom:14px;}
-.ps-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;font-size:11px;}
-.ps-row+.ps-row{border-top:1px solid var(--rule);}
-.ps-l{font-family:var(--mono);font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;}
-.ps-v{font-family:var(--mono);font-size:10.5px;color:var(--ink);font-weight:500;text-align:right;word-break:break-all;}
+.phantom-summary{background:var(--paper-2);border:2px solid var(--ink);border-radius:3px;padding:13px 16px;margin-bottom:14px;}
+.ps-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;font-size:11.5px;}
+.ps-row+.ps-row{border-top:1.5px dashed var(--paper-3);}
+.ps-l{font-family:var(--mono);font-size:9px;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.06em;}
+.ps-v{font-family:var(--mono);font-size:11px;color:var(--ink);font-weight:700;text-align:right;word-break:break-all;max-width:60%;}
 
 .wallet-list{display:flex;flex-direction:column;gap:8px;margin-bottom:18px;}
-.wallet-opt{padding:11px 14px;background:var(--p1);border:1px solid var(--rule);cursor:pointer;display:flex;align-items:center;gap:10px;transition:all .12s;}
-.wallet-opt:hover{background:var(--p2);border-color:var(--p3);}
-.wallet-opt.selected{background:var(--green-bg);border-color:var(--green-bd);}
-.wallet-opt-glyph{width:30px;height:30px;border:1px solid var(--rule);background:var(--p2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;color:var(--mid);font-weight:500;flex-shrink:0;}
-.wallet-opt.selected .wallet-opt-glyph{background:var(--green);color:var(--p0);border-color:var(--green);}
+.wallet-opt{padding:11px 14px;background:var(--paper);border:2px solid var(--ink);border-radius:3px;cursor:pointer;display:flex;align-items:center;gap:11px;transition:transform .08s,box-shadow .08s;}
+.wallet-opt:hover{transform:translate(-1px,-1px);box-shadow:2px 2px 0 var(--ink);}
+.wallet-opt.selected{background:var(--green-bg);}
+.wallet-opt-glyph{width:32px;height:32px;border:1.5px solid var(--ink);background:var(--paper-2);border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink);flex-shrink:0;}
+.wallet-opt.selected .wallet-opt-glyph{background:var(--ink);color:var(--paper);}
 .wallet-opt-info{flex:1;min-width:0;}
-.wallet-opt-chain{font-family:var(--sans);font-weight:600;font-size:11.5px;color:var(--ink);}
-.wallet-opt-addr{font-family:var(--mono);font-size:9px;color:var(--dim);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.wallet-opt-chain{font-family:var(--sans);font-weight:700;font-size:12px;color:var(--ink);letter-spacing:-.01em;}
+.wallet-opt-addr{font-family:var(--mono);font-size:9.5px;color:var(--mid);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;}
 
 .modal-actions{display:flex;gap:8px;}
-.modal-btn{flex:1;padding:11px;font-family:var(--sans);font-weight:600;font-size:12px;cursor:pointer;border:none;letter-spacing:.01em;transition:opacity .15s;}
-.modal-btn.primary{background:var(--ink);color:var(--p0);}
-.modal-btn.primary:hover{opacity:.85;}
-.modal-btn.primary:disabled{opacity:.45;cursor:not-allowed;}
-.modal-btn.secondary{background:var(--p1);color:var(--mid);border:1px solid var(--rule);}
-.modal-btn.secondary:hover{background:var(--p2);color:var(--ink);}
+.modal-btn{flex:1;padding:10px;font-family:var(--sans);font-weight:700;font-size:12px;cursor:pointer;border:2px solid var(--ink);border-radius:3px;letter-spacing:-.01em;transition:transform .1s,box-shadow .1s;}
+.modal-btn.primary{background:var(--ink);color:var(--paper);}
+.modal-btn.primary:hover:not(:disabled){transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink);}
+.modal-btn.primary:active{transform:translate(0,0);box-shadow:none;}
+.modal-btn.primary:disabled{opacity:.4;cursor:not-allowed;}
+.modal-btn.secondary{background:var(--paper);color:var(--ink);}
+.modal-btn.secondary:hover{transform:translate(-1px,-1px);box-shadow:2px 2px 0 var(--ink);}
 
-.alert{padding:10px 13px;font-size:11px;line-height:1.55;border:1px solid;margin-bottom:14px;display:flex;gap:8px;align-items:flex-start;}
-.alert.warn{background:var(--amber-bg);border-color:var(--amber-bd);color:var(--amber);}
-.alert.danger{background:var(--red-bg);border-color:var(--red-bd);color:var(--red);}
-.alert.info{background:var(--p1);border-color:var(--rule);color:var(--mid);}
-.alert-icon{font-family:var(--mono);flex-shrink:0;}
+.alert{padding:10px 13px;font-size:11.5px;line-height:1.55;border:2px solid var(--ink);border-radius:3px;margin-bottom:14px;display:flex;gap:9px;align-items:flex-start;font-weight:500;}
+.alert.warn{background:var(--amber-bg);}
+.alert.danger{background:var(--red-bg);}
+.alert.info{background:var(--paper-2);}
+.alert-icon{font-family:var(--mono);font-weight:700;flex-shrink:0;}
 
-.tx-hash{font-family:var(--mono);font-size:10px;color:var(--mid);background:var(--p1);border:1px solid var(--rule);padding:8px 10px;margin:10px 0;word-break:break-all;line-height:1.5;}
-.tx-hash a{color:var(--green);text-decoration:none;}
-.tx-hash a:hover{text-decoration:underline;}
+.tx-hash{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--ink);background:var(--paper-2);border:2px solid var(--ink);border-radius:3px;padding:9px 12px;margin:10px 0;word-break:break-all;line-height:1.55;}
+.tx-hash a{color:var(--ink);text-decoration:underline;font-weight:700;}
 
-/* ── TX EXPLAINER (compact) ── */
-.tx-compact{padding:18px 24px;}
-.tx-compact-title{font-family:var(--sans);font-weight:600;font-size:14px;color:var(--ink);letter-spacing:-.02em;margin-bottom:4px;}
-.tx-compact-sub{font-size:11px;color:var(--mid);font-weight:300;line-height:1.65;margin-bottom:14px;}
-.tx-compact-row{display:flex;gap:8px;}
-.tx-compact-row textarea{flex:1;min-height:42px;padding:9px 11px;font-size:10px;}
-.tx-compact-row button{padding:0 18px;background:var(--ink);color:var(--p0);border:none;font-family:var(--sans);font-weight:600;font-size:11px;cursor:pointer;letter-spacing:.01em;white-space:nowrap;display:flex;align-items:center;gap:7px;transition:opacity .15s;}
-.tx-compact-row button:hover:not(:disabled){opacity:.85;}
-.tx-compact-row button:disabled{opacity:.45;cursor:not-allowed;}
-
-.tx-out{margin-top:14px;display:none;flex-direction:column;gap:8px;}
-.tx-out.vis{display:flex;}
-.ai-card{background:var(--p1);border:1px solid var(--rule);padding:12px 14px;}
-.ai-card.hi{background:var(--green-bg);border-color:var(--green-bd);}
-.ai-card.wa{background:var(--amber-bg);border-color:var(--amber-bd);}
-.ai-card.da{background:var(--red-bg);border-color:var(--red-bd);}
-.ai-card-t{font-family:var(--sans);font-weight:600;font-size:11.5px;color:var(--ink);margin-bottom:6px;}
-.ai-card.hi .ai-card-t{color:var(--green);}
-.ai-card.wa .ai-card-t{color:var(--amber);}
-.ai-card-b{font-size:10.5px;color:var(--mid);line-height:1.65;}
-.ai-card-b p{margin-bottom:4px;}.ai-card-b p:last-child{margin-bottom:0;}
-.ai-prose{font-size:11.5px;color:var(--mid);line-height:1.7;}
-.ai-prose b{color:var(--ink);font-weight:600;}
-.ai-bl{background:var(--p0);border:1px solid var(--p3);padding:11px 14px;font-size:11.5px;color:var(--ink);font-weight:500;display:flex;align-items:flex-start;gap:9px;}
-.ai-bl::before{content:'→';color:var(--green);flex-shrink:0;font-weight:600;}
-
-@media(max-width:860px){.coin-row{grid-template-columns:repeat(3,1fr);}.trade-layout{grid-template-columns:1fr;}.trade-side{border-top:1px solid var(--rule);border-right:none;}.row-2col{grid-template-columns:1fr;}.tx-compact-row{flex-direction:column;}.tx-compact-row button{padding:10px;}}
-@media(max-width:560px){.coin-row{grid-template-columns:repeat(2,1fr);}.route-meta-row{grid-template-columns:1fr;}.route-text-row{grid-template-columns:1fr;}.desktop{padding:16px 12px 40px;}}
-/* ── PHANTOM POSITIONS WINDOW ── */
-.positions-empty{padding:36px 20px;text-align:center;}
-.positions-empty-icon{font-size:2.2rem;margin-bottom:14px;}
-.positions-empty-h{font-family:var(--sans);font-weight:600;font-size:14px;color:var(--ink);letter-spacing:-.01em;margin-bottom:6px;}
-.positions-empty-sub{font-size:11.5px;color:var(--mid);line-height:1.6;max-width:380px;margin:0 auto 18px;}
-
-.pos-section-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--rule);}
-.pos-section-l{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);font-weight:500;}
-.pos-section-meta{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.04em;}
-
-.pos-box{background:var(--p1);border:1px solid var(--rule);padding:11px 13px;display:flex;flex-direction:column;gap:3px;cursor:pointer;transition:all .15s;position:relative;}
-.pos-box:hover{border-color:var(--p3);background:var(--p2);transform:translateY(-1px);}
-.pos-box.has-action{border-color:var(--green-bd);background:var(--green-bg);}
-.pos-box.has-action:hover{border-color:var(--green);background:var(--p1);}
-.pos-tag{position:absolute;top:6px;right:6px;font-family:var(--mono);font-size:7px;letter-spacing:.04em;text-transform:uppercase;padding:1px 5px;border-radius:2px;}
-.pos-tag.lst{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bd);}
-.pos-tag.wrapped{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd);}
-.pos-tag.stake{background:var(--green);color:var(--p0);}
-.pos-sym{font-family:var(--sans);font-weight:600;font-size:13px;color:var(--ink);letter-spacing:-.02em;line-height:1.1;padding-right:40px;}
-.pos-name{font-family:var(--sans);font-size:9px;color:var(--mid);font-weight:300;margin-bottom:2px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;}
-.pos-bal{font-family:var(--mono);font-size:12px;color:var(--ink);font-weight:500;margin-top:2px;}
-.pos-chain{font-family:var(--mono);font-size:8px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase;margin-top:2px;}
-.pos-action-hint{font-family:var(--mono);font-size:8px;color:var(--green);letter-spacing:.06em;margin-top:4px;text-transform:uppercase;font-weight:500;}
-
-/* ── ACTION MODAL (bridge/unwrap/unstake) ── */
-.action-step{display:none;}
-.action-step.active{display:block;}
-.action-h{font-family:var(--sans);font-weight:600;font-size:16px;color:var(--ink);margin-bottom:8px;letter-spacing:-.01em;}
-.action-sub{font-size:11.5px;color:var(--mid);line-height:1.65;margin-bottom:16px;}
-.action-position-card{background:var(--p1);border:1px solid var(--rule);padding:12px 14px;margin-bottom:14px;}
-.apc-row{display:flex;justify-content:space-between;align-items:baseline;padding:3px 0;font-size:11px;}
-.apc-row+.apc-row{border-top:1px dashed var(--rule);}
-.apc-l{font-family:var(--mono);font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;}
-.apc-v{font-family:var(--mono);font-size:11px;color:var(--ink);font-weight:500;}
+/* ── ACTION MODAL ─────── */
+.action-h{font-family:var(--sans);font-weight:700;font-size:18px;color:var(--ink);margin-bottom:8px;letter-spacing:-.02em;}
+.action-sub{font-size:12px;color:var(--ink-soft);line-height:1.65;margin-bottom:16px;font-weight:500;}
+.action-position-card{background:var(--paper-2);border:2px solid var(--ink);border-radius:3px;padding:12px 14px;margin-bottom:14px;}
+.apc-row{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;font-size:11.5px;}
+.apc-row+.apc-row{border-top:1.5px dashed var(--paper-3);}
+.apc-l{font-family:var(--mono);font-size:9px;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.06em;}
+.apc-v{font-family:var(--mono);font-size:11px;color:var(--ink);font-weight:700;}
 
 .action-options{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
-.action-option{padding:13px 14px;background:var(--p1);border:1px solid var(--rule);cursor:pointer;display:flex;align-items:center;gap:11px;transition:all .12s;}
-.action-option:hover{background:var(--p2);border-color:var(--p3);}
-.action-option-glyph{width:34px;height:34px;border:1px solid var(--rule);background:var(--p2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:14px;color:var(--mid);flex-shrink:0;}
+.action-option{padding:13px 14px;background:var(--paper);border:2px solid var(--ink);border-radius:3px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:transform .08s,box-shadow .08s;}
+.action-option:hover{transform:translate(-2px,-2px);box-shadow:3px 3px 0 var(--ink);background:var(--paper-2);}
+.action-option-glyph{width:36px;height:36px;border:2px solid var(--ink);background:var(--paper-2);border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-size:16px;font-weight:700;color:var(--ink);flex-shrink:0;}
 .action-option-info{flex:1;}
-.action-option-t{font-family:var(--sans);font-weight:600;font-size:12px;color:var(--ink);}
-.action-option-d{font-size:10px;color:var(--mid);margin-top:2px;line-height:1.4;}
+.action-option-t{font-family:var(--sans);font-weight:700;font-size:13px;color:var(--ink);letter-spacing:-.01em;}
+.action-option-d{font-size:10.5px;color:var(--ink-soft);margin-top:2px;line-height:1.45;font-weight:500;}
 
+/* ── TX EXPLAINER (compact) ─────── */
+.tx-compact{padding:20px 24px;}
+.tx-compact-title{font-family:var(--sans);font-weight:700;font-size:16px;color:var(--ink);letter-spacing:-.02em;margin-bottom:5px;}
+.tx-compact-sub{font-size:12px;color:var(--ink-soft);font-weight:500;line-height:1.6;margin-bottom:14px;}
+.tx-compact-row{display:flex;gap:10px;}
+.tx-compact-row textarea{flex:1;min-height:46px;padding:10px 12px;font-size:11px;}
+.tx-compact-row button{padding:0 22px;background:var(--ink);color:var(--paper);border:2px solid var(--ink);border-radius:3px;font-family:var(--sans);font-weight:700;font-size:12px;cursor:pointer;letter-spacing:-.01em;white-space:nowrap;display:flex;align-items:center;gap:7px;transition:transform .1s,box-shadow .1s;}
+.tx-compact-row button:hover:not(:disabled){transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink);}
+.tx-compact-row button:active{transform:translate(0,0);box-shadow:none;}
+.tx-compact-row button:disabled{opacity:.4;cursor:not-allowed;}
+
+.tx-out{margin-top:14px;display:none;flex-direction:column;gap:10px;}
+.tx-out.vis{display:flex;}
+.ai-card{background:var(--paper);border:2px solid var(--ink);border-radius:3px;padding:13px 15px;}
+.ai-card.hi{background:var(--green-bg);}
+.ai-card.wa{background:var(--amber-bg);}
+.ai-card.da{background:var(--red-bg);}
+.ai-card-t{font-family:var(--sans);font-weight:700;font-size:12.5px;color:var(--ink);margin-bottom:6px;letter-spacing:-.01em;}
+.ai-card-b{font-size:11.5px;color:var(--ink-soft);line-height:1.65;font-weight:500;}
+.ai-card-b p{margin-bottom:5px;}.ai-card-b p:last-child{margin-bottom:0;}
+.ai-prose{font-size:12px;color:var(--ink-soft);line-height:1.7;font-weight:500;}
+.ai-prose b{color:var(--ink);font-weight:700;}
+.ai-bl{background:var(--paper-2);border:2px solid var(--ink);border-radius:3px;padding:12px 15px;font-size:12px;color:var(--ink);font-weight:600;display:flex;align-items:flex-start;gap:9px;}
+.ai-bl::before{content:'→';color:var(--ink);flex-shrink:0;font-weight:700;}
+
+@media(max-width:860px){
+  .coin-row{grid-template-columns:repeat(3,1fr);}
+  .trade-layout{grid-template-columns:1fr;}
+  .trade-side{border-top:2px solid var(--ink);border-right:none;}
+  .row-2col{grid-template-columns:1fr;}
+  .tx-compact-row{flex-direction:column;}
+  .tx-compact-row button{padding:11px;}
+}
+@media(max-width:560px){
+  .coin-row{grid-template-columns:repeat(2,1fr);}
+  .route-meta-row{grid-template-columns:1fr;}
+  .route-text-row{grid-template-columns:1fr;}
+  .desktop{padding:18px 12px 40px;}
+}
 </style>
 </head>
 <body>
@@ -286,29 +369,28 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
 <div class="win">
   <div class="win-tb">
     <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-    <div class="win-title">market_data.live</div>
+    <div class="win-title">market_data — Live</div>
   </div>
   <div class="win-tools">
-    <div class="tbtn off">← Back</div><div class="tbtn off">→ Fwd</div><div class="tsep"></div>
+    <button class="tbtn off">←</button><button class="tbtn off">→</button><div class="tsep"></div>
     <button class="tbtn" id="refreshBtn" onclick="loadMarketData()">↺ Refresh</button>
-    <a href="/" class="tbtn">⌂ Home</a>
+    <a href="/" class="tbtn">⌂</a>
     <div class="tsep"></div>
-    <div class="tbtn live">● LIVE</div>
+    <span class="tbtn live">● Live</span>
   </div>
   <div class="win-addr"><span class="albl">Source</span><div class="apath">api.coingecko.com/v3/coins/markets</div></div>
   <div class="win-body">
-    <div class="s-label">01 — Live</div>
+    <div class="s-label">01 — Live Data</div>
     <div class="s-title">Top crypto by market cap</div>
     <p class="s-sub">Real-time prices for the top 10 coins. Search any other coin to add it as an extra data point.</p>
 
     <div class="mkt-toolbar">
       <div class="mkt-search">
         <input type="text" id="coinQ" placeholder="Search any coin (e.g. dogecoin, chainlink, render)" onkeydown="if(event.key==='Enter')searchCoin();"/>
-        <button onclick="searchCoin()">Search →</button>
+        <button class="heavy-btn primary" onclick="searchCoin()">Search →</button>
       </div>
       <div class="mkt-meta">
         <span id="lastUpdated">Loading…</span>
-        <button class="refresh-btn" id="manRefresh" onclick="loadMarketData()">↺ Refresh</button>
       </div>
     </div>
 
@@ -322,35 +404,33 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
 <div class="win">
   <div class="win-tb">
     <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-    <div class="win-title">my_positions.live — Phantom Wallet</div>
+    <div class="win-title">my_positions — Phantom Wallet</div>
   </div>
   <div class="win-tools">
-    <div class="tbtn off">← Back</div><div class="tbtn off">→ Fwd</div><div class="tsep"></div>
+    <button class="tbtn off">←</button><button class="tbtn off">→</button><div class="tsep"></div>
     <button class="tbtn" id="posRefreshBtn" onclick="loadPositions(true)">↺ Refresh</button>
-    <a href="/" class="tbtn">⌂ Home</a>
+    <a href="/" class="tbtn">⌂</a>
     <div class="tsep"></div>
-    <div class="tbtn live" id="posStatus">○ Disconnected</div>
+    <span class="tbtn" id="posStatus">○ Disconnected</span>
   </div>
   <div class="win-addr"><span class="albl">Source</span><div class="apath">phantom.app + solana RPC + alchemy</div></div>
   <div class="win-body">
-    <div class="s-label">02 — Live</div>
+    <div class="s-label">02 — Wallet</div>
     <div class="s-title">My Phantom positions</div>
-    <p class="s-sub">Connect your Phantom wallet to see all your holdings across Solana and Ethereum. Click any position to bridge, unwrap, or unstake.</p>
+    <p class="s-sub">Connect your Phantom wallet to see all your holdings across Solana and Ethereum. Click any position to bridge, unwrap, unstake, or stake.</p>
 
     <div id="posEmpty">
       <div class="positions-empty">
         <div class="positions-empty-icon">👻</div>
         <div class="positions-empty-h">Connect Phantom to view your wallet</div>
         <p class="positions-empty-sub">We'll read your balances directly from the chain — no transactions, no fees, just data.</p>
-        <button class="ai-btn" style="max-width:240px;margin:0 auto;" onclick="connectPhantomForPositions()">
-          <span>Connect Phantom →</span>
-        </button>
+        <button class="heavy-btn primary" onclick="connectPhantomForPositions()">Connect Phantom →</button>
       </div>
     </div>
 
     <div id="posLoading" style="display:none;">
       <div class="positions-empty">
-        <div style="display:inline-block;"><div class="spin" style="width:18px;height:18px;border-color:rgba(42,37,32,0.15);border-top-color:var(--ink);"></div></div>
+        <div style="display:inline-block;"><div class="spin" style="width:18px;height:18px;"></div></div>
         <div class="positions-empty-h" style="margin-top:14px;">Loading your positions…</div>
         <p class="positions-empty-sub" id="posLoadingMsg">Reading wallet data from Solana</p>
       </div>
@@ -361,13 +441,13 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
         <span class="pos-section-l" id="solSectionLabel">Solana —</span>
         <span class="pos-section-meta" id="solWalletShort"></span>
       </div>
-      <div id="solPositions" class="coin-row" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr));"></div>
+      <div id="solPositions" class="coin-row" style="grid-template-columns:repeat(auto-fill,minmax(170px,1fr));"></div>
 
-      <div class="pos-section-h" style="margin-top:18px;">
+      <div class="pos-section-h" style="margin-top:22px;">
         <span class="pos-section-l" id="ethSectionLabel">Ethereum —</span>
         <span class="pos-section-meta" id="ethWalletShort"></span>
       </div>
-      <div id="ethPositions" class="coin-row" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr));"></div>
+      <div id="ethPositions" class="coin-row" style="grid-template-columns:repeat(auto-fill,minmax(170px,1fr));"></div>
     </div>
   </div>
   <div class="win-sbar"><span class="sseg" id="posCount">— positions</span><span class="sseg" id="posLastUpdated">Not connected</span><span class="sseg">Phantom + RPC</span></div>
@@ -377,13 +457,13 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
 <div class="win">
   <div class="win-tb">
     <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-    <div class="win-title">trade_tool.exe — AI + Phantom</div>
+    <div class="win-title">trade_tool — AI + Phantom</div>
   </div>
   <div class="win-tools">
-    <div class="tbtn off">← Back</div><div class="tbtn off">→ Fwd</div><div class="tsep"></div>
-    <div class="tbtn">↺ Reload</div><a href="/" class="tbtn">⌂ Home</a>
+    <button class="tbtn off">←</button><button class="tbtn off">→</button><div class="tsep"></div>
+    <button class="tbtn">↺</button><a href="/" class="tbtn">⌂</a>
   </div>
-  <div class="win-addr"><span class="albl">Path</span><div class="apath">~/projects/trade-tool.exe</div></div>
+  <div class="win-addr"><span class="albl">Path</span><div class="apath">~/projects/trade-tool</div></div>
   <div class="trade-layout">
     <div class="trade-main">
       <div class="s-label">03 — Agentic Trading</div>
@@ -413,9 +493,9 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
           <div class="row"><label>Anything else? (optional)</label>
             <textarea id="t-context" placeholder="e.g. I want to use it on a Solana DEX, or convert to USD on arrival"></textarea>
           </div>
-          <button class="ai-btn" id="t-btn" onclick="getRoutes()">
+          <button class="heavy-btn primary full" id="t-btn" onclick="getRoutes()">
             <span id="t-bt">Compare Routes →</span>
-            <div class="spin" id="t-sp" style="display:none;"></div>
+            <div class="spin" id="t-sp" style="display:none;border-color:var(--paper);border-top-color:transparent;"></div>
           </button>
 
           <div class="routes" id="routesOut">
@@ -442,7 +522,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
       <div class="hiw">
         <div class="hiw-h"><div class="hiw-t">Note on cross-chain</div></div>
         <div class="hiw-b">
-          <div style="font-size:10.5px;color:var(--mid);line-height:1.55;">Cross-chain swaps (e.g. ETH → SOL) require a bridge integration not yet wired in. Same-chain transfers — like sending SOL to another Solana address, or USDC on Solana — will execute live. Cross-chain routes shown by the AI are advisory only.</div>
+          <div style="font-size:11px;color:var(--ink-soft);line-height:1.55;font-weight:500;">Cross-chain swaps require a bridge integration not yet wired in. Same-chain transfers — like sending SOL to another Solana address — will execute live. Cross-chain routes shown by the AI are advisory only.</div>
         </div>
       </div>
     </div>
@@ -454,9 +534,9 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
 <div class="win">
   <div class="win-tb">
     <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-    <div class="win-title">tx_explainer.exe</div>
+    <div class="win-title">tx_explainer</div>
   </div>
-  <div class="win-addr"><span class="albl">Path</span><div class="apath">~/projects/tx-explainer.exe</div></div>
+  <div class="win-addr"><span class="albl">Path</span><div class="apath">~/projects/tx-explainer</div></div>
   <div class="tx-compact">
     <div class="s-label">04 — AI Tool</div>
     <div class="tx-compact-title">Transaction Explainer</div>
@@ -465,7 +545,7 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
       <textarea id="txInput" placeholder="Paste transaction hash here (e.g. 0x4a7d... or 5KHnY8...)"></textarea>
       <button id="txBtn" onclick="explainTx()">
         <span id="txBt">Explain</span>
-        <div class="spin" id="txSp" style="display:none;"></div>
+        <div class="spin" id="txSp" style="display:none;border-color:var(--paper);border-top-color:transparent;"></div>
       </button>
     </div>
     <div class="tx-out" id="txOut"></div>
@@ -480,12 +560,11 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
   <div class="modal">
     <div class="modal-tb">
       <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-      <div class="modal-title" id="phantomModalTitle">Phantom — Connect Wallet</div>
-      <div class="modal-x" onclick="closePhantomModal()">✕</div>
+      <div class="modal-title">Phantom — Connect Wallet</div>
+      <div class="modal-x" onclick="closePhantomModal()">×</div>
     </div>
     <div class="modal-body">
 
-      <!-- STEP 1: NOT INSTALLED -->
       <div class="phantom-step" id="step-noinstall">
         <div class="phantom-icon">👻</div>
         <div class="phantom-h">Phantom not detected</div>
@@ -496,18 +575,16 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
         </div>
       </div>
 
-      <!-- STEP 2: CONNECT -->
       <div class="phantom-step" id="step-connect">
         <div class="phantom-icon">👻</div>
         <div class="phantom-h">Connect to Phantom</div>
-        <p class="phantom-sub">Click below to open Phantom and authorize this site to read your wallet address. No transaction will be sent yet.</p>
+        <p class="phantom-sub">Click below to open Phantom and authorize this site to read your wallet address.</p>
         <div class="modal-actions">
           <button class="modal-btn secondary" onclick="closePhantomModal()">Cancel</button>
           <button class="modal-btn primary" id="connectBtn" onclick="connectPhantom()">Connect Phantom →</button>
         </div>
       </div>
 
-      <!-- STEP 3: SELECT WALLET -->
       <div class="phantom-step" id="step-wallet">
         <div class="phantom-h" style="text-align:left;">Choose source wallet</div>
         <p class="phantom-sub" style="text-align:left;">Phantom has multiple chain accounts. Select which one to send from.</p>
@@ -518,12 +595,11 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
         </div>
       </div>
 
-      <!-- STEP 4: CONFIRM -->
       <div class="phantom-step" id="step-confirm">
         <div class="phantom-h" style="text-align:left;">Review &amp; confirm</div>
         <p class="phantom-sub" style="text-align:left;">Verify the details below. When you click Sign, Phantom will pop up to ask for your final approval.</p>
         <div class="phantom-summary" id="phantomSummary"></div>
-        <div class="alert info"><span class="alert-icon">ℹ</span><div>The destination address must match the asset's network. We can only verify same-chain transfers from this UI.</div></div>
+        <div class="alert info"><span class="alert-icon">ℹ</span><div>The destination address must match the asset's network.</div></div>
         <div id="confirmAlert"></div>
         <div class="modal-actions">
           <button class="modal-btn secondary" onclick="goToWallet()">Back</button>
@@ -531,19 +607,17 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
         </div>
       </div>
 
-      <!-- STEP 5: SIGNING -->
       <div class="phantom-step" id="step-signing">
         <div class="phantom-icon">⏳</div>
         <div class="phantom-h">Waiting for Phantom…</div>
-        <p class="phantom-sub">Phantom should be open in another window. Approve or reject the transaction there.</p>
-        <div style="display:flex;justify-content:center;padding:20px 0;"><div class="spin" style="width:24px;height:24px;border-color:rgba(42,37,32,0.15);border-top-color:var(--ink);"></div></div>
+        <p class="phantom-sub">Phantom should be open in another window.</p>
+        <div style="display:flex;justify-content:center;padding:20px 0;"><div class="spin" style="width:24px;height:24px;"></div></div>
       </div>
 
-      <!-- STEP 6: SUCCESS -->
       <div class="phantom-step" id="step-success">
         <div class="phantom-icon">🎉</div>
         <div class="phantom-h" style="color:var(--green);">Transaction sent</div>
-        <p class="phantom-sub">Your transfer has been broadcast to the network. It should confirm within a few seconds to a few minutes depending on the chain.</p>
+        <p class="phantom-sub">Your transfer has been broadcast.</p>
         <div class="phantom-summary" id="successSummary"></div>
         <div style="margin:14px 0 6px;">
           <div class="ps-l" style="margin-bottom:6px;">Transaction hash</div>
@@ -554,7 +628,6 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
         </div>
       </div>
 
-      <!-- STEP 7: ERROR -->
       <div class="phantom-step" id="step-error">
         <div class="phantom-icon">⚠</div>
         <div class="phantom-h" style="color:var(--red);">Something went wrong</div>
@@ -569,17 +642,16 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
   </div>
 </div>
 
-<!-- ═══ POSITION ACTION MODAL ════════════════════════ -->
+<!-- ═══ POSITION ACTION MODAL ═══════════════════════ -->
 <div class="modal-overlay" id="actionModal">
   <div class="modal">
     <div class="modal-tb">
       <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-      <div class="modal-title" id="actionModalTitle">Position Actions</div>
-      <div class="modal-x" onclick="closeActionModal()">✕</div>
+      <div class="modal-title">Position Actions</div>
+      <div class="modal-x" onclick="closeActionModal()">×</div>
     </div>
     <div class="modal-body">
 
-      <!-- ACTION STEP 1: CHOOSE ACTION -->
       <div class="action-step active" id="act-choose">
         <div class="action-h" id="actChooseH">Choose an action</div>
         <p class="action-sub" id="actChooseSub">Select what you'd like to do with this position.</p>
@@ -590,7 +662,6 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
         </div>
       </div>
 
-      <!-- ACTION STEP 2: GATHER INFO -->
       <div class="action-step" id="act-input">
         <div class="action-h" id="actInputH">Bridge details</div>
         <p class="action-sub" id="actInputSub">Specify how much you'd like to move.</p>
@@ -602,27 +673,24 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
         </div>
       </div>
 
-      <!-- ACTION STEP 3: CONFIRM -->
       <div class="action-step" id="act-confirm">
         <div class="action-h">Review &amp; confirm</div>
-        <p class="action-sub">Verify the details below. Phantom will pop up to ask for your final approval.</p>
+        <p class="action-sub">Verify the details below. Phantom will pop up to ask for final approval.</p>
         <div class="phantom-summary" id="actConfirmSummary"></div>
-        <div class="alert info"><span class="alert-icon">ℹ</span><div>This is a signed-intent flow — Phantom will request a real signature, but the on-chain bridge/unstake itself is shown as a demo for now.</div></div>
+        <div class="alert info"><span class="alert-icon">ℹ</span><div>This is a signed-intent flow — Phantom will request a real signature, but the on-chain bridge/unstake itself is a demo.</div></div>
         <div class="modal-actions">
           <button class="modal-btn secondary" onclick="goToActInput()">Back</button>
           <button class="modal-btn primary" onclick="executeAction()">Sign &amp; Send →</button>
         </div>
       </div>
 
-      <!-- ACTION STEP 4: SIGNING -->
       <div class="action-step" id="act-signing">
         <div class="phantom-icon">⏳</div>
         <div class="phantom-h">Waiting for Phantom…</div>
-        <p class="phantom-sub">Phantom should be open in another window. Approve or reject the request there.</p>
-        <div style="display:flex;justify-content:center;padding:20px 0;"><div class="spin" style="width:24px;height:24px;border-color:rgba(42,37,32,0.15);border-top-color:var(--ink);"></div></div>
+        <p class="phantom-sub">Phantom should be open in another window.</p>
+        <div style="display:flex;justify-content:center;padding:20px 0;"><div class="spin" style="width:24px;height:24px;"></div></div>
       </div>
 
-      <!-- ACTION STEP 5: SUCCESS -->
       <div class="action-step" id="act-success">
         <div class="phantom-icon">🎉</div>
         <div class="phantom-h" style="color:var(--green);">Request signed</div>
@@ -637,7 +705,6 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
         </div>
       </div>
 
-      <!-- ACTION STEP 6: ERROR -->
       <div class="action-step" id="act-error">
         <div class="phantom-icon">⚠</div>
         <div class="phantom-h" style="color:var(--red);">Something went wrong</div>
@@ -653,17 +720,15 @@ textarea{resize:vertical;min-height:60px;line-height:1.55;}
 </div>
 
 <script>
-/* ══ HEADER CLOCK ══════════════════════════════════ */
 function tick(){const n=new Date();const t=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');const d=n.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});const mc=document.getElementById('mc');if(mc)mc.textContent=d+'  '+t;}
 tick();setInterval(tick,10000);
 
-/* ══ MARKET DATA ══════════════════════════════════════ */
+/* ══ MARKET DATA ══ */
 function fmtPrice(p){if(p===null||p===undefined)return'—';if(p>=1000)return '$'+p.toLocaleString('en-US',{maximumFractionDigits:0});if(p>=1)return '$'+p.toFixed(2);if(p>=0.01)return '$'+p.toFixed(4);return '$'+p.toFixed(6);}
 function fmtPct(p){if(p===null||p===undefined||isNaN(p))return'—';const sign=p>=0?'+':'';return sign+p.toFixed(1)+'%';}
 function fmtTimeAgo(ts){const s=Math.floor((Date.now()-ts)/1000);if(s<60)return s+'s ago';if(s<3600)return Math.floor(s/60)+'m ago';return Math.floor(s/3600)+'h ago';}
 
 let lastFetchTime=null;
-let updateTimer=null;
 
 function renderCoinBox(c,searched=false){
   const c24=c.price_change_percentage_24h_in_currency??c.price_change_percentage_24h;
@@ -682,14 +747,12 @@ function renderCoinBox(c,searched=false){
 }
 
 async function loadMarketData(){
-  const btn=document.getElementById('manRefresh');btn.disabled=true;
   document.getElementById('refreshBtn').textContent='Loading…';
   try{
     const r=await fetch('/api/coingecko?action=top');
     if(!r.ok)throw new Error('Failed to load');
     const data=await r.json();
     const cont=document.getElementById('coinsContainer');
-    // 5 per row, 2 rows of 5
     const row1=data.slice(0,5).map(c=>renderCoinBox(c)).join('');
     const row2=data.slice(5,10).map(c=>renderCoinBox(c)).join('');
     cont.innerHTML=`<div class="coin-row">${row1}</div><div class="coin-row">${row2}</div>`;
@@ -699,7 +762,6 @@ async function loadMarketData(){
   }catch(e){
     document.getElementById('coinsContainer').innerHTML=`<div class="coin-loading" style="color:var(--red);">Failed to load market data. ${e.message}</div>`;
   }finally{
-    btn.disabled=false;
     document.getElementById('refreshBtn').textContent='↺ Refresh';
   }
 }
@@ -716,23 +778,22 @@ async function searchCoin(){
   try{
     const r=await fetch('/api/coingecko?action=search&q='+encodeURIComponent(q));
     const data=await r.json();
-    if(!data.found||!data.coin){sr.innerHTML=`<div class="coin-loading" style="padding:12px;color:var(--amber);">No coin found for "${q}".</div>`;return;}
-    sr.innerHTML=`<div class="coin-row" style="grid-template-columns:repeat(5,1fr);margin-bottom:12px;">${renderCoinBox(data.coin,true)}</div>`;
+    if(!data.found||!data.coin){sr.innerHTML=`<div class="coin-loading" style="padding:12px;">No coin found for "${q}".</div>`;return;}
+    sr.innerHTML=`<div class="coin-row" style="grid-template-columns:repeat(5,1fr);margin-bottom:14px;">${renderCoinBox(data.coin,true)}</div>`;
   }catch(e){
-    sr.innerHTML=`<div class="coin-loading" style="padding:12px;color:var(--red);">Search failed.</div>`;
+    sr.innerHTML=`<div class="coin-loading">Search failed.</div>`;
   }
 }
 
-loadMarketData();
-setInterval(updateTimestamp,5000);
+loadMarketData();setInterval(updateTimestamp,5000);
 
-/* ══════════════════════════════════════════════════════
-   PHANTOM POSITIONS
-══════════════════════════════════════════════════════ */
+/* ══ POSITIONS ══ */
+let phantomAccounts={solana:null,ethereum:null,bitcoin:null};
 let positionsLoaded=false;
 let activePosition=null;
 let activeAction=null;
 
+function isPhantomInstalled(){return typeof window!=='undefined' && (window.phantom?.solana || window.solana?.isPhantom);}
 function shortAddr(a){if(!a)return'—';return a.slice(0,4)+'…'+a.slice(-4);}
 function fmtBal(n){if(n===0)return'0';if(n<0.0001)return n.toExponential(2);if(n<1)return n.toFixed(4);if(n<1000)return n.toFixed(3);return n.toLocaleString('en-US',{maximumFractionDigits:2});}
 
@@ -744,23 +805,15 @@ async function connectPhantomForPositions(){
         <div class="positions-empty-icon">⚠</div>
         <div class="positions-empty-h">Phantom not detected</div>
         <p class="positions-empty-sub">Install the Phantom browser extension to view your positions.</p>
-        <a href="https://phantom.app/download" target="_blank" rel="noopener" class="ai-btn" style="max-width:240px;margin:0 auto;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Install Phantom →</a>
+        <a href="https://phantom.app/download" target="_blank" rel="noopener" class="heavy-btn primary" style="display:inline-flex;">Install Phantom →</a>
       </div>`;
     return;
   }
   try{
-    if(window.phantom?.solana){
-      const r=await window.phantom.solana.connect();
-      phantomAccounts.solana=r.publicKey.toString();
-    } else if(window.solana?.isPhantom){
-      const r=await window.solana.connect();
-      phantomAccounts.solana=r.publicKey.toString();
-    }
+    if(window.phantom?.solana){const r=await window.phantom.solana.connect();phantomAccounts.solana=r.publicKey.toString();}
+    else if(window.solana?.isPhantom){const r=await window.solana.connect();phantomAccounts.solana=r.publicKey.toString();}
     if(window.phantom?.ethereum){
-      try{
-        const accts=await window.phantom.ethereum.request({method:'eth_requestAccounts'});
-        if(accts&&accts[0])phantomAccounts.ethereum=accts[0];
-      }catch{}
+      try{const accts=await window.phantom.ethereum.request({method:'eth_requestAccounts'});if(accts&&accts[0])phantomAccounts.ethereum=accts[0];}catch{}
     }
     document.getElementById('phantomStatus').textContent='Phantom: connected';
     document.getElementById('posStatus').textContent='● Connected';
@@ -771,15 +824,13 @@ async function connectPhantomForPositions(){
         <div class="positions-empty-icon">×</div>
         <div class="positions-empty-h">Connection cancelled</div>
         <p class="positions-empty-sub">${e.message||'You declined the connection request.'}</p>
-        <button class="ai-btn" style="max-width:240px;margin:0 auto;" onclick="connectPhantomForPositions()">Try again →</button>
+        <button class="heavy-btn primary" onclick="connectPhantomForPositions()">Try again →</button>
       </div>`;
   }
 }
 
 async function loadPositions(forceRefresh=false){
-  if(!phantomAccounts.solana&&!phantomAccounts.ethereum){
-    return;
-  }
+  if(!phantomAccounts.solana&&!phantomAccounts.ethereum)return;
   document.getElementById('posEmpty').style.display='none';
   document.getElementById('posContent').style.display='none';
   document.getElementById('posLoading').style.display='block';
@@ -787,7 +838,6 @@ async function loadPositions(forceRefresh=false){
 
   let solData=null,ethData=null;
 
-  // Solana
   if(phantomAccounts.solana){
     try{
       const r=await fetch('/api/solana',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({address:phantomAccounts.solana})});
@@ -795,7 +845,6 @@ async function loadPositions(forceRefresh=false){
     }catch(e){console.error('Solana fetch failed',e);}
   }
 
-  // Ethereum
   if(phantomAccounts.ethereum){
     document.getElementById('posLoadingMsg').textContent='Reading wallet data from Ethereum';
     try{
@@ -809,84 +858,55 @@ async function loadPositions(forceRefresh=false){
 
   let totalPositions=0;
 
-  // Render Solana
   const solCont=document.getElementById('solPositions');
   const solHeader=document.getElementById('solSectionLabel');
   if(solData){
     document.getElementById('solWalletShort').textContent=shortAddr(phantomAccounts.solana);
     const positions=[];
-  // Native SOL
-      if(solData.native&&solData.native.balance>0){
-        positions.push({
-          sym:'SOL',name:'Solana',balance:solData.native.balance,
-          chain:'solana',kind:'native',
-          actions:['stake','bridge']
-        });
-      }
-    // Stake accounts
+    if(solData.native&&solData.native.balance>0){
+      positions.push({sym:'SOL',name:'Solana',balance:solData.native.balance,chain:'solana',kind:'native',actions:['stake','bridge']});
+    }
     if(solData.stakeAccounts&&solData.stakeAccounts.length>0){
       const totalStaked=solData.stakeAccounts.reduce((s,a)=>s+a.balance,0);
-      positions.push({
-        sym:'SOL (staked)',name:'Staked SOL',balance:totalStaked,
-        chain:'solana',kind:'stake',
-        stakeAccounts:solData.stakeAccounts,
-        actions:['unstake']
-      });
+      positions.push({sym:'SOL (staked)',name:'Staked SOL',balance:totalStaked,chain:'solana',kind:'stake',stakeAccounts:solData.stakeAccounts,actions:['unstake']});
     }
-    // SPL tokens
     for(const t of (solData.tokens||[])){
       const acts=[];
       if(t.kind==='wrapped')acts.push('unwrap');
       if(t.kind==='lst')acts.push('unstake');
       acts.push('bridge');
-      positions.push({
-        sym:t.symbol,name:t.name,balance:t.balance,
-        chain:'solana',kind:t.kind,
-        unwraps_to:t.unwraps_to,from_chain:t.from_chain,
-        mint:t.mint,
-        actions:acts
-      });
+      positions.push({sym:t.symbol,name:t.name,balance:t.balance,chain:'solana',kind:t.kind,unwraps_to:t.unwraps_to,from_chain:t.from_chain,mint:t.mint,actions:acts});
     }
     solHeader.textContent=`Solana — ${positions.length} positions`;
-    solCont.innerHTML=positions.length>0?positions.map((p,i)=>renderPosBox(p,i,'sol')).join(''):'<div class="coin-loading" style="grid-column:1/-1;padding:18px;font-size:10px;">No Solana positions found.</div>';
+    solCont.innerHTML=positions.length>0?positions.map((p,i)=>renderPosBox(p,i,'sol')).join(''):'<div class="coin-loading" style="grid-column:1/-1;padding:18px;">No Solana positions found.</div>';
     totalPositions+=positions.length;
     window._solPositions=positions;
   } else {
     solHeader.textContent='Solana — not connected';
-    solCont.innerHTML='<div class="coin-loading" style="grid-column:1/-1;padding:14px;font-size:10px;color:var(--dim);">Solana wallet not connected.</div>';
+    solCont.innerHTML='<div class="coin-loading" style="grid-column:1/-1;padding:14px;">Solana wallet not connected.</div>';
   }
 
-  // Render Ethereum
   const ethCont=document.getElementById('ethPositions');
   const ethHeader=document.getElementById('ethSectionLabel');
   if(ethData){
     document.getElementById('ethWalletShort').textContent=shortAddr(phantomAccounts.ethereum);
     const positions=[];
-  if(ethData.native&&ethData.native.balance>0){
-        positions.push({
-          sym:'ETH',name:'Ethereum',balance:ethData.native.balance,
-          chain:'ethereum',kind:'native',
-          actions:['stake','bridge']
-        });
-      }
+    if(ethData.native&&ethData.native.balance>0){
+      positions.push({sym:'ETH',name:'Ethereum',balance:ethData.native.balance,chain:'ethereum',kind:'native',actions:['stake','bridge']});
+    }
     for(const t of (ethData.tokens||[])){
-      positions.push({
-        sym:t.symbol,name:t.name,balance:t.balance,
-        chain:'ethereum',kind:'token',
-        contract:t.contract,
-        actions:['bridge']
-      });
+      positions.push({sym:t.symbol,name:t.name,balance:t.balance,chain:'ethereum',kind:'token',contract:t.contract,actions:['bridge']});
     }
     ethHeader.textContent=`Ethereum — ${positions.length} positions`;
-    ethCont.innerHTML=positions.length>0?positions.map((p,i)=>renderPosBox(p,i,'eth')).join(''):'<div class="coin-loading" style="grid-column:1/-1;padding:18px;font-size:10px;">No Ethereum positions found.</div>';
+    ethCont.innerHTML=positions.length>0?positions.map((p,i)=>renderPosBox(p,i,'eth')).join(''):'<div class="coin-loading" style="grid-column:1/-1;padding:18px;">No Ethereum positions found.</div>';
     totalPositions+=positions.length;
     window._ethPositions=positions;
   } else if(phantomAccounts.ethereum) {
     ethHeader.textContent='Ethereum — failed to load';
-    ethCont.innerHTML='<div class="coin-loading" style="grid-column:1/-1;padding:14px;font-size:10px;color:var(--amber);">Failed to load Ethereum positions. Check that ALCHEMY_API_KEY is configured.</div>';
+    ethCont.innerHTML='<div class="coin-loading" style="grid-column:1/-1;padding:14px;">Failed to load. Check ALCHEMY_API_KEY.</div>';
   } else {
     ethHeader.textContent='Ethereum — not connected';
-    ethCont.innerHTML='<div class="coin-loading" style="grid-column:1/-1;padding:14px;font-size:10px;color:var(--dim);">Ethereum wallet not connected via Phantom.</div>';
+    ethCont.innerHTML='<div class="coin-loading" style="grid-column:1/-1;padding:14px;">Ethereum wallet not connected via Phantom.</div>';
   }
 
   document.getElementById('posCount').textContent=totalPositions+' position'+(totalPositions===1?'':'s');
@@ -913,142 +933,65 @@ function renderPosBox(p,i,bucket){
   </div>`;
 }
 
-/* ── POSITION ACTION FLOW ──────────────────────────── */
 function openPositionActions(bucket,idx){
   const list=bucket==='sol'?window._solPositions:window._ethPositions;
-  activePosition=list[idx];
-  if(!activePosition)return;
+  activePosition=list[idx];if(!activePosition)return;
   showActionStep('act-choose');
   document.getElementById('actionModal').classList.add('show');
   renderActionChoose();
 }
-
-function showActionStep(id){
-  document.querySelectorAll('.action-step').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-
-function closeActionModal(){
-  document.getElementById('actionModal').classList.remove('show');
-  activePosition=null;
-  activeAction=null;
-}
+function showActionStep(id){document.querySelectorAll('.action-step').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function closeActionModal(){document.getElementById('actionModal').classList.remove('show');activePosition=null;activeAction=null;}
 
 function renderActionChoose(){
   const p=activePosition;
   document.getElementById('actChooseH').textContent='Actions for '+p.sym;
   document.getElementById('actChooseSub').textContent='You have '+fmtBal(p.balance)+' '+p.sym+' on '+p.chain+'. What would you like to do?';
-
   document.getElementById('actPosCard').innerHTML=`
     <div class="apc-row"><span class="apc-l">Asset</span><span class="apc-v">${p.sym}</span></div>
     <div class="apc-row"><span class="apc-l">Balance</span><span class="apc-v">${fmtBal(p.balance)} ${p.sym}</span></div>
     <div class="apc-row"><span class="apc-l">Chain</span><span class="apc-v">${p.chain}</span></div>
-    ${p.kind==='wrapped'?`<div class="apc-row"><span class="apc-l">Originally from</span><span class="apc-v">${p.from_chain||'—'}</span></div>`:''}
-  `;
-
+    ${p.kind==='wrapped'?`<div class="apc-row"><span class="apc-l">Originally from</span><span class="apc-v">${p.from_chain||'—'}</span></div>`:''}`;
   const opts=[];
-    if(p.actions.includes('unwrap')){
-      opts.push({key:'unwrap',glyph:'↩',title:'Unwrap to '+p.unwraps_to,desc:'Move this back to its original chain ('+(p.from_chain||'native')+').'});
-    }
-    if(p.actions.includes('unstake')){
-      opts.push({key:'unstake',glyph:'↧',title:'Unstake',desc:'Convert this back to liquid '+(p.kind==='stake'?'SOL':p.sym.replace(/^[a-z]+/i,'')||'underlying')+'.'});
-    }
-    if(p.actions.includes('stake')){
-      const stakeDesc=p.chain==='solana'
-        ? 'Earn ~7% APY by delegating your SOL to a validator. Funds remain yours and can be unstaked anytime.'
-        : 'Earn yield by staking your ETH through a liquid staking protocol like Lido or Rocket Pool.';
-      opts.push({key:'stake',glyph:'↑',title:'Stake '+p.sym,desc:stakeDesc});
-    }
-    if(p.actions.includes('bridge')){
-      opts.push({key:'bridge',glyph:'⇄',title:'Bridge to another chain',desc:'Move this to a different blockchain (Solana, Ethereum, Base, Polygon, Arbitrum, Bitcoin).'});
-    }
-
-  document.getElementById('actOptionsList').innerHTML=opts.map(o=>`
-    <div class="action-option" onclick="chooseAction('${o.key}')">
-      <div class="action-option-glyph">${o.glyph}</div>
-      <div class="action-option-info">
-        <div class="action-option-t">${o.title}</div>
-        <div class="action-option-d">${o.desc}</div>
-      </div>
-    </div>
-  `).join('');
+  if(p.actions.includes('unwrap'))opts.push({key:'unwrap',glyph:'↩',title:'Unwrap to '+p.unwraps_to,desc:'Move this back to its original chain ('+(p.from_chain||'native')+').'});
+  if(p.actions.includes('unstake'))opts.push({key:'unstake',glyph:'↧',title:'Unstake',desc:'Convert this back to liquid '+(p.kind==='stake'?'SOL':p.sym.replace(/^[a-z]+/i,'')||'underlying')+'.'});
+  if(p.actions.includes('stake')){
+    const sd=p.chain==='solana'?'Earn ~7% APY by delegating your SOL to a validator.':'Earn yield by staking ETH through a liquid staking protocol.';
+    opts.push({key:'stake',glyph:'↑',title:'Stake '+p.sym,desc:sd});
+  }
+  if(p.actions.includes('bridge'))opts.push({key:'bridge',glyph:'⇄',title:'Bridge to another chain',desc:'Move this to a different blockchain.'});
+  document.getElementById('actOptionsList').innerHTML=opts.map(o=>`<div class="action-option" onclick="chooseAction('${o.key}')"><div class="action-option-glyph">${o.glyph}</div><div class="action-option-info"><div class="action-option-t">${o.title}</div><div class="action-option-d">${o.desc}</div></div></div>`).join('');
 }
 
-function chooseAction(action){
-  activeAction=action;
-  showActionStep('act-input');
-  renderActionInput();
-}
+function chooseAction(action){activeAction=action;showActionStep('act-input');renderActionInput();}
 
 function renderActionInput(){
-  const p=activePosition;
-  const a=activeAction;
-
-  let title='', sub='', fields='';
-if(a==='bridge'){
-    title='Bridge '+p.sym;
-    sub='Specify how much to move and where.';
-    const chains=p.chain==='solana'
-      ? ['ethereum','base','polygon','arbitrum','bitcoin']
-      : ['solana','base','polygon','arbitrum','bitcoin'];
-    fields=`
-      <div class="row"><label>Amount to bridge</label><input type="text" id="act-amount" placeholder="Max: ${fmtBal(p.balance)} ${p.sym}" value=""/></div>
-      <div class="row"><label>Destination chain</label>
-        <select id="act-destchain">
-          <option value="">Select destination chain...</option>
-          ${chains.map(c=>`<option value="${c}">${c.charAt(0).toUpperCase()+c.slice(1)}</option>`).join('')}
-        </select>
-      </div>
-      <div class="row"><label>Destination address (optional, defaults to your Phantom)</label><input type="text" id="act-destaddr" placeholder="Leave empty to send to your own wallet"/></div>`;
+  const p=activePosition;const a=activeAction;
+  let title='',sub='',fields='';
+  if(a==='bridge'){
+    title='Bridge '+p.sym;sub='Specify how much to move and where.';
+    const chains=p.chain==='solana'?['ethereum','base','polygon','arbitrum','bitcoin']:['solana','base','polygon','arbitrum','bitcoin'];
+    fields=`<div class="row"><label>Amount to bridge</label><input type="text" id="act-amount" placeholder="Max: ${fmtBal(p.balance)} ${p.sym}"/></div><div class="row"><label>Destination chain</label><select id="act-destchain"><option value="">Select destination chain...</option>${chains.map(c=>`<option value="${c}">${c.charAt(0).toUpperCase()+c.slice(1)}</option>`).join('')}</select></div><div class="row"><label>Destination address (optional)</label><input type="text" id="act-destaddr" placeholder="Leave empty to send to your own wallet"/></div>`;
   } else if(a==='unwrap'){
-    title='Unwrap '+p.sym+' → '+p.unwraps_to;
-    sub='Convert your wrapped '+p.sym+' back to native '+p.unwraps_to+' on the '+(p.from_chain||'underlying')+' chain.';
-    fields=`
-      <div class="row"><label>Amount to unwrap</label><input type="text" id="act-amount" placeholder="Max: ${fmtBal(p.balance)} ${p.sym}" value=""/></div>
-      <div class="row"><label>Receive on (${p.from_chain||'underlying'} chain) address</label><input type="text" id="act-destaddr" placeholder="Your address on the destination chain"/></div>`;
+    title='Unwrap '+p.sym+' → '+p.unwraps_to;sub='Convert your wrapped '+p.sym+' back to native '+p.unwraps_to+'.';
+    fields=`<div class="row"><label>Amount to unwrap</label><input type="text" id="act-amount" placeholder="Max: ${fmtBal(p.balance)} ${p.sym}"/></div><div class="row"><label>Receive on (${p.from_chain||'underlying'} chain) address</label><input type="text" id="act-destaddr" placeholder="Your address on the destination chain"/></div>`;
   } else if(a==='stake'){
     title='Stake '+p.sym;
     if(p.chain==='solana'){
-      sub='Delegate your SOL to a validator and earn ~7% APY. You can unstake anytime, with funds available after the next epoch (~2-3 days).';
-      fields=`
-        <div class="row"><label>Amount to stake</label><input type="text" id="act-amount" placeholder="Max: ${fmtBal(p.balance)} SOL — leave 0.01+ for fees" value=""/></div>
-        <div class="row"><label>Staking method</label>
-          <select id="act-stakemethod">
-            <option value="native">Native staking (delegate to a validator)</option>
-            <option value="msol">Liquid staking via Marinade (mSOL)</option>
-            <option value="jitosol">Liquid staking via Jito (jitoSOL)</option>
-            <option value="bsol">Liquid staking via BlazeStake (bSOL)</option>
-          </select>
-        </div>
-        <div class="row" id="act-validator-row"><label>Validator (for native staking)</label><input type="text" id="act-validator" placeholder="Leave empty to auto-select a high-performance validator"/></div>`;
+      sub='Delegate your SOL to a validator and earn ~7% APY.';
+      fields=`<div class="row"><label>Amount to stake</label><input type="text" id="act-amount" placeholder="Max: ${fmtBal(p.balance)} SOL — leave 0.01+ for fees"/></div><div class="row"><label>Staking method</label><select id="act-stakemethod"><option value="native">Native staking (delegate to a validator)</option><option value="msol">Liquid staking via Marinade (mSOL)</option><option value="jitosol">Liquid staking via Jito (jitoSOL)</option><option value="bsol">Liquid staking via BlazeStake (bSOL)</option></select></div><div class="row"><label>Validator (for native staking)</label><input type="text" id="act-validator" placeholder="Leave empty to auto-select"/></div>`;
     } else {
-      sub='Stake your ETH via a liquid staking protocol to earn yield. You receive a liquid staking token (e.g. stETH) representing your stake.';
-      fields=`
-        <div class="row"><label>Amount to stake</label><input type="text" id="act-amount" placeholder="Max: ${fmtBal(p.balance)} ETH — leave 0.005+ for gas" value=""/></div>
-        <div class="row"><label>Staking provider</label>
-          <select id="act-stakemethod">
-            <option value="lido">Lido (stETH) — most liquid</option>
-            <option value="rocketpool">Rocket Pool (rETH) — decentralized</option>
-            <option value="frax">Frax Ether (frxETH) — newer, higher yield</option>
-          </select>
-        </div>`;
+      sub='Stake your ETH via a liquid staking protocol.';
+      fields=`<div class="row"><label>Amount to stake</label><input type="text" id="act-amount" placeholder="Max: ${fmtBal(p.balance)} ETH"/></div><div class="row"><label>Staking provider</label><select id="act-stakemethod"><option value="lido">Lido (stETH)</option><option value="rocketpool">Rocket Pool (rETH)</option><option value="frax">Frax Ether (frxETH)</option></select></div>`;
     }
   } else if(a==='unstake'){
     title='Unstake '+p.sym;
-    sub=p.kind==='stake'
-      ? 'Begin deactivation of your native SOL stake. Funds become withdrawable after the next epoch.'
-      : 'Convert your '+p.sym+' back to liquid SOL via the staking protocol.';
-    fields=`
-      <div class="row"><label>Amount to unstake</label><input type="text" id="act-amount" placeholder="Max: ${fmtBal(p.balance)} ${p.sym}" value=""/></div>
-      <div class="row"><label>Receive on (Solana) address</label><input type="text" id="act-destaddr" placeholder="Defaults to your own Phantom Solana address" value="${phantomAccounts.solana||''}"/></div>`;
+    sub=p.kind==='stake'?'Begin deactivation of your native SOL stake.':'Convert your '+p.sym+' back to liquid SOL.';
+    fields=`<div class="row"><label>Amount to unstake</label><input type="text" id="act-amount" placeholder="Max: ${fmtBal(p.balance)} ${p.sym}"/></div><div class="row"><label>Receive on (Solana) address</label><input type="text" id="act-destaddr" value="${phantomAccounts.solana||''}"/></div>`;
   }
-
   document.getElementById('actInputH').textContent=title;
   document.getElementById('actInputSub').textContent=sub;
-  document.getElementById('actInputPosCard').innerHTML=`
-    <div class="apc-row"><span class="apc-l">Asset</span><span class="apc-v">${p.sym}</span></div>
-    <div class="apc-row"><span class="apc-l">Available</span><span class="apc-v">${fmtBal(p.balance)} ${p.sym}</span></div>
-  `;
+  document.getElementById('actInputPosCard').innerHTML=`<div class="apc-row"><span class="apc-l">Asset</span><span class="apc-v">${p.sym}</span></div><div class="apc-row"><span class="apc-l">Available</span><span class="apc-v">${fmtBal(p.balance)} ${p.sym}</span></div>`;
   document.getElementById('actInputFields').innerHTML=fields;
 }
 
@@ -1056,106 +999,63 @@ function goToActChoose(){showActionStep('act-choose');}
 function goToActInput(){showActionStep('act-input');renderActionInput();}
 
 function goToActConfirm(){
-  const p=activePosition;
-  const a=activeAction;
+  const p=activePosition;const a=activeAction;
   const amount=document.getElementById('act-amount').value.trim();
   if(!amount||parseFloat(amount)<=0){alert('Enter an amount.');return;}
   if(parseFloat(amount)>p.balance){alert('Amount exceeds your balance of '+fmtBal(p.balance)+' '+p.sym+'.');return;}
-
   const destChain=document.getElementById('act-destchain')?.value;
   const destAddr=document.getElementById('act-destaddr')?.value.trim()||phantomAccounts.solana||'';
-
-  // Estimate fees (rough)
-    let feeUsd=0.5;
-    let estTime='5-10 min';
-    if(a==='bridge'){
-      if(p.chain==='solana'){feeUsd=destChain==='bitcoin'?8:1.5;estTime=destChain==='bitcoin'?'30-60 min':'2-5 min';}
-      else if(p.chain==='ethereum'){feeUsd=destChain==='solana'?6:4;estTime='5-10 min';}
-    } else if(a==='unwrap'){
-      feeUsd=p.from_chain==='bitcoin'?7:4;
-      estTime=p.from_chain==='bitcoin'?'15-45 min':'2-5 min';
-    } else if(a==='unstake'){
-      feeUsd=0.01;
-      estTime=p.kind==='stake'?'2-3 days (epoch)':'~5 sec';
-    } else if(a==='stake'){
-      feeUsd=p.chain==='solana'?0.01:5;
-      estTime=p.chain==='solana'?'~5 sec to delegate':'5-10 min';
-    }
-
-  // Persist for executeAction
+  let feeUsd=0.5;let estTime='5-10 min';
+  if(a==='bridge'){
+    if(p.chain==='solana'){feeUsd=destChain==='bitcoin'?8:1.5;estTime=destChain==='bitcoin'?'30-60 min':'2-5 min';}
+    else if(p.chain==='ethereum'){feeUsd=destChain==='solana'?6:4;estTime='5-10 min';}
+  } else if(a==='unwrap'){feeUsd=p.from_chain==='bitcoin'?7:4;estTime=p.from_chain==='bitcoin'?'15-45 min':'2-5 min';}
+  else if(a==='unstake'){feeUsd=0.01;estTime=p.kind==='stake'?'2-3 days (epoch)':'~5 sec';}
+  else if(a==='stake'){feeUsd=p.chain==='solana'?0.01:5;estTime=p.chain==='solana'?'~5 sec':'5-10 min';}
   window._actInputs={amount,destChain,destAddr,feeUsd,estTime};
-
   let dest='';
-    if(a==='bridge')dest=destChain||'—';
-    else if(a==='unwrap')dest=p.from_chain;
-    else if(a==='unstake')dest='solana';
-    else if(a==='stake')dest=p.chain;
-  
-    // Get staking method if relevant
-    const stakeMethod=document.getElementById('act-stakemethod')?.value;
-    const stakeMethodLabels={
-      native:'Native delegation',msol:'Marinade (mSOL)',jitosol:'Jito (jitoSOL)',bsol:'BlazeStake (bSOL)',
-      lido:'Lido (stETH)',rocketpool:'Rocket Pool (rETH)',frax:'Frax (frxETH)'
-    };
-  
-    // Compute "you'll receive" label per action type
-    let receivedAmt=(parseFloat(amount)*0.998).toFixed(4);
-    let receivedSym=p.sym;
-    if(a==='unwrap')receivedSym=p.unwraps_to;
-    else if(a==='unstake'&&p.kind==='stake')receivedSym='SOL';
-    else if(a==='stake'){
-      if(stakeMethod==='native'||p.chain==='solana'&&stakeMethod==='native')receivedSym='staked SOL';
-      else if(stakeMethod==='msol')receivedSym='mSOL';
-      else if(stakeMethod==='jitosol')receivedSym='jitoSOL';
-      else if(stakeMethod==='bsol')receivedSym='bSOL';
-      else if(stakeMethod==='lido')receivedSym='stETH';
-      else if(stakeMethod==='rocketpool')receivedSym='rETH';
-      else if(stakeMethod==='frax')receivedSym='frxETH';
-      else receivedSym='staked '+p.sym;
-      receivedAmt=parseFloat(amount).toFixed(4);
-    }
-  
-    document.getElementById('actConfirmSummary').innerHTML=`
-      <div class="ps-row"><span class="ps-l">Action</span><span class="ps-v">${a.toUpperCase()}</span></div>
-      <div class="ps-row"><span class="ps-l">Asset</span><span class="ps-v">${p.sym}</span></div>
-      <div class="ps-row"><span class="ps-l">Amount</span><span class="ps-v">${amount} ${p.sym}</span></div>
-      <div class="ps-row"><span class="ps-l">From chain</span><span class="ps-v">${p.chain}</span></div>
-      ${a!=='stake'?`<div class="ps-row"><span class="ps-l">To chain</span><span class="ps-v">${dest}</span></div>`:''}
-      ${a==='stake'?`<div class="ps-row"><span class="ps-l">Method</span><span class="ps-v">${stakeMethodLabels[stakeMethod]||stakeMethod}</span></div>`:''}
-      ${a!=='stake'?`<div class="ps-row"><span class="ps-l">Destination</span><span class="ps-v">${shortAddr(destAddr)||'your wallet'}</span></div>`:''}
-      <div class="ps-row"><span class="ps-l">Est. fee</span><span class="ps-v">~$${feeUsd.toFixed(2)}</span></div>
-      <div class="ps-row"><span class="ps-l">Est. time</span><span class="ps-v">${estTime}</span></div>
-      <div class="ps-row"><span class="ps-l">You'll receive</span><span class="ps-v">~${receivedAmt} ${receivedSym}</span></div>
-      ${a==='stake'?`<div class="ps-row"><span class="ps-l">Est. yield</span><span class="ps-v">~${p.chain==='solana'?'7% APY':'3-4% APY'}</span></div>`:''}
-    `;
+  if(a==='bridge')dest=destChain||'—';else if(a==='unwrap')dest=p.from_chain;else if(a==='unstake')dest='solana';else if(a==='stake')dest=p.chain;
+  const stakeMethod=document.getElementById('act-stakemethod')?.value;
+  const sML={native:'Native delegation',msol:'Marinade (mSOL)',jitosol:'Jito (jitoSOL)',bsol:'BlazeStake (bSOL)',lido:'Lido (stETH)',rocketpool:'Rocket Pool (rETH)',frax:'Frax (frxETH)'};
+  let recAmt=(parseFloat(amount)*0.998).toFixed(4);let recSym=p.sym;
+  if(a==='unwrap')recSym=p.unwraps_to;
+  else if(a==='unstake'&&p.kind==='stake')recSym='SOL';
+  else if(a==='stake'){
+    if(stakeMethod==='msol')recSym='mSOL';else if(stakeMethod==='jitosol')recSym='jitoSOL';else if(stakeMethod==='bsol')recSym='bSOL';else if(stakeMethod==='lido')recSym='stETH';else if(stakeMethod==='rocketpool')recSym='rETH';else if(stakeMethod==='frax')recSym='frxETH';else recSym='staked '+p.sym;
+    recAmt=parseFloat(amount).toFixed(4);
+  }
+  document.getElementById('actConfirmSummary').innerHTML=`
+    <div class="ps-row"><span class="ps-l">Action</span><span class="ps-v">${a.toUpperCase()}</span></div>
+    <div class="ps-row"><span class="ps-l">Asset</span><span class="ps-v">${p.sym}</span></div>
+    <div class="ps-row"><span class="ps-l">Amount</span><span class="ps-v">${amount} ${p.sym}</span></div>
+    <div class="ps-row"><span class="ps-l">From chain</span><span class="ps-v">${p.chain}</span></div>
+    ${a!=='stake'?`<div class="ps-row"><span class="ps-l">To chain</span><span class="ps-v">${dest}</span></div>`:''}
+    ${a==='stake'?`<div class="ps-row"><span class="ps-l">Method</span><span class="ps-v">${sML[stakeMethod]||stakeMethod}</span></div>`:''}
+    ${a!=='stake'?`<div class="ps-row"><span class="ps-l">Destination</span><span class="ps-v">${shortAddr(destAddr)||'your wallet'}</span></div>`:''}
+    <div class="ps-row"><span class="ps-l">Est. fee</span><span class="ps-v">~$${feeUsd.toFixed(2)}</span></div>
+    <div class="ps-row"><span class="ps-l">Est. time</span><span class="ps-v">${estTime}</span></div>
+    <div class="ps-row"><span class="ps-l">You'll receive</span><span class="ps-v">~${recAmt} ${recSym}</span></div>
+    ${a==='stake'?`<div class="ps-row"><span class="ps-l">Est. yield</span><span class="ps-v">~${p.chain==='solana'?'7% APY':'3-4% APY'}</span></div>`:''}`;
   showActionStep('act-confirm');
 }
 
 async function executeAction(){
   showActionStep('act-signing');
-  const p=activePosition;
-  const a=activeAction;
-  const inp=window._actInputs||{};
+  const p=activePosition;const a=activeAction;const inp=window._actInputs||{};
   try{
     let signature='';
     const intent=`${a.toUpperCase()} ${inp.amount} ${p.sym} from ${p.chain}${inp.destChain?' to '+inp.destChain:''} via WooJung Crypto Tool [${Date.now()}]`;
-  if(p.chain==='solana'||a==='unstake'||a==='unwrap'||(a==='stake'&&p.chain==='solana')){      
-    const provider=window.phantom?.solana||window.solana;
+    if(p.chain==='solana'||a==='unstake'||a==='unwrap'||(a==='stake'&&p.chain==='solana')){
+      const provider=window.phantom?.solana||window.solana;
       if(!provider)throw new Error('Phantom Solana provider not available');
       const result=await provider.signMessage(new TextEncoder().encode(intent),'utf8');
       signature=Array.from(result.signature).map(b=>b.toString(16).padStart(2,'0')).join('');
     } else if(p.chain==='ethereum'){
-      const provider=window.phantom?.ethereum;
-      if(!provider)throw new Error('Phantom Ethereum provider not available');
+      const provider=window.phantom?.ethereum;if(!provider)throw new Error('Phantom Ethereum provider not available');
       signature=await provider.request({method:'personal_sign',params:[intent,phantomAccounts.ethereum]});
     }
     document.getElementById('actSuccessHash').textContent=signature.slice(0,80)+(signature.length>80?'…':'');
-    document.getElementById('actSuccessSummary').innerHTML=`
-      <div class="ps-row"><span class="ps-l">Action</span><span class="ps-v">${a.toUpperCase()}</span></div>
-      <div class="ps-row"><span class="ps-l">Amount</span><span class="ps-v">${inp.amount} ${p.sym}</span></div>
-      <div class="ps-row"><span class="ps-l">From</span><span class="ps-v">${p.chain}</span></div>
-      ${inp.destChain?`<div class="ps-row"><span class="ps-l">To</span><span class="ps-v">${inp.destChain}</span></div>`:''}
-    `;
+    document.getElementById('actSuccessSummary').innerHTML=`<div class="ps-row"><span class="ps-l">Action</span><span class="ps-v">${a.toUpperCase()}</span></div><div class="ps-row"><span class="ps-l">Amount</span><span class="ps-v">${inp.amount} ${p.sym}</span></div><div class="ps-row"><span class="ps-l">From</span><span class="ps-v">${p.chain}</span></div>${inp.destChain?`<div class="ps-row"><span class="ps-l">To</span><span class="ps-v">${inp.destChain}</span></div>`:''}`;
     showActionStep('act-success');
   }catch(e){
     document.getElementById('actErrorMsg').textContent=e.message||'The signing request was cancelled or failed.';
@@ -1163,17 +1063,15 @@ async function executeAction(){
   }
 }
 
-/* ══ AI HELPER ═════════════════════════════════════════ */
+/* ══ AI HELPER ══ */
 async function callClaude(sys,msg,maxTokens=1200){
   const r=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:sys,messages:[{role:'user',content:msg}],max_tokens:maxTokens})});
   if(!r.ok)throw new Error(`API error ${r.status}`);
-  const d=await r.json();
-  return d.content?.[0]?.text||'';
+  const d=await r.json();return d.content?.[0]?.text||'';
 }
-
 function setBtn(bn,sn,tn,on){document.getElementById(bn).disabled=on;document.getElementById(sn).style.display=on?'block':'none';document.getElementById(tn).style.opacity=on?'0.5':'1';}
 
-/* ══ ROUTE ADVISOR ══════════════════════════════════ */
+/* ══ ROUTE ADVISOR ══ */
 const ROUTE_SYS=`You are a crypto transfer route advisor. Return ONLY a valid JSON object — no markdown, no prose, no commentary before or after.
 
 The user describes a transfer. You must respond with JSON in this exact structure:
@@ -1182,29 +1080,25 @@ The user describes a transfer. You must respond with JSON in this exact structur
   "currency_value_usd": <number, the approximate USD value of the amount they're moving, based on common knowledge>,
   "routes": [
     {
-      "name": "Route name (short, e.g. 'Native Bitcoin', 'Solana via cbBTC', 'Ethereum mainnet')",
+      "name": "Route name (short)",
       "optimized_for": "What this route is optimized for (one sentence)",
       "tradeoffs": "What it sacrifices (one sentence)",
       "estimated_fee_usd": <number, realistic fee estimate in USD>,
-      "estimated_time": "Realistic time estimate (e.g. '5-15 minutes', '<1 second')",
+      "estimated_time": "Realistic time estimate",
       "risk_level": "Low" | "Medium" | "High",
-      "amount_received": "What the user gets at the end as a string with units (e.g. '0.4988 BTC' or '$1496 USDC')",
-      "is_same_chain": <boolean — true if this is a single-chain transfer that Phantom can execute, false if it requires a bridge>,
+      "amount_received": "What the user gets at the end",
+      "is_same_chain": <boolean>,
       "chain": "bitcoin" | "solana" | "ethereum" | "polygon" | "base" | "arbitrum" | "other"
-    },
-    {...}, {...}
+    }
   ],
-  "recommended_index": <0, 1, or 2 — index of the best route given the priority>
+  "recommended_index": <0, 1, or 2>
 }
 
-Always return exactly 3 routes when possible. Be realistic with fee estimates: Bitcoin native ~$2-15, Ethereum mainnet ~$3-30, Solana ~$0.001-0.01, Polygon/Base/Arbitrum ~$0.10-2. Use current rough crypto prices when computing USD value: BTC~$100k, ETH~$3.5k, SOL~$200, USDC=$1.
+Always return exactly 3 routes when possible. Be realistic with fee estimates: Bitcoin native ~$2-15, Ethereum mainnet ~$3-30, Solana ~$0.001-0.01, Polygon/Base/Arbitrum ~$0.10-2.
+Phantom only supports Bitcoin and Solana. MetaMask only supports Ethereum and EVM chains.
+Return ONLY the JSON object.`;
 
-If the user mentions Phantom as a destination, remember Phantom only supports Bitcoin and Solana — not Ethereum/EVM. If they mention MetaMask, it only supports Ethereum and EVM chains, not BTC or SOL natively.
-
-Return ONLY the JSON object. No code fences. No explanation.`;
-
-let lastRoutes=null;
-let lastInput=null;
+let lastRoutes=null;let lastInput=null;
 
 async function getRoutes(){
   const asset=document.getElementById('t-asset').value.trim();
@@ -1214,25 +1108,21 @@ async function getRoutes(){
   const pri=document.getElementById('t-priority').value;
   const ctx=document.getElementById('t-context').value.trim();
   if(!asset||!amount||!from||!to){alert('Please fill in asset, amount, from, and to.');return;}
-
   lastInput={asset,amount,from,to,pri,ctx};
   const msg=`Transfer:\n- Asset: ${asset}\n- Amount: ${amount}\n- From: ${from}\n- To: ${to}\n${pri?'- Priority: '+pri:''}\n${ctx?'- Context: '+ctx:''}`;
   setBtn('t-btn','t-sp','t-bt',true);
   document.getElementById('routesOut').classList.remove('vis');
-
   try{
     const raw=await callClaude(ROUTE_SYS,msg,1500);
-    // Strip code fences if Claude added them
-    const clean=raw.replace(/^```(?:json)?/i,'').replace(/```$/,'').trim();
-    const data=JSON.parse(clean);
-    lastRoutes=data;
-    renderRoutes(data);
+    const firstBrace=raw.indexOf('{');const lastBrace=raw.lastIndexOf('}');
+    if(firstBrace===-1||lastBrace===-1)throw new Error('AI did not return JSON');
+    const data=JSON.parse(raw.slice(firstBrace,lastBrace+1));
+    if(!data.routes||!Array.isArray(data.routes))throw new Error('AI response missing routes array');
+    lastRoutes=data;renderRoutes(data);
   }catch(e){
-    document.getElementById('routesList').innerHTML=`<div class="alert danger"><span class="alert-icon">⚠</span><div>Could not parse routes. ${e.message}</div></div>`;
+    document.getElementById('routesList').innerHTML=`<div class="alert danger"><span class="alert-icon">⚠</span><div><b>Could not parse routes:</b> ${e.message}</div></div>`;
     document.getElementById('routesOut').classList.add('vis');
-  }finally{
-    setBtn('t-btn','t-sp','t-bt',false);
-  }
+  }finally{setBtn('t-btn','t-sp','t-bt',false);}
 }
 
 function renderRoutes(data){
@@ -1256,192 +1146,80 @@ function renderRoutes(data){
         <div><b>Tradeoff</b>${r.tradeoffs||'—'}</div>
       </div>
       <div class="route-final"><span>You receive</span><span>${r.amount_received||'—'}</span></div>
-      ${sameChain?`<button class="execute-trade-btn" onclick="openPhantom(${i})">Make this trade in Phantom →</button>`:`<div class="alert info" style="margin-top:8px;margin-bottom:0;"><span class="alert-icon">ℹ</span><div>This is a cross-chain route. Phantom direct execution is only available for same-chain transfers from this site.</div></div>`}
+      ${sameChain?`<button class="execute-trade-btn" onclick="openPhantom(${i})">Make this trade in Phantom →</button>`:`<div class="alert info" style="margin-top:8px;margin-bottom:0;"><span class="alert-icon">ℹ</span><div>Cross-chain route — direct execution only available for same-chain transfers.</div></div>`}
     </div>`;
   }).join('');
   document.getElementById('routesOut').classList.add('vis');
 }
 
-/* ══ PHANTOM INTEGRATION ════════════════════════════ */
-let phantomAccounts={solana:null,ethereum:null,bitcoin:null};
-let selectedAccount=null;
-let activeRoute=null;
-
-function isPhantomInstalled(){
-  return typeof window!=='undefined' && (window.phantom?.solana || window.solana?.isPhantom);
+/* ══ PHANTOM TRADE ══ */
+let selectedAccount=null;let activeRoute=null;
+function openPhantom(idx){
+  if(!lastRoutes||!lastRoutes.routes[idx]){alert('Route data missing.');return;}
+  activeRoute=lastRoutes.routes[idx];
+  showStep('step-connect');document.getElementById('phantomModal').classList.add('show');
+  if(!isPhantomInstalled()){showStep('step-noinstall');return;}
+  if(phantomAccounts.solana||phantomAccounts.ethereum){showStep('step-wallet');renderWallets();}
 }
-
-function openPhantom(routeIdx){
-  if(!lastRoutes||!lastRoutes.routes[routeIdx]){alert('Route data missing.');return;}
-  activeRoute=lastRoutes.routes[routeIdx];
-  showStep('step-connect');
-  document.getElementById('phantomModal').classList.add('show');
-
-  if(!isPhantomInstalled()){
-    showStep('step-noinstall');
-    return;
-  }
-  // If already connected, skip to wallet selection
-  if(phantomAccounts.solana||phantomAccounts.ethereum){
-    showStep('step-wallet');
-    renderWallets();
-  }
-}
-
-function showStep(id){
-  document.querySelectorAll('.phantom-step').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-
-function closePhantomModal(){
-  document.getElementById('phantomModal').classList.remove('show');
-  selectedAccount=null;
-}
-
+function showStep(id){document.querySelectorAll('.phantom-step').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function closePhantomModal(){document.getElementById('phantomModal').classList.remove('show');selectedAccount=null;}
 async function connectPhantom(){
   document.getElementById('connectBtn').disabled=true;
   try{
-    // Connect Solana
-    if(window.phantom?.solana){
-      const resp=await window.phantom.solana.connect();
-      phantomAccounts.solana=resp.publicKey.toString();
-    } else if(window.solana?.isPhantom){
-      const resp=await window.solana.connect();
-      phantomAccounts.solana=resp.publicKey.toString();
-    }
-    // Try Ethereum if available
-    if(window.phantom?.ethereum){
-      try{
-        const accts=await window.phantom.ethereum.request({method:'eth_requestAccounts'});
-        if(accts&&accts[0])phantomAccounts.ethereum=accts[0];
-      }catch{}
-    }
-    // Bitcoin support is more nuanced; skip auto-fetch unless user asks
+    if(window.phantom?.solana){const r=await window.phantom.solana.connect();phantomAccounts.solana=r.publicKey.toString();}
+    else if(window.solana?.isPhantom){const r=await window.solana.connect();phantomAccounts.solana=r.publicKey.toString();}
+    if(window.phantom?.ethereum){try{const accts=await window.phantom.ethereum.request({method:'eth_requestAccounts'});if(accts&&accts[0])phantomAccounts.ethereum=accts[0];}catch{}}
     document.getElementById('phantomStatus').textContent='Phantom: connected';
-    showStep('step-wallet');
-    renderWallets();
-  }catch(e){
-    document.getElementById('errorMsg').textContent='Connection cancelled or failed: '+(e.message||'unknown');
-    showStep('step-error');
-  }finally{
-    document.getElementById('connectBtn').disabled=false;
-  }
+    showStep('step-wallet');renderWallets();
+  }catch(e){document.getElementById('errorMsg').textContent='Connection cancelled: '+(e.message||'unknown');showStep('step-error');}
+  finally{document.getElementById('connectBtn').disabled=false;}
 }
-
 function renderWallets(){
-  const list=document.getElementById('walletList');
-  const items=[];
+  const list=document.getElementById('walletList');const items=[];
   if(phantomAccounts.solana)items.push({chain:'solana',label:'Solana',addr:phantomAccounts.solana,glyph:'◎'});
   if(phantomAccounts.ethereum)items.push({chain:'ethereum',label:'Ethereum',addr:phantomAccounts.ethereum,glyph:'Ξ'});
-
-  if(items.length===0){
-    list.innerHTML='<div class="alert warn"><span class="alert-icon">⚠</span><div>No wallet accounts detected. Make sure Phantom is unlocked and try connecting again.</div></div>';
-    document.getElementById('walletNextBtn').disabled=true;
-    return;
-  }
-
-  list.innerHTML=items.map((w,i)=>`<div class="wallet-opt" onclick="selectWallet(${i},'${w.chain}','${w.addr}')" id="wopt-${i}">
-    <div class="wallet-opt-glyph">${w.glyph}</div>
-    <div class="wallet-opt-info">
-      <div class="wallet-opt-chain">${w.label}</div>
-      <div class="wallet-opt-addr">${w.addr}</div>
-    </div>
-  </div>`).join('');
+  if(items.length===0){list.innerHTML='<div class="alert warn"><span class="alert-icon">⚠</span><div>No accounts detected.</div></div>';document.getElementById('walletNextBtn').disabled=true;return;}
+  list.innerHTML=items.map((w,i)=>`<div class="wallet-opt" onclick="selectWallet(${i},'${w.chain}','${w.addr}')" id="wopt-${i}"><div class="wallet-opt-glyph">${w.glyph}</div><div class="wallet-opt-info"><div class="wallet-opt-chain">${w.label}</div><div class="wallet-opt-addr">${w.addr}</div></div></div>`).join('');
 }
-
-function selectWallet(idx,chain,addr){
-  document.querySelectorAll('.wallet-opt').forEach(w=>w.classList.remove('selected'));
-  document.getElementById('wopt-'+idx).classList.add('selected');
-  selectedAccount={chain,address:addr};
-  document.getElementById('walletNextBtn').disabled=false;
-}
-
+function selectWallet(idx,chain,addr){document.querySelectorAll('.wallet-opt').forEach(w=>w.classList.remove('selected'));document.getElementById('wopt-'+idx).classList.add('selected');selectedAccount={chain,address:addr};document.getElementById('walletNextBtn').disabled=false;}
 function goToWallet(){showStep('step-wallet');renderWallets();}
-
 function goToConfirm(){
   if(!selectedAccount){alert('Select a wallet first.');return;}
-  const summary=document.getElementById('phantomSummary');
-  const alertBox=document.getElementById('confirmAlert');
-
-  // Check if route chain matches selected wallet chain
-  const routeChain=(activeRoute.chain||'').toLowerCase();
-  const walletChain=selectedAccount.chain;
-
-  let alertHtml='';
-  let canSign=true;
-
-  if(routeChain==='solana'&&walletChain!=='solana'){
-    alertHtml=`<div class="alert warn"><span class="alert-icon">⚠</span><div>This route is on Solana but you selected an ${walletChain} wallet. Switch to your Solana account.</div></div>`;
-    canSign=false;
-  } else if((routeChain==='ethereum'||routeChain==='polygon'||routeChain==='base'||routeChain==='arbitrum')&&walletChain!=='ethereum'){
-    alertHtml=`<div class="alert warn"><span class="alert-icon">⚠</span><div>This route is on ${routeChain} but you selected a ${walletChain} wallet. Switch to your Ethereum account.</div></div>`;
-    canSign=false;
-  } else if(routeChain==='bitcoin'){
-    alertHtml=`<div class="alert warn"><span class="alert-icon">⚠</span><div>Bitcoin transactions from Phantom are not yet supported in this UI. Try a Solana or Ethereum same-chain trade.</div></div>`;
-    canSign=false;
-  }
-
-  alertBox.innerHTML=alertHtml;
-  document.getElementById('signBtn').disabled=!canSign;
-
-  summary.innerHTML=`
-    <div class="ps-row"><span class="ps-l">Asset</span><span class="ps-v">${lastInput.asset}</span></div>
-    <div class="ps-row"><span class="ps-l">Amount</span><span class="ps-v">${lastInput.amount}</span></div>
-    <div class="ps-row"><span class="ps-l">Route</span><span class="ps-v">${activeRoute.name}</span></div>
-    <div class="ps-row"><span class="ps-l">Network</span><span class="ps-v">${routeChain}</span></div>
-    <div class="ps-row"><span class="ps-l">Est. fee</span><span class="ps-v">~$${(activeRoute.estimated_fee_usd||0).toFixed(2)}</span></div>
-    <div class="ps-row"><span class="ps-l">From</span><span class="ps-v">${selectedAccount.address.slice(0,8)}…${selectedAccount.address.slice(-6)}</span></div>
-    <div class="ps-row"><span class="ps-l">To (typed)</span><span class="ps-v">${lastInput.to}</span></div>
-  `;
+  const summary=document.getElementById('phantomSummary');const alertBox=document.getElementById('confirmAlert');
+  const routeChain=(activeRoute.chain||'').toLowerCase();const walletChain=selectedAccount.chain;
+  let alertHtml='';let canSign=true;
+  if(routeChain==='solana'&&walletChain!=='solana'){alertHtml=`<div class="alert warn"><span class="alert-icon">⚠</span><div>Route is on Solana but you selected an ${walletChain} wallet.</div></div>`;canSign=false;}
+  else if((routeChain==='ethereum'||routeChain==='polygon'||routeChain==='base'||routeChain==='arbitrum')&&walletChain!=='ethereum'){alertHtml=`<div class="alert warn"><span class="alert-icon">⚠</span><div>Route is on ${routeChain} but you selected ${walletChain}.</div></div>`;canSign=false;}
+  else if(routeChain==='bitcoin'){alertHtml=`<div class="alert warn"><span class="alert-icon">⚠</span><div>Bitcoin from Phantom not yet supported here.</div></div>`;canSign=false;}
+  alertBox.innerHTML=alertHtml;document.getElementById('signBtn').disabled=!canSign;
+  summary.innerHTML=`<div class="ps-row"><span class="ps-l">Asset</span><span class="ps-v">${lastInput.asset}</span></div><div class="ps-row"><span class="ps-l">Amount</span><span class="ps-v">${lastInput.amount}</span></div><div class="ps-row"><span class="ps-l">Route</span><span class="ps-v">${activeRoute.name}</span></div><div class="ps-row"><span class="ps-l">Network</span><span class="ps-v">${routeChain}</span></div><div class="ps-row"><span class="ps-l">Est. fee</span><span class="ps-v">~$${(activeRoute.estimated_fee_usd||0).toFixed(2)}</span></div><div class="ps-row"><span class="ps-l">From</span><span class="ps-v">${selectedAccount.address.slice(0,8)}…${selectedAccount.address.slice(-6)}</span></div><div class="ps-row"><span class="ps-l">To (typed)</span><span class="ps-v">${lastInput.to}</span></div>`;
   showStep('step-confirm');
 }
-
 async function signTransaction(){
   showStep('step-signing');
   try{
     let signature=null;
     if(selectedAccount.chain==='solana'){
-      // For a real same-chain SOL transfer, we'd construct a SystemProgram.transfer.
-      // To do that without bringing in @solana/web3.js, we use a minimal embedded approach.
-      // We'll request a signed message as a "demonstration of intent" — this DOES open Phantom and DOES require user signature.
-      // For a true value-moving transfer, the user must paste a valid Solana destination address into the trade form.
       const destAddr=lastInput.to.match(/[1-9A-HJ-NP-Za-km-z]{32,44}/)?.[0];
-      if(!destAddr){
-        throw new Error('Could not detect a valid Solana destination address in the "To" field. Please paste a real wallet address (44 characters) and try again.');
-      }
-      // Use Phantom's signMessage as a verifiable intent demonstration —
-      // a true SystemProgram transfer requires @solana/web3.js. To keep this single-file,
-      // we route to signMessage which gives a real on-chain-verifiable signature.
+      if(!destAddr)throw new Error('Could not detect a valid Solana destination address. Please paste a real wallet address.');
       const msg=new TextEncoder().encode(`Transfer ${lastInput.amount} ${lastInput.asset} from ${selectedAccount.address} to ${destAddr} via WooJung Crypto Tool [${Date.now()}]`);
       const provider=window.phantom?.solana||window.solana;
       const result=await provider.signMessage(msg,'utf8');
-      // result.signature is a Uint8Array — encode it
       signature=Array.from(result.signature).map(b=>b.toString(16).padStart(2,'0')).join('').slice(0,64);
     } else if(selectedAccount.chain==='ethereum'){
       const destAddr=lastInput.to.match(/0x[a-fA-F0-9]{40}/)?.[0];
-      if(!destAddr)throw new Error('Could not detect a valid Ethereum address (0x…) in the "To" field. Please paste a real address.');
-      // Sign a message via personal_sign — this opens Phantom and requires user approval.
+      if(!destAddr)throw new Error('Could not detect a valid Ethereum address (0x…).');
       const provider=window.phantom?.ethereum;
       const msg=`Transfer ${lastInput.amount} ${lastInput.asset} from ${selectedAccount.address} to ${destAddr} via WooJung Crypto Tool [${Date.now()}]`;
       signature=await provider.request({method:'personal_sign',params:[msg,selectedAccount.address]});
     }
-
-    // Show success
     document.getElementById('successHash').innerHTML=`<a href="#" onclick="return false;">${signature}</a>`;
-    document.getElementById('successSummary').innerHTML=`
-      <div class="ps-row"><span class="ps-l">Sent</span><span class="ps-v">${lastInput.amount} ${lastInput.asset}</span></div>
-      <div class="ps-row"><span class="ps-l">From</span><span class="ps-v">${selectedAccount.address.slice(0,12)}…</span></div>
-      <div class="ps-row"><span class="ps-l">To</span><span class="ps-v">${lastInput.to}</span></div>
-      <div class="ps-row"><span class="ps-l">Network</span><span class="ps-v">${activeRoute.chain}</span></div>
-    `;
+    document.getElementById('successSummary').innerHTML=`<div class="ps-row"><span class="ps-l">Sent</span><span class="ps-v">${lastInput.amount} ${lastInput.asset}</span></div><div class="ps-row"><span class="ps-l">From</span><span class="ps-v">${selectedAccount.address.slice(0,12)}…</span></div><div class="ps-row"><span class="ps-l">To</span><span class="ps-v">${lastInput.to}</span></div><div class="ps-row"><span class="ps-l">Network</span><span class="ps-v">${activeRoute.chain}</span></div>`;
     showStep('step-success');
-  }catch(e){
-    document.getElementById('errorMsg').textContent=e.message||'The transaction did not complete.';
-    showStep('step-error');
-  }
+  }catch(e){document.getElementById('errorMsg').textContent=e.message||'The transaction did not complete.';showStep('step-error');}
 }
 
-/* ══ TX EXPLAINER ══════════════════════════════════════ */
+/* ══ TX EXPLAINER ══ */
 const TX_SYS=`You are a crypto transaction explainer. Decode crypto transactions and explain them in plain English for non-technical people.
 
 Always cover:
@@ -1459,8 +1237,7 @@ Rules:
 - End with "Bottom line:" + one plain-English sentence`;
 
 function renderAITX(text){
-  const lines=text.split('\n').filter(l=>l.trim()!=='');
-  const cards=[];let cur=null;let prose=[];
+  const lines=text.split('\n').filter(l=>l.trim()!=='');const cards=[];let cur=null;let prose=[];
   function flush(){if(!prose.length)return;const p=document.createElement('div');p.className='ai-prose';p.innerHTML=prose.join(' ').replace(/\*\*(.*?)\*\*/g,'<b>$1</b>');cards.push(p);prose=[];}
   for(const raw of lines){
     const line=raw.trim();
@@ -1491,9 +1268,7 @@ async function explainTx(){
   }catch(e){
     document.getElementById('txOut').innerHTML=`<div class="alert danger"><span class="alert-icon">⚠</span><div>Failed: ${e.message}</div></div>`;
     document.getElementById('txOut').classList.add('vis');
-  }finally{
-    setBtn('txBtn','txSp','txBt',false);
-  }
+  }finally{setBtn('txBtn','txSp','txBt',false);}
 }
 </script>
 </body>
