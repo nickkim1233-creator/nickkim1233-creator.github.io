@@ -409,7 +409,6 @@ body{
     </div>
   </div>
 
-<div class="desktop-right">
   <!-- WINDOW 2: PROJECTS -->
   <div class="win" id="w2">
     <div class="win-tb">
@@ -510,8 +509,8 @@ body{
       <span class="albl">Chain</span>
       <div class="apath">ethereum · ERC-721 · 0x56f9…f6bd</div>
     </div>
-    <div class="win-body" style="padding:16px;">
-      <a href="https://opensea.io/assets/ethereum/0x56f9fb3f5c4c83e362bc1520ba235370f65ef6bd/63" target="_blank" rel="noopener" style="display:block;text-decoration:none;color:inherit;">
+  <div class="win-body" style="padding:16px;">
+      <a href="https://opensea.io/assets/ethereum/0x56f9fb3f5c4c83e362bc1520ba235370f65ef6bd/63" target="_blank" rel="noopener" style="display:block;text-decoration:none;color:inherit;max-width:150px;margin:0 auto;">
         <div style="border:2px solid var(--ink);border-radius:4px;overflow:hidden;transition:transform .1s,box-shadow .1s;" onmouseover="this.style.transform='translate(-2px,-2px)';this.style.boxShadow='4px 4px 0 var(--ink)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
           <img
             src="https://ipfs.io/ipfs/QmPK2QbhRX6LL7NQnh8QiYG9tBhsdWevV6DH8p8PipRuP2/63"
@@ -519,11 +518,11 @@ body{
             style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-bottom:2px solid var(--ink);"
             onerror="this.style.display='none';document.getElementById('nft-fallback').style.display='flex';"
           />
-          <div id="nft-fallback" style="display:none;width:100%;aspect-ratio:1/1;align-items:center;justify-content:center;background:var(--paper-2);font-family:var(--mono);font-size:11px;color:var(--mid);border-bottom:2px solid var(--ink);">Image loading…</div>
-          <div style="padding:10px 13px;background:var(--paper-2);">
-            <div style="font-family:var(--mono);font-size:9px;font-weight:700;color:var(--mid);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;">Anime · 1/1 · by Shout226</div>
-            <div style="font-family:var(--sans);font-weight:700;font-size:15px;color:var(--ink);letter-spacing:-.02em;margin-bottom:2px;">Makima #63</div>
-            <div style="font-family:var(--mono);font-size:9px;font-weight:600;color:var(--mid);letter-spacing:.04em;">Token ID 63 · View on OpenSea ↗</div>
+          <div id="nft-fallback" style="display:none;width:100%;aspect-ratio:1/1;align-items:center;justify-content:center;background:var(--paper-2);font-family:var(--mono);font-size:9px;color:var(--mid);border-bottom:2px solid var(--ink);">Loading…</div>
+          <div style="padding:7px 9px;background:var(--paper-2);">
+            <div style="font-family:var(--mono);font-size:8px;font-weight:700;color:var(--mid);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px;">1/1 · Shout226</div>
+            <div style="font-family:var(--sans);font-weight:700;font-size:11px;color:var(--ink);letter-spacing:-.02em;margin-bottom:1px;">Makima #63</div>
+            <div style="font-family:var(--mono);font-size:8px;font-weight:600;color:var(--mid);">View on OpenSea ↗</div>
           </div>
         </div>
       </a>
@@ -532,15 +531,7 @@ body{
       <span class="sseg">1 collectible</span>
       <span class="sseg">Ethereum</span>
     </div>
-  </div>
 
-</div>
-
-<div class="tbar">
-  <div class="tpill">about</div>
-  <div class="tpill">projects/</div>
-  <div class="tpill">collectibles</div>
-  <div class="tr" id="tc"></div>
 </div>
 
 <script>
@@ -549,7 +540,6 @@ function tick(){
   const t=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
   const d=n.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
   document.getElementById('mc').textContent=d+'  '+t;
-  document.getElementById('tc').textContent=t;
   const bd=document.getElementById('bd');if(bd)bd.textContent=d;
 }
 tick();setInterval(tick,10000);
