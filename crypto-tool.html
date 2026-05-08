@@ -894,9 +894,14 @@ async function loadPositions(forceRefresh=false){
     if(ethData.native&&ethData.native.balance>0){
       positions.push({sym:'ETH',name:'Ethereum',balance:ethData.native.balance,chain:'ethereum',kind:'native',actions:['stake','bridge']});
     }
-    for(const t of (ethData.tokens||[])){
-      positions.push({sym:t.symbol,name:t.name,balance:t.balance,chain:'ethereum',kind:'token',contract:t.contract,actions:['bridge']});
-    }
+  const UNWRAPPABLE_ETH={
+        '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2':{unwraps_to:'ETH',from_chain:'ethereum'},
+      };
+      for(const t of (ethData.tokens||[])){
+        const uw=UNWRAPPABLE_ETH[t.contract?.toLowerCase()];
+        const acts=uw?['unwrap','bridge']:['bridge'];
+        positions.push({sym:t.symbol,name:t.name,balance:t.balance,chain:'ethereum',kind:uw?'wrapped':'token',contract:t.contract,unwraps_to:uw?.unwraps_to||null,from_chain:uw?.from_chain||null,actions:acts});
+      }
     ethHeader.textContent=`Ethereum — ${positions.length} positions`;
     ethCont.innerHTML=positions.length>0?positions.map((p,i)=>renderPosBox(p,i,'eth')).join(''):'<div class="coin-loading" style="grid-column:1/-1;padding:18px;">No Ethereum positions found.</div>';
     totalPositions+=positions.length;
