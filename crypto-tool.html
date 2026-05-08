@@ -815,14 +815,14 @@ async function loadPositions(forceRefresh=false){
   if(solData){
     document.getElementById('solWalletShort').textContent=shortAddr(phantomAccounts.solana);
     const positions=[];
-    // Native SOL
-    if(solData.native&&solData.native.balance>0){
-      positions.push({
-        sym:'SOL',name:'Solana',balance:solData.native.balance,
-        chain:'solana',kind:'native',
-        actions:['bridge']
-      });
-    }
+  // Native SOL
+      if(solData.native&&solData.native.balance>0){
+        positions.push({
+          sym:'SOL',name:'Solana',balance:solData.native.balance,
+          chain:'solana',kind:'native',
+          actions:['stake','bridge']
+        });
+      }
     // Stake accounts
     if(solData.stakeAccounts&&solData.stakeAccounts.length>0){
       const totalStaked=solData.stakeAccounts.reduce((s,a)=>s+a.balance,0);
@@ -862,13 +862,13 @@ async function loadPositions(forceRefresh=false){
   if(ethData){
     document.getElementById('ethWalletShort').textContent=shortAddr(phantomAccounts.ethereum);
     const positions=[];
-    if(ethData.native&&ethData.native.balance>0){
-      positions.push({
-        sym:'ETH',name:'Ethereum',balance:ethData.native.balance,
-        chain:'ethereum',kind:'native',
-        actions:['bridge']
-      });
-    }
+  if(ethData.native&&ethData.native.balance>0){
+        positions.push({
+          sym:'ETH',name:'Ethereum',balance:ethData.native.balance,
+          chain:'ethereum',kind:'native',
+          actions:['stake','bridge']
+        });
+      }
     for(const t of (ethData.tokens||[])){
       positions.push({
         sym:t.symbol,name:t.name,balance:t.balance,
@@ -902,6 +902,7 @@ function renderPosBox(p,i,bucket){
   let hint='Click to bridge';
   if(p.actions.includes('unwrap'))hint='Click to unwrap or bridge';
   else if(p.actions.includes('unstake'))hint='Click to unstake';
+  else if(p.actions.includes('stake'))hint='Click to stake or bridge';
   return `<div class="pos-box has-action" onclick="openPositionActions('${bucket}',${i})">
     ${tag}
     <div class="pos-sym">${p.sym}</div>
@@ -946,15 +947,21 @@ function renderActionChoose(){
   `;
 
   const opts=[];
-  if(p.actions.includes('unwrap')){
-    opts.push({key:'unwrap',glyph:'↩',title:'Unwrap to '+p.unwraps_to,desc:'Move this back to its original chain ('+(p.from_chain||'native')+').'});
-  }
-  if(p.actions.includes('unstake')){
-    opts.push({key:'unstake',glyph:'↧',title:'Unstake',desc:'Convert this back to liquid '+(p.kind==='stake'?'SOL':p.sym.replace(/^[a-z]+/i,'')||'underlying')+'.'});
-  }
-  if(p.actions.includes('bridge')){
-    opts.push({key:'bridge',glyph:'⇄',title:'Bridge to another chain',desc:'Move this to a different blockchain (Solana, Ethereum, Base, Polygon, Arbitrum, Bitcoin).'});
-  }
+    if(p.actions.includes('unwrap')){
+      opts.push({key:'unwrap',glyph:'↩',title:'Unwrap to '+p.unwraps_to,desc:'Move this back to its original chain ('+(p.from_chain||'native')+').'});
+    }
+    if(p.actions.includes('unstake')){
+      opts.push({key:'unstake',glyph:'↧',title:'Unstake',desc:'Convert this back to liquid '+(p.kind==='stake'?'SOL':p.sym.replace(/^[a-z]+/i,'')||'underlying')+'.'});
+    }
+    if(p.actions.includes('stake')){
+      const stakeDesc=p.chain==='solana'
+        ? 'Earn ~7% APY by delegating your SOL to a validator. Funds remain yours and can be unstaked anytime.'
+        : 'Earn yield by staking your ETH through a liquid staking protocol like Lido or Rocket Pool.';
+      opts.push({key:'stake',glyph:'↑',title:'Stake '+p.sym,desc:stakeDesc});
+    }
+    if(p.actions.includes('bridge')){
+      opts.push({key:'bridge',glyph:'⇄',title:'Bridge to another chain',desc:'Move this to a different blockchain (Solana, Ethereum, Base, Polygon, Arbitrum, Bitcoin).'});
+    }
 
   document.getElementById('actOptionsList').innerHTML=opts.map(o=>`
     <div class="action-option" onclick="chooseAction('${o.key}')">
@@ -978,7 +985,7 @@ function renderActionInput(){
   const a=activeAction;
 
   let title='', sub='', fields='';
-  if(a==='bridge'){
+if(a==='bridge'){
     title='Bridge '+p.sym;
     sub='Specify how much to move and where.';
     const chains=p.chain==='solana'
@@ -999,6 +1006,33 @@ function renderActionInput(){
     fields=`
       <div class="row"><label>Amount to unwrap</label><input type="text" id="act-amount" placeholder="Max: ${fmtBal(p.balance)} ${p.sym}" value=""/></div>
       <div class="row"><label>Receive on (${p.from_chain||'underlying'} chain) address</label><input type="text" id="act-destaddr" placeholder="Your address on the destination chain"/></div>`;
+  } else if(a==='stake'){
+    title='Stake '+p.sym;
+    if(p.chain==='solana'){
+      sub='Delegate your SOL to a validator and earn ~7% APY. You can unstake anytime, with funds available after the next epoch (~2-3 days).';
+      fields=`
+        <div class="row"><label>Amount to stake</label><input type="text" id="act-amount" placeholder="Max: ${fmtBal(p.balance)} SOL — leave 0.01+ for fees" value=""/></div>
+        <div class="row"><label>Staking method</label>
+          <select id="act-stakemethod">
+            <option value="native">Native staking (delegate to a validator)</option>
+            <option value="msol">Liquid staking via Marinade (mSOL)</option>
+            <option value="jitosol">Liquid staking via Jito (jitoSOL)</option>
+            <option value="bsol">Liquid staking via BlazeStake (bSOL)</option>
+          </select>
+        </div>
+        <div class="row" id="act-validator-row"><label>Validator (for native staking)</label><input type="text" id="act-validator" placeholder="Leave empty to auto-select a high-performance validator"/></div>`;
+    } else {
+      sub='Stake your ETH via a liquid staking protocol to earn yield. You receive a liquid staking token (e.g. stETH) representing your stake.';
+      fields=`
+        <div class="row"><label>Amount to stake</label><input type="text" id="act-amount" placeholder="Max: ${fmtBal(p.balance)} ETH — leave 0.005+ for gas" value=""/></div>
+        <div class="row"><label>Staking provider</label>
+          <select id="act-stakemethod">
+            <option value="lido">Lido (stETH) — most liquid</option>
+            <option value="rocketpool">Rocket Pool (rETH) — decentralized</option>
+            <option value="frax">Frax Ether (frxETH) — newer, higher yield</option>
+          </select>
+        </div>`;
+    }
   } else if(a==='unstake'){
     title='Unstake '+p.sym;
     sub=p.kind==='stake'
@@ -1032,38 +1066,68 @@ function goToActConfirm(){
   const destAddr=document.getElementById('act-destaddr')?.value.trim()||phantomAccounts.solana||'';
 
   // Estimate fees (rough)
-  let feeUsd=0.5;
-  let estTime='5-10 min';
-  if(a==='bridge'){
-    if(p.chain==='solana'){feeUsd=destChain==='bitcoin'?8:1.5;estTime=destChain==='bitcoin'?'30-60 min':'2-5 min';}
-    else if(p.chain==='ethereum'){feeUsd=destChain==='solana'?6:4;estTime='5-10 min';}
-  } else if(a==='unwrap'){
-    feeUsd=p.from_chain==='bitcoin'?7:4;
-    estTime=p.from_chain==='bitcoin'?'15-45 min':'2-5 min';
-  } else if(a==='unstake'){
-    feeUsd=0.01;
-    estTime=p.kind==='stake'?'2-3 days (epoch)':'~5 sec';
-  }
+    let feeUsd=0.5;
+    let estTime='5-10 min';
+    if(a==='bridge'){
+      if(p.chain==='solana'){feeUsd=destChain==='bitcoin'?8:1.5;estTime=destChain==='bitcoin'?'30-60 min':'2-5 min';}
+      else if(p.chain==='ethereum'){feeUsd=destChain==='solana'?6:4;estTime='5-10 min';}
+    } else if(a==='unwrap'){
+      feeUsd=p.from_chain==='bitcoin'?7:4;
+      estTime=p.from_chain==='bitcoin'?'15-45 min':'2-5 min';
+    } else if(a==='unstake'){
+      feeUsd=0.01;
+      estTime=p.kind==='stake'?'2-3 days (epoch)':'~5 sec';
+    } else if(a==='stake'){
+      feeUsd=p.chain==='solana'?0.01:5;
+      estTime=p.chain==='solana'?'~5 sec to delegate':'5-10 min';
+    }
 
   // Persist for executeAction
   window._actInputs={amount,destChain,destAddr,feeUsd,estTime};
 
   let dest='';
-  if(a==='bridge')dest=destChain||'—';
-  else if(a==='unwrap')dest=p.from_chain;
-  else if(a==='unstake')dest='solana';
-
-  document.getElementById('actConfirmSummary').innerHTML=`
-    <div class="ps-row"><span class="ps-l">Action</span><span class="ps-v">${a.toUpperCase()}</span></div>
-    <div class="ps-row"><span class="ps-l">Asset</span><span class="ps-v">${p.sym}</span></div>
-    <div class="ps-row"><span class="ps-l">Amount</span><span class="ps-v">${amount} ${p.sym}</span></div>
-    <div class="ps-row"><span class="ps-l">From chain</span><span class="ps-v">${p.chain}</span></div>
-    <div class="ps-row"><span class="ps-l">To chain</span><span class="ps-v">${dest}</span></div>
-    <div class="ps-row"><span class="ps-l">Destination</span><span class="ps-v">${shortAddr(destAddr)||'your wallet'}</span></div>
-    <div class="ps-row"><span class="ps-l">Est. fee</span><span class="ps-v">~$${feeUsd.toFixed(2)}</span></div>
-    <div class="ps-row"><span class="ps-l">Est. time</span><span class="ps-v">${estTime}</span></div>
-    <div class="ps-row"><span class="ps-l">You'll receive</span><span class="ps-v">~${(parseFloat(amount)*0.998).toFixed(4)} ${a==='unwrap'?p.unwraps_to:(a==='unstake'&&p.kind==='stake'?'SOL':p.sym)}</span></div>
-  `;
+    if(a==='bridge')dest=destChain||'—';
+    else if(a==='unwrap')dest=p.from_chain;
+    else if(a==='unstake')dest='solana';
+    else if(a==='stake')dest=p.chain;
+  
+    // Get staking method if relevant
+    const stakeMethod=document.getElementById('act-stakemethod')?.value;
+    const stakeMethodLabels={
+      native:'Native delegation',msol:'Marinade (mSOL)',jitosol:'Jito (jitoSOL)',bsol:'BlazeStake (bSOL)',
+      lido:'Lido (stETH)',rocketpool:'Rocket Pool (rETH)',frax:'Frax (frxETH)'
+    };
+  
+    // Compute "you'll receive" label per action type
+    let receivedAmt=(parseFloat(amount)*0.998).toFixed(4);
+    let receivedSym=p.sym;
+    if(a==='unwrap')receivedSym=p.unwraps_to;
+    else if(a==='unstake'&&p.kind==='stake')receivedSym='SOL';
+    else if(a==='stake'){
+      if(stakeMethod==='native'||p.chain==='solana'&&stakeMethod==='native')receivedSym='staked SOL';
+      else if(stakeMethod==='msol')receivedSym='mSOL';
+      else if(stakeMethod==='jitosol')receivedSym='jitoSOL';
+      else if(stakeMethod==='bsol')receivedSym='bSOL';
+      else if(stakeMethod==='lido')receivedSym='stETH';
+      else if(stakeMethod==='rocketpool')receivedSym='rETH';
+      else if(stakeMethod==='frax')receivedSym='frxETH';
+      else receivedSym='staked '+p.sym;
+      receivedAmt=parseFloat(amount).toFixed(4);
+    }
+  
+    document.getElementById('actConfirmSummary').innerHTML=`
+      <div class="ps-row"><span class="ps-l">Action</span><span class="ps-v">${a.toUpperCase()}</span></div>
+      <div class="ps-row"><span class="ps-l">Asset</span><span class="ps-v">${p.sym}</span></div>
+      <div class="ps-row"><span class="ps-l">Amount</span><span class="ps-v">${amount} ${p.sym}</span></div>
+      <div class="ps-row"><span class="ps-l">From chain</span><span class="ps-v">${p.chain}</span></div>
+      ${a!=='stake'?`<div class="ps-row"><span class="ps-l">To chain</span><span class="ps-v">${dest}</span></div>`:''}
+      ${a==='stake'?`<div class="ps-row"><span class="ps-l">Method</span><span class="ps-v">${stakeMethodLabels[stakeMethod]||stakeMethod}</span></div>`:''}
+      ${a!=='stake'?`<div class="ps-row"><span class="ps-l">Destination</span><span class="ps-v">${shortAddr(destAddr)||'your wallet'}</span></div>`:''}
+      <div class="ps-row"><span class="ps-l">Est. fee</span><span class="ps-v">~$${feeUsd.toFixed(2)}</span></div>
+      <div class="ps-row"><span class="ps-l">Est. time</span><span class="ps-v">${estTime}</span></div>
+      <div class="ps-row"><span class="ps-l">You'll receive</span><span class="ps-v">~${receivedAmt} ${receivedSym}</span></div>
+      ${a==='stake'?`<div class="ps-row"><span class="ps-l">Est. yield</span><span class="ps-v">~${p.chain==='solana'?'7% APY':'3-4% APY'}</span></div>`:''}
+    `;
   showActionStep('act-confirm');
 }
 
@@ -1075,8 +1139,8 @@ async function executeAction(){
   try{
     let signature='';
     const intent=`${a.toUpperCase()} ${inp.amount} ${p.sym} from ${p.chain}${inp.destChain?' to '+inp.destChain:''} via WooJung Crypto Tool [${Date.now()}]`;
-    if(p.chain==='solana'||a==='unstake'||a==='unwrap'){
-      const provider=window.phantom?.solana||window.solana;
+  if(p.chain==='solana'||a==='unstake'||a==='unwrap'||(a==='stake'&&p.chain==='solana')){      
+    const provider=window.phantom?.solana||window.solana;
       if(!provider)throw new Error('Phantom Solana provider not available');
       const result=await provider.signMessage(new TextEncoder().encode(intent),'utf8');
       signature=Array.from(result.signature).map(b=>b.toString(16).padStart(2,'0')).join('');
