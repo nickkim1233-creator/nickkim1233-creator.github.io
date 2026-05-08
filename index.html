@@ -8,17 +8,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
 :root {
-  --cream:   #f0ebe3;
-  --p0:      #ede8df;
-  --p1:      #e8e2d8;
-  --p2:      #ddd7cb;
-  --p3:      #ccc5b7;
-  --rule:    #d4cec4;
-  --dim:     #a09a8e;
-  --mid:     #6b6660;
-  --ink:     #2a2520;
-  --sans:    'Plus Jakarta Sans', sans-serif;
-  --mono:    'JetBrains Mono', monospace;
+  --cream:#f0ebe3;--p0:#ede8df;--p1:#e8e2d8;--p2:#ddd7cb;--p3:#ccc5b7;
+  --rule:#d4cec4;--dim:#a09a8e;--mid:#6b6660;--ink:#2a2520;
+  --sans:'Plus Jakarta Sans',sans-serif;--mono:'JetBrains Mono',monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;}
@@ -30,15 +22,12 @@ body{
   display:flex;flex-direction:column;
   overflow:hidden;
 }
-/* ── MENUBAR ── */
-.mbar{height:24px;background:var(--p1);border-bottom:1px solid var(--rule);display:flex;align-items:center;padding:0 12px;gap:0;flex-shrink:0;z-index:50;}
-.mbar-logo{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--ink);letter-spacing:-.01em;margin-right:16px;}
+.mbar{height:24px;background:var(--p1);border-bottom:1px solid var(--rule);display:flex;align-items:center;padding:0 12px;flex-shrink:0;z-index:50;}
+.mbar-logo{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--ink);margin-right:16px;}
 .mbar-item{font-family:var(--sans);font-size:11px;font-weight:500;color:var(--mid);padding:0 10px;height:100%;display:flex;align-items:center;cursor:default;transition:background .1s,color .1s;}
 .mbar-item:hover{background:var(--ink);color:var(--p0);}
 .mbar-r{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.04em;}
-/* ── DESKTOP ── */
 .desktop{flex:1;display:flex;align-items:center;justify-content:center;gap:24px;padding:36px 48px 44px;overflow:hidden;}
-/* ── WINDOW ── */
 .win{background:var(--p0);border:1px solid var(--p3);width:480px;flex-shrink:0;display:flex;flex-direction:column;animation:winIn .22s cubic-bezier(.4,0,.2,1) both;}
 .win:nth-child(2){animation-delay:.07s;}
 @keyframes winIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
@@ -48,21 +37,17 @@ body{
 .dot{width:10px;height:10px;border-radius:50%;border:1px solid var(--p3);background:var(--p2);}
 .win-title{flex:1;text-align:center;font-family:var(--mono);font-size:10px;color:var(--mid);letter-spacing:.06em;text-transform:uppercase;}
 .win-tools{height:26px;background:var(--p1);border-bottom:1px solid var(--rule);display:flex;align-items:center;padding:0 8px;gap:2px;flex-shrink:0;}
-.tbtn{height:18px;padding:0 8px;background:none;border:1px solid transparent;font-family:var(--mono);font-size:9px;color:var(--dim);display:flex;align-items:center;cursor:pointer;letter-spacing:.04em;transition:border-color .1s,background .1s,color .1s;white-space:nowrap;}
+.tbtn{height:18px;padding:0 8px;background:none;border:1px solid transparent;font-family:var(--mono);font-size:9px;color:var(--dim);display:flex;align-items:center;cursor:pointer;letter-spacing:.04em;transition:border-color .1s,background .1s,color .1s;}
 .tbtn:hover{border-color:var(--rule);background:var(--p2);color:var(--ink);}
 .tbtn.off{opacity:.35;pointer-events:none;}
 .tsep{width:1px;height:14px;background:var(--rule);margin:0 4px;}
 .win-addr{height:24px;background:var(--p0);border-bottom:1px solid var(--rule);display:flex;align-items:center;padding:0 8px;gap:6px;flex-shrink:0;}
-.albl{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;}
-.apath{flex:1;font-family:var(--mono);font-size:9px;color:var(--mid);background:var(--cream);border:1px solid var(--rule);padding:1px 6px;height:16px;display:flex;align-items:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.albl{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase;}
+.apath{flex:1;font-family:var(--mono);font-size:9px;color:var(--mid);background:var(--cream);border:1px solid var(--rule);padding:1px 6px;height:16px;display:flex;align-items:center;}
 .win-body{flex:1;padding:22px;background:var(--p0);overflow-y:auto;min-height:300px;}
-.win-body::-webkit-scrollbar{width:8px;}
-.win-body::-webkit-scrollbar-track{background:var(--p0);}
-.win-body::-webkit-scrollbar-thumb{background:var(--rule);}
-.win-sbar{height:20px;background:var(--p1);border-top:1px solid var(--rule);display:flex;align-items:center;padding:0 10px;gap:0;flex-shrink:0;}
+.win-sbar{height:20px;background:var(--p1);border-top:1px solid var(--rule);display:flex;align-items:center;padding:0 10px;flex-shrink:0;}
 .sseg{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.04em;text-transform:uppercase;}
 .sseg+.sseg{border-left:1px solid var(--rule);margin-left:10px;padding-left:10px;}
-/* ── BIO CONTENT ── */
 .bio-top{display:flex;align-items:center;gap:14px;padding-bottom:18px;border-bottom:1px solid var(--rule);margin-bottom:18px;}
 .bio-av{width:48px;height:48px;border:1px solid var(--p3);background:var(--p1);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:14px;font-weight:500;color:var(--ink);flex-shrink:0;}
 .bio-name{font-family:var(--sans);font-size:20px;font-weight:600;color:var(--ink);letter-spacing:-.03em;line-height:1.1;}
@@ -72,7 +57,6 @@ body{
 .bio-lw{padding-top:16px;border-top:1px solid var(--rule);}
 .bio-lnk{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--mid);text-decoration:none;border:1px solid var(--p3);padding:6px 14px;background:var(--p1);transition:background .15s,border-color .15s,color .15s;text-transform:uppercase;}
 .bio-lnk:hover{background:var(--ink);border-color:var(--ink);color:var(--p0);}
-/* ── PROJECTS CONTENT ── */
 .ph{font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);padding-bottom:10px;border-bottom:1px solid var(--rule);margin-bottom:4px;display:flex;justify-content:space-between;}
 .pr{display:flex;align-items:center;gap:14px;padding:15px 0;border-bottom:1px solid var(--rule);text-decoration:none;color:inherit;transition:background .12s;margin:0 -22px;padding-left:22px;padding-right:22px;}
 .pr:last-child{border-bottom:none;}
@@ -87,11 +71,9 @@ body{
 .pr-title{font-family:var(--sans);font-size:14px;font-weight:600;color:var(--mid);letter-spacing:-.02em;line-height:1.25;margin-bottom:3px;transition:color .12s;}
 .pr-desc{font-family:var(--sans);font-size:10.5px;font-weight:300;color:var(--dim);line-height:1.5;}
 .pr-arrow{font-family:var(--mono);font-size:14px;color:var(--mid);flex-shrink:0;opacity:0;transition:opacity .12s;}
-/* ── TASKBAR ── */
 .tbar{height:28px;background:var(--p1);border-top:1px solid var(--rule);display:flex;align-items:center;padding:0 8px;gap:4px;flex-shrink:0;}
 .tpill{height:18px;padding:0 10px;background:var(--p2);border:1px solid var(--p3);font-family:var(--mono);font-size:9px;color:var(--mid);display:flex;align-items:center;text-transform:uppercase;letter-spacing:.04em;cursor:default;}
 .tr{margin-left:auto;font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.06em;}
-/* ── RESPONSIVE ── */
 @media(max-width:1060px){.desktop{gap:16px;padding:24px 20px 44px;}.win{width:420px;}}
 @media(max-width:880px){.desktop{flex-direction:column;align-items:center;overflow-y:auto;padding:20px 16px 44px;}.win{width:100%;max-width:520px;}body{overflow:hidden auto;}}
 </style>
@@ -104,7 +86,6 @@ body{
 </div>
 <div class="desktop">
 
-  <!-- WINDOW 1: ABOUT -->
   <div class="win" id="w1">
     <div class="win-tb" id="tb1">
       <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
@@ -129,7 +110,6 @@ body{
     <div class="win-sbar"><span class="sseg">1 file</span><span class="sseg" id="bd"></span></div>
   </div>
 
-  <!-- WINDOW 2: PROJECTS -->
   <div class="win" id="w2">
     <div class="win-tb" id="tb2">
       <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
@@ -141,36 +121,18 @@ body{
     </div>
     <div class="win-addr"><span class="albl">Path</span><div class="apath">~/woojung/projects/</div></div>
     <div class="win-body">
-      <div class="ph"><span>Name</span><span>3 items</span></div>
-      <a class="pr" href="/guide">
+      <div class="ph"><span>Name</span><span>1 item</span></div>
+      <a class="pr" href="/crypto-tool">
         <div class="pr-icon"><div class="pr-glyph">₿</div></div>
         <div class="pr-body">
-          <div class="pr-meta">01 — guide</div>
-          <div class="pr-title">Transfer Guide &amp; Simulator</div>
-          <div class="pr-desc">Plain-English crypto guide + interactive simulator to practice moving assets safely.</div>
-        </div>
-        <div class="pr-arrow">→</div>
-      </a>
-      <a class="pr" href="/route-advisor">
-        <div class="pr-icon"><div class="pr-glyph">→</div></div>
-        <div class="pr-body">
-          <div class="pr-meta">02 — route-advisor</div>
-          <div class="pr-title">Agentic Transfer Route Advisor</div>
-          <div class="pr-desc">AI compares every viable route — fees, speed, risk — and tells you exactly what to do.</div>
-        </div>
-        <div class="pr-arrow">→</div>
-      </a>
-      <a class="pr" href="/tx-explainer">
-        <div class="pr-icon"><div class="pr-glyph">?</div></div>
-        <div class="pr-body">
-          <div class="pr-meta">03 — tx-explainer</div>
-          <div class="pr-title">Agentic Transaction Explainer</div>
-          <div class="pr-desc">Paste any tx hash. AI translates it to plain English — no hex, no jargon.</div>
+          <div class="pr-meta">01 — crypto-tool</div>
+          <div class="pr-title">Agentic Crypto Trading Terminal</div>
+          <div class="pr-desc">Live market data, AI-powered route comparison, and direct Phantom wallet trade execution.</div>
         </div>
         <div class="pr-arrow">→</div>
       </a>
     </div>
-    <div class="win-sbar"><span class="sseg">3 items</span><span class="sseg">~/projects</span></div>
+    <div class="win-sbar"><span class="sseg">1 item</span><span class="sseg">~/projects</span></div>
   </div>
 
 </div>
