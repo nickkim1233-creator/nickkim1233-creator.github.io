@@ -260,8 +260,8 @@ body{
 
 /* ── PROJECTS CONTENT (file grid) ─────────────── */
 .file-grid{
-  display:grid;grid-template-columns:repeat(2,1fr);
-  gap:24px 18px;padding:8px 4px;
+  display:grid;grid-template-columns:1fr;
+  gap:0;padding:0;
 }
 
 .file{
@@ -398,7 +398,6 @@ body{
 
       <div class="bio-actions">
         <a href="https://linkedin.com/in/woojung-n-kim/" target="_blank" rel="noopener" class="heavy-btn">↗ LinkedIn</a>
-        <a href="/crypto-tool" class="heavy-btn">→ View Project</a>
       </div>
 
       <div class="bio-footer">WK Soft inc. 2025</div>
@@ -410,8 +409,7 @@ body{
   </div>
 
   <!-- WINDOW 2: PROJECTS -->
-  <div class="win" id="w2">
-    <div class="win-tb">
+  <div class="win" id="w2" style="width:260px;">    <div class="win-tb">
       <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
       <div class="win-title">projects — Finder</div>
     </div>
@@ -447,53 +445,17 @@ body{
           <div class="file-meta">app · 1 mb</div>
         </a>
 
-        <a class="file" href="https://linkedin.com/in/woojung-n-kim/" target="_blank" rel="noopener">
-          <div class="file-icon">
-            <svg viewBox="0 0 64 72" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
-              <path d="M8 6 L46 6 L58 18 L58 66 L8 66 Z" fill="#f5f0e1"/>
-              <polyline points="46,6 46,18 58,18" fill="none"/>
-              <rect x="18" y="36" width="6" height="18"/>
-              <circle cx="21" cy="29" r="2.5"/>
-              <path d="M30 36 L30 54 M30 42 Q30 36 36 36 Q42 36 42 42 L42 54"/>
-            </svg>
-          </div>
-          <div class="file-label">linkedin.url</div>
-          <div class="file-meta">link</div>
-        </a>
-
-        <a class="file" href="mailto:hello@woojung.dev">
-          <div class="file-icon">
-            <svg viewBox="0 0 64 72" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
-              <path d="M8 6 L46 6 L58 18 L58 66 L8 66 Z" fill="#f5f0e1"/>
-              <polyline points="46,6 46,18 58,18" fill="none"/>
-              <rect x="16" y="32" width="32" height="22"/>
-              <polyline points="16,32 32,46 48,32"/>
-            </svg>
-          </div>
-          <div class="file-label">contact.txt</div>
-          <div class="file-meta">text · 2 kb</div>
-        </a>
-
-        <div class="file" style="cursor:default;opacity:.5;">
-          <div class="file-icon">
-            <svg viewBox="0 0 64 72" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
-              <path d="M8 14 L20 14 L26 22 L56 22 L56 60 L8 60 Z" fill="#f5f0e1"/>
-            </svg>
-          </div>
-          <div class="file-label">archive</div>
-          <div class="file-meta">folder</div>
-        </div>
 
       </div>
     </div>
 <div class="win-sbar">
-      <span class="sseg">3 items</span>
+      <span class="sseg">1 items</span>
       <span class="sseg">~/projects</span>
     </div>
   </div>
 
   <!-- WINDOW 3: COLLECTIBLES -->
-  <div class="win" id="w3" style="width:520px;flex-shrink:0;">
+  <div class="win" id="w3" style="width:220px;flex-shrink:0;">
     <div class="win-tb">
       <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
       <div class="win-title">collectibles — 1 item</div>
