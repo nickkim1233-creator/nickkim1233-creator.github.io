@@ -5,152 +5,534 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>WooJung Kim</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
 <style>
-:root {
-  --cream:#f0ebe3;--p0:#ede8df;--p1:#e8e2d8;--p2:#ddd7cb;--p3:#ccc5b7;
-  --rule:#d4cec4;--dim:#a09a8e;--mid:#6b6660;--ink:#2a2520;
-  --sans:'Plus Jakarta Sans',sans-serif;--mono:'JetBrains Mono',monospace;
+:root{
+  --yellow:    #f5c518;
+  --yellow-dk: #d9ad14;
+  --paper:     #f5f0e1;
+  --paper-2:   #ebe5d3;
+  --ink:       #1a1a1a;
+  --ink-soft:  #2a2a2a;
+  --mid:       #555550;
+  --dim:       #8a8780;
+  --rule:      #1a1a1a;
+  --halftone:  rgba(26,26,26,0.18);
+  --sans:      'Space Grotesk', system-ui, sans-serif;
+  --mono:      'JetBrains Mono', monospace;
+  --shadow:    8px 8px 0 var(--ink);
+  --shadow-sm: 4px 4px 0 var(--ink);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;}
 body{
-  background:var(--cream);
-  background-image:radial-gradient(circle,var(--p3) 1px,transparent 1px);
-  background-size:24px 24px;
+  background:var(--yellow);
   font-family:var(--sans);
+  color:var(--ink);
   display:flex;flex-direction:column;
   overflow:hidden;
 }
-.mbar{height:24px;background:var(--p1);border-bottom:1px solid var(--rule);display:flex;align-items:center;padding:0 12px;flex-shrink:0;z-index:50;}
-.mbar-logo{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--ink);margin-right:16px;}
-.mbar-item{font-family:var(--sans);font-size:11px;font-weight:500;color:var(--mid);padding:0 10px;height:100%;display:flex;align-items:center;cursor:default;transition:background .1s,color .1s;}
-.mbar-item:hover{background:var(--ink);color:var(--p0);}
-.mbar-r{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.04em;}
-.desktop{flex:1;display:flex;align-items:center;justify-content:center;gap:24px;padding:36px 48px 44px;overflow:hidden;}
-.win{background:var(--p0);border:1px solid var(--p3);width:480px;flex-shrink:0;display:flex;flex-direction:column;animation:winIn .22s cubic-bezier(.4,0,.2,1) both;}
-.win:nth-child(2){animation-delay:.07s;}
-@keyframes winIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
-.win-tb{height:28px;background:var(--p1);border-bottom:1px solid var(--rule);display:flex;align-items:center;padding:0 10px 0 8px;gap:6px;flex-shrink:0;cursor:grab;}
+
+/* ── MENUBAR ─────────────────────────────────── */
+.mbar{
+  height:32px;background:var(--paper);
+  border-bottom:2.5px solid var(--ink);
+  display:flex;align-items:center;
+  padding:0 16px;flex-shrink:0;z-index:50;
+  font-weight:600;
+}
+.mbar-logo{
+  font-family:var(--sans);font-weight:700;font-size:13px;
+  color:var(--ink);margin-right:24px;letter-spacing:-.01em;
+}
+.mbar-logo::before{
+  content:'◆';margin-right:7px;
+}
+.mbar-item{
+  font-size:12px;font-weight:500;
+  color:var(--ink);padding:0 12px;height:100%;
+  display:flex;align-items:center;cursor:default;
+}
+.mbar-item:hover{background:var(--ink);color:var(--paper);}
+.mbar-r{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink);font-weight:500;}
+
+/* ── DESKTOP ─────────────────────────────────── */
+.desktop{
+  flex:1;display:flex;align-items:center;justify-content:center;
+  gap:36px;padding:40px 48px 48px;overflow:hidden;
+  position:relative;
+}
+
+/* Floating desktop icons — top-right corner */
+.desktop-icons{
+  position:absolute;top:48px;right:48px;
+  display:flex;gap:36px;
+}
+.dicon{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  cursor:pointer;width:64px;
+}
+.dicon-img{
+  width:48px;height:48px;
+  display:flex;align-items:center;justify-content:center;
+}
+.dicon-img svg{width:48px;height:48px;}
+.dicon-label{
+  font-family:var(--sans);font-weight:700;font-size:12px;
+  color:var(--ink);text-align:center;letter-spacing:-.01em;
+}
+
+/* ── WINDOWS ─────────────────────────────────── */
+.win{
+  background:var(--paper);
+  border:2.5px solid var(--ink);
+  border-radius:6px;
+  width:520px;flex-shrink:0;
+  display:flex;flex-direction:column;
+  box-shadow:var(--shadow);
+  position:relative;
+  animation:winIn .25s cubic-bezier(.4,0,.2,1) both;
+}
+.win:nth-child(2){animation-delay:.08s;}
+@keyframes winIn{from{opacity:0;transform:translate(-4px,-4px);}to{opacity:1;transform:translate(0,0);}}
+
+/* Title bar — flat, same color as body, separated by rule */
+.win-tb{
+  height:36px;
+  display:flex;align-items:center;
+  padding:0 14px;gap:8px;
+  border-bottom:2px solid var(--ink);
+  cursor:grab;
+  border-radius:4px 4px 0 0;
+}
 .win-tb:active{cursor:grabbing;}
-.dots{display:flex;gap:5px;align-items:center;}
-.dot{width:10px;height:10px;border-radius:50%;border:1px solid var(--p3);background:var(--p2);}
-.win-title{flex:1;text-align:center;font-family:var(--mono);font-size:10px;color:var(--mid);letter-spacing:.06em;text-transform:uppercase;}
-.win-tools{height:26px;background:var(--p1);border-bottom:1px solid var(--rule);display:flex;align-items:center;padding:0 8px;gap:2px;flex-shrink:0;}
-.tbtn{height:18px;padding:0 8px;background:none;border:1px solid transparent;font-family:var(--mono);font-size:9px;color:var(--dim);display:flex;align-items:center;cursor:pointer;letter-spacing:.04em;transition:border-color .1s,background .1s,color .1s;}
-.tbtn:hover{border-color:var(--rule);background:var(--p2);color:var(--ink);}
-.tbtn.off{opacity:.35;pointer-events:none;}
-.tsep{width:1px;height:14px;background:var(--rule);margin:0 4px;}
-.win-addr{height:24px;background:var(--p0);border-bottom:1px solid var(--rule);display:flex;align-items:center;padding:0 8px;gap:6px;flex-shrink:0;}
-.albl{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase;}
-.apath{flex:1;font-family:var(--mono);font-size:9px;color:var(--mid);background:var(--cream);border:1px solid var(--rule);padding:1px 6px;height:16px;display:flex;align-items:center;}
-.win-body{flex:1;padding:22px;background:var(--p0);overflow-y:auto;min-height:300px;}
-.win-sbar{height:20px;background:var(--p1);border-top:1px solid var(--rule);display:flex;align-items:center;padding:0 10px;flex-shrink:0;}
-.sseg{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.04em;text-transform:uppercase;}
-.sseg+.sseg{border-left:1px solid var(--rule);margin-left:10px;padding-left:10px;}
-.bio-top{display:flex;align-items:center;gap:14px;padding-bottom:18px;border-bottom:1px solid var(--rule);margin-bottom:18px;}
-.bio-av{width:48px;height:48px;border:1px solid var(--p3);background:var(--p1);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:14px;font-weight:500;color:var(--ink);flex-shrink:0;}
-.bio-name{font-family:var(--sans);font-size:20px;font-weight:600;color:var(--ink);letter-spacing:-.03em;line-height:1.1;}
-.bio-role{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:4px;}
-.bio-sh{font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:8px;}
-.bio-txt{font-family:var(--sans);font-size:12.5px;font-weight:300;color:var(--mid);line-height:1.78;margin-bottom:20px;}
-.bio-lw{padding-top:16px;border-top:1px solid var(--rule);}
-.bio-lnk{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--mid);text-decoration:none;border:1px solid var(--p3);padding:6px 14px;background:var(--p1);transition:background .15s,border-color .15s,color .15s;text-transform:uppercase;}
-.bio-lnk:hover{background:var(--ink);border-color:var(--ink);color:var(--p0);}
-.ph{font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);padding-bottom:10px;border-bottom:1px solid var(--rule);margin-bottom:4px;display:flex;justify-content:space-between;}
-.pr{display:flex;align-items:center;gap:14px;padding:15px 0;border-bottom:1px solid var(--rule);text-decoration:none;color:inherit;transition:background .12s;margin:0 -22px;padding-left:22px;padding-right:22px;}
-.pr:last-child{border-bottom:none;}
-.pr:hover{background:var(--p1);}
-.pr:hover .pr-title{color:var(--ink);}
-.pr:hover .pr-arrow{opacity:1;}
-.pr:hover .pr-icon{background:var(--p2);border-color:var(--p3);}
-.pr-icon{width:36px;height:36px;border:1px solid var(--rule);background:var(--p1);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .12s,border-color .12s;}
-.pr-glyph{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--mid);}
-.pr-body{flex:1;min-width:0;}
-.pr-meta{font-family:var(--mono);font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:3px;}
-.pr-title{font-family:var(--sans);font-size:14px;font-weight:600;color:var(--mid);letter-spacing:-.02em;line-height:1.25;margin-bottom:3px;transition:color .12s;}
-.pr-desc{font-family:var(--sans);font-size:10.5px;font-weight:300;color:var(--dim);line-height:1.5;}
-.pr-arrow{font-family:var(--mono);font-size:14px;color:var(--mid);flex-shrink:0;opacity:0;transition:opacity .12s;}
-.tbar{height:28px;background:var(--p1);border-top:1px solid var(--rule);display:flex;align-items:center;padding:0 8px;gap:4px;flex-shrink:0;}
-.tpill{height:18px;padding:0 10px;background:var(--p2);border:1px solid var(--p3);font-family:var(--mono);font-size:9px;color:var(--mid);display:flex;align-items:center;text-transform:uppercase;letter-spacing:.04em;cursor:default;}
-.tr{margin-left:auto;font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.06em;}
-@media(max-width:1060px){.desktop{gap:16px;padding:24px 20px 44px;}.win{width:420px;}}
-@media(max-width:880px){.desktop{flex-direction:column;align-items:center;overflow-y:auto;padding:20px 16px 44px;}.win{width:100%;max-width:520px;}body{overflow:hidden auto;}}
+
+.dots{display:flex;gap:7px;align-items:center;flex-shrink:0;}
+.dot{
+  width:14px;height:14px;border-radius:50%;
+  border:2px solid var(--ink);
+  background:transparent;
+}
+
+.win-title{
+  flex:1;text-align:center;
+  font-family:var(--sans);font-weight:600;font-size:12px;
+  color:var(--ink);letter-spacing:-.01em;
+}
+
+/* Toolbar — icons + dropdown style */
+.win-tools{
+  height:38px;
+  display:flex;align-items:center;
+  padding:0 12px;gap:8px;
+  border-bottom:2px solid var(--ink);
+}
+.tbtn{
+  height:24px;min-width:24px;padding:0 8px;
+  background:var(--paper);border:1.5px solid var(--ink);border-radius:3px;
+  font-family:var(--sans);font-size:11px;font-weight:600;color:var(--ink);
+  display:flex;align-items:center;justify-content:center;gap:4px;
+  cursor:pointer;
+  transition:transform .08s, box-shadow .08s;
+}
+.tbtn:hover{transform:translate(-1px,-1px);box-shadow:2px 2px 0 var(--ink);}
+.tbtn:active{transform:translate(0,0);box-shadow:none;}
+.tbtn.off{opacity:.4;cursor:not-allowed;pointer-events:none;}
+.tsep{width:2px;height:20px;background:var(--ink);margin:0 4px;}
+
+.win-addr{
+  height:32px;
+  display:flex;align-items:center;
+  padding:0 12px;gap:10px;
+  border-bottom:2px solid var(--ink);
+}
+.albl{
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  color:var(--ink);text-transform:uppercase;letter-spacing:.06em;
+}
+.apath{
+  flex:1;
+  font-family:var(--mono);font-size:10px;color:var(--ink-soft);
+  background:var(--paper-2);border:1.5px solid var(--ink);border-radius:3px;
+  padding:2px 8px;height:22px;
+  display:flex;align-items:center;font-weight:500;
+}
+
+.win-body{
+  flex:1;padding:24px;background:var(--paper);
+  overflow-y:auto;min-height:340px;
+  position:relative;
+}
+
+/* Halftone scrollbar */
+.win-body::-webkit-scrollbar{width:14px;}
+.win-body::-webkit-scrollbar-track{
+  background:var(--paper);
+  border-left:2px solid var(--ink);
+}
+.win-body::-webkit-scrollbar-thumb{
+  background-image:radial-gradient(circle,var(--ink) 1.4px,transparent 1.4px);
+  background-size:5px 5px;
+  border-left:2px solid var(--ink);
+}
+
+/* Status bar */
+.win-sbar{
+  height:28px;
+  display:flex;align-items:center;
+  padding:0 12px;gap:0;
+  border-top:2px solid var(--ink);
+  background:var(--paper-2);
+}
+.sseg{
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  color:var(--ink);letter-spacing:.04em;
+  padding:0 10px;
+}
+.sseg+.sseg{border-left:1.5px solid var(--ink);}
+
+/* ── BIO CONTENT ─────────────────────────────── */
+.bio-top{
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;
+  padding:8px 0 22px;
+  border-bottom:2px solid var(--ink);
+  margin-bottom:22px;
+  position:relative;
+}
+
+.bio-mark{
+  width:90px;height:90px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:14px;
+}
+.bio-mark svg{width:90px;height:90px;}
+
+.bio-greeting{
+  font-family:var(--sans);font-weight:700;
+  font-size:32px;letter-spacing:-.03em;
+  color:var(--ink);margin-bottom:4px;line-height:1;
+}
+.bio-name{
+  font-family:var(--sans);font-weight:600;font-size:14px;
+  color:var(--ink);letter-spacing:-.01em;
+}
+
+.bio-section-h{
+  font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink);margin-bottom:10px;
+}
+
+.bio-text{
+  font-family:var(--sans);font-size:13px;font-weight:400;
+  color:var(--ink-soft);line-height:1.7;margin-bottom:22px;
+}
+
+.bio-actions{
+  display:flex;flex-direction:column;gap:10px;
+  padding-top:18px;border-top:2px solid var(--ink);
+}
+
+.heavy-btn{
+  display:block;width:100%;
+  padding:11px 16px;
+  background:var(--paper);
+  border:2.5px solid var(--ink);border-radius:5px;
+  font-family:var(--sans);font-weight:600;font-size:13px;
+  color:var(--ink);text-decoration:none;text-align:center;
+  cursor:pointer;
+  transition:transform .1s, box-shadow .1s;
+  letter-spacing:-.01em;
+}
+.heavy-btn:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink);}
+.heavy-btn:active{transform:translate(0,0);box-shadow:none;}
+
+.bio-footer{
+  margin-top:18px;padding-top:14px;border-top:2px solid var(--ink);
+  text-align:center;
+  font-family:var(--mono);font-size:9px;font-weight:600;
+  color:var(--ink-soft);letter-spacing:.08em;text-transform:uppercase;
+}
+
+/* ── PROJECTS CONTENT (file grid) ─────────────── */
+.file-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:24px 18px;padding:8px 4px;
+}
+
+.file{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  text-decoration:none;color:inherit;
+  cursor:pointer;
+  padding:8px 4px;border-radius:4px;
+  transition:background .12s;
+}
+.file:hover{background:var(--paper-2);}
+
+.file-icon{
+  width:64px;height:72px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.file-icon svg{width:64px;height:72px;}
+
+.file-label{
+  font-family:var(--sans);font-weight:700;font-size:12.5px;
+  color:var(--ink);text-align:center;letter-spacing:-.01em;
+  line-height:1.25;
+}
+.file-meta{
+  font-family:var(--mono);font-size:9px;font-weight:600;
+  color:var(--mid);letter-spacing:.06em;text-transform:uppercase;
+  margin-top:-2px;
+}
+
+/* ── TASKBAR ──────────────────────────────────── */
+.tbar{
+  height:32px;background:var(--paper);
+  border-top:2.5px solid var(--ink);
+  display:flex;align-items:center;
+  padding:0 12px;gap:6px;flex-shrink:0;
+  font-weight:600;
+}
+.tpill{
+  height:22px;padding:0 10px;
+  background:var(--paper-2);border:1.5px solid var(--ink);border-radius:3px;
+  font-family:var(--sans);font-size:11px;font-weight:600;color:var(--ink);
+  display:flex;align-items:center;cursor:default;letter-spacing:-.01em;
+}
+.tr{margin-left:auto;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--ink);}
+
+/* ── RESPONSIVE ──────────────────────────────── */
+@media(max-width:1180px){
+  .desktop-icons{display:none;}
+  .win{width:460px;}
+}
+@media(max-width:980px){
+  .desktop{flex-direction:column;align-items:center;overflow-y:auto;padding:24px 20px 48px;}
+  .win{width:100%;max-width:520px;}
+  body{overflow:hidden auto;}
+}
 </style>
 </head>
 <body>
+
 <div class="mbar">
   <span class="mbar-logo">WK</span>
-  <div class="mbar-item">File</div><div class="mbar-item">Edit</div><div class="mbar-item">View</div><div class="mbar-item">Window</div><div class="mbar-item">Help</div>
+  <div class="mbar-item">File</div>
+  <div class="mbar-item">Edit</div>
+  <div class="mbar-item">View</div>
+  <div class="mbar-item">Window</div>
+  <div class="mbar-item">Help</div>
   <div class="mbar-r" id="mc"></div>
 </div>
+
 <div class="desktop">
 
+  <!-- DESKTOP ICONS (top-right) -->
+  <div class="desktop-icons">
+    <div class="dicon">
+      <div class="dicon-img">
+        <svg viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round">
+          <circle cx="24" cy="24" r="20"/>
+          <line x1="24" y1="6" x2="24" y2="42"/>
+          <line x1="6" y1="24" x2="42" y2="24"/>
+          <path d="M24 6 Q14 24 24 42 Q34 24 24 6"/>
+        </svg>
+      </div>
+      <div class="dicon-label">Network</div>
+    </div>
+    <div class="dicon">
+      <div class="dicon-img">
+        <svg viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round">
+          <circle cx="24" cy="24" r="20"/>
+          <polyline points="24,12 24,24 32,28"/>
+        </svg>
+      </div>
+      <div class="dicon-label">Clock</div>
+    </div>
+  </div>
+
+  <!-- WINDOW 1: ABOUT -->
   <div class="win" id="w1">
-    <div class="win-tb" id="tb1">
+    <div class="win-tb">
       <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-      <div class="win-title">about.txt</div>
+      <div class="win-title">about — woojung_kim</div>
     </div>
     <div class="win-tools">
-      <div class="tbtn off">← Back</div><div class="tbtn off">→ Fwd</div><div class="tsep"></div>
-      <div class="tbtn">↺ Reload</div><div class="tbtn">⌂ Home</div>
+      <button class="tbtn off">←</button>
+      <button class="tbtn off">→</button>
+      <div class="tsep"></div>
+      <button class="tbtn">↺</button>
+      <button class="tbtn">⌂</button>
+      <div class="tsep"></div>
+      <button class="tbtn">?</button>
     </div>
-    <div class="win-addr"><span class="albl">Path</span><div class="apath">~/woojung/about.txt</div></div>
+    <div class="win-addr">
+      <span class="albl">Path</span>
+      <div class="apath">~/woojung/about.txt</div>
+    </div>
     <div class="win-body">
       <div class="bio-top">
-        <div class="bio-av">WK</div>
-        <div><div class="bio-name">WooJung Kim</div><div class="bio-role">Product Manager</div></div>
+        <div class="bio-mark">
+          <svg viewBox="0 0 90 90" fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+            <polygon points="45,8 78,32 64,80 26,80 12,32"/>
+            <line x1="12" y1="32" x2="78" y2="32"/>
+            <line x1="45" y1="8" x2="26" y2="32"/>
+            <line x1="45" y1="8" x2="64" y2="32"/>
+            <line x1="26" y1="32" x2="45" y2="80"/>
+            <line x1="64" y1="32" x2="45" y2="80"/>
+          </svg>
+        </div>
+        <div class="bio-greeting">Hello!</div>
+        <div class="bio-name">WooJung Kim — Product Manager</div>
       </div>
-      <div class="bio-sh">Bio</div>
-      <div class="bio-txt">Product Manager with 4 years' experience building financial infrastructure at BlackRock and Amex, spanning $1T+ in notional exposure and global digital wallet integrations. Now focused on crypto and on-chain systems, leveraging AI-driven prototyping to rapidly ship and iterate on new product concepts.</div>
-      <div class="bio-lw">
-        <a href="https://linkedin.com/in/woojung-n-kim/" target="_blank" rel="noopener" class="bio-lnk">↗ linkedin.com/in/woojung-n-kim</a>
+
+      <div class="bio-section-h">About</div>
+      <p class="bio-text">Product Manager with 4 years' experience building financial infrastructure at BlackRock and Amex, spanning $1T+ in notional exposure and global digital wallet integrations. Now focused on crypto and on-chain systems, leveraging AI-driven prototyping to rapidly ship and iterate on new product concepts.</p>
+
+      <div class="bio-actions">
+        <a href="https://linkedin.com/in/woojung-n-kim/" target="_blank" rel="noopener" class="heavy-btn">↗ LinkedIn</a>
+        <a href="/crypto-tool" class="heavy-btn">→ View Project</a>
       </div>
+
+      <div class="bio-footer">WK Soft inc. 2025</div>
     </div>
-    <div class="win-sbar"><span class="sseg">1 file</span><span class="sseg" id="bd"></span></div>
+    <div class="win-sbar">
+      <span class="sseg">1 file</span>
+      <span class="sseg" id="bd"></span>
+    </div>
   </div>
 
+  <!-- WINDOW 2: PROJECTS -->
   <div class="win" id="w2">
-    <div class="win-tb" id="tb2">
+    <div class="win-tb">
       <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-      <div class="win-title">projects/</div>
+      <div class="win-title">projects — Finder</div>
     </div>
     <div class="win-tools">
-      <div class="tbtn off">← Back</div><div class="tbtn off">→ Fwd</div><div class="tsep"></div>
-      <div class="tbtn">↺ Reload</div><div class="tbtn">⌂ Home</div>
+      <button class="tbtn off">←</button>
+      <button class="tbtn off">→</button>
+      <div class="tsep"></div>
+      <button class="tbtn">↺</button>
+      <button class="tbtn">⌂</button>
+      <div class="tsep"></div>
+      <button class="tbtn">⊞</button>
+      <button class="tbtn">≣</button>
     </div>
-    <div class="win-addr"><span class="albl">Path</span><div class="apath">~/woojung/projects/</div></div>
+    <div class="win-addr">
+      <span class="albl">Path</span>
+      <div class="apath">~/woojung/projects/</div>
+    </div>
     <div class="win-body">
-      <div class="ph"><span>Name</span><span>1 item</span></div>
-      <a class="pr" href="/crypto-tool">
-        <div class="pr-icon"><div class="pr-glyph">₿</div></div>
-        <div class="pr-body">
-          <div class="pr-meta">01 — crypto-tool</div>
-          <div class="pr-title">Agentic Crypto Trading Terminal</div>
-          <div class="pr-desc">Live market data, AI-powered route comparison, and direct Phantom wallet trade execution.</div>
+      <div class="file-grid">
+
+        <a class="file" href="/crypto-tool">
+          <div class="file-icon">
+            <svg viewBox="0 0 64 72" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+              <path d="M8 6 L46 6 L58 18 L58 66 L8 66 Z" fill="#f5f0e1"/>
+              <polyline points="46,6 46,18 58,18" fill="none"/>
+              <polygon points="32,28 44,38 38,52 26,52 20,38" fill="none"/>
+              <line x1="20" y1="38" x2="44" y2="38"/>
+              <line x1="32" y1="28" x2="26" y2="52"/>
+              <line x1="32" y1="28" x2="38" y2="52"/>
+            </svg>
+          </div>
+          <div class="file-label">crypto-tool</div>
+          <div class="file-meta">app · 1 mb</div>
+        </a>
+
+        <a class="file" href="https://linkedin.com/in/woojung-n-kim/" target="_blank" rel="noopener">
+          <div class="file-icon">
+            <svg viewBox="0 0 64 72" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+              <path d="M8 6 L46 6 L58 18 L58 66 L8 66 Z" fill="#f5f0e1"/>
+              <polyline points="46,6 46,18 58,18" fill="none"/>
+              <rect x="18" y="36" width="6" height="18"/>
+              <circle cx="21" cy="29" r="2.5"/>
+              <path d="M30 36 L30 54 M30 42 Q30 36 36 36 Q42 36 42 42 L42 54"/>
+            </svg>
+          </div>
+          <div class="file-label">linkedin.url</div>
+          <div class="file-meta">link</div>
+        </a>
+
+        <a class="file" href="mailto:hello@woojung.dev">
+          <div class="file-icon">
+            <svg viewBox="0 0 64 72" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+              <path d="M8 6 L46 6 L58 18 L58 66 L8 66 Z" fill="#f5f0e1"/>
+              <polyline points="46,6 46,18 58,18" fill="none"/>
+              <rect x="16" y="32" width="32" height="22"/>
+              <polyline points="16,32 32,46 48,32"/>
+            </svg>
+          </div>
+          <div class="file-label">contact.txt</div>
+          <div class="file-meta">text · 2 kb</div>
+        </a>
+
+        <div class="file" style="cursor:default;opacity:.5;">
+          <div class="file-icon">
+            <svg viewBox="0 0 64 72" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+              <path d="M8 14 L20 14 L26 22 L56 22 L56 60 L8 60 Z" fill="#f5f0e1"/>
+            </svg>
+          </div>
+          <div class="file-label">archive</div>
+          <div class="file-meta">folder</div>
         </div>
-        <div class="pr-arrow">→</div>
-      </a>
+
+      </div>
     </div>
-    <div class="win-sbar"><span class="sseg">1 item</span><span class="sseg">~/projects</span></div>
+    <div class="win-sbar">
+      <span class="sseg">3 items</span>
+      <span class="sseg">~/projects</span>
+    </div>
   </div>
 
 </div>
+
 <div class="tbar">
-  <div class="tpill">about.txt</div>
-  <div class="tpill">projects/</div>
+  <div class="tpill">about</div>
+  <div class="tpill">projects</div>
   <div class="tr" id="tc"></div>
 </div>
+
 <script>
-function tick(){const n=new Date();const t=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');const d=n.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});document.getElementById('mc').textContent=d+'  '+t;document.getElementById('tc').textContent=t;const bd=document.getElementById('bd');if(bd)bd.textContent=d;}
+function tick(){
+  const n=new Date();
+  const t=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
+  const d=n.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+  document.getElementById('mc').textContent=d+'  '+t;
+  document.getElementById('tc').textContent=t;
+  const bd=document.getElementById('bd');if(bd)bd.textContent=d;
+}
 tick();setInterval(tick,10000);
+
 document.querySelectorAll('.win').forEach(win=>{
   const bar=win.querySelector('.win-tb');if(!bar)return;
   let on=false,ox=0,oy=0;
-  bar.addEventListener('mousedown',e=>{on=true;const r=win.getBoundingClientRect();if(win.style.position!=='fixed'){win.style.position='fixed';win.style.margin='0';win.style.left=r.left+'px';win.style.top=r.top+'px';win.style.width=r.width+'px';}ox=e.clientX-parseFloat(win.style.left);oy=e.clientY-parseFloat(win.style.top);win.style.zIndex='30';document.body.style.userSelect='none';});
-  window.addEventListener('mousemove',e=>{if(!on)return;win.style.left=(e.clientX-ox)+'px';win.style.top=(e.clientY-oy)+'px';});
+  bar.addEventListener('mousedown',e=>{
+    on=true;
+    const r=win.getBoundingClientRect();
+    if(win.style.position!=='fixed'){
+      win.style.position='fixed';win.style.margin='0';
+      win.style.left=r.left+'px';win.style.top=r.top+'px';
+      win.style.width=r.width+'px';
+    }
+    ox=e.clientX-parseFloat(win.style.left);
+    oy=e.clientY-parseFloat(win.style.top);
+    win.style.zIndex='30';
+    document.body.style.userSelect='none';
+  });
+  window.addEventListener('mousemove',e=>{
+    if(!on)return;
+    win.style.left=(e.clientX-ox)+'px';
+    win.style.top=(e.clientY-oy)+'px';
+  });
   window.addEventListener('mouseup',()=>{on=false;document.body.style.userSelect='';});
-  win.addEventListener('mousedown',()=>{document.querySelectorAll('.win').forEach(w=>w.style.zIndex='10');win.style.zIndex='20';});
+  win.addEventListener('mousedown',()=>{
+    document.querySelectorAll('.win').forEach(w=>w.style.zIndex='10');
+    win.style.zIndex='20';
+  });
 });
 </script>
 </body>
