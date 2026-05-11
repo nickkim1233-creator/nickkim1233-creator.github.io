@@ -228,8 +228,7 @@ body{background:var(--yellow);font-family:var(--sans);color:var(--ink);display:f
   </div>
 
   <!-- ═══ PROJECTS WINDOW — hidden until double-click ═ -->
-  <div class="win" id="w-projects" style="width:260px;z-index:15;">
-    <div class="win-tb">
+  <div class="win open" id="w-projects" style="width:260px;z-index:15;left:580px;top:40px;">    <div class="win-tb">
       <div class="dots">
         <div class="dot dot-close" onclick="closeWindow('w-projects','folder-projects')" title="Close"></div>
         <div class="dot"></div>
@@ -329,7 +328,7 @@ function tick(){
   const bd=document.getElementById('bd');if(bd)bd.textContent=d;
 }
 tick();setInterval(tick,10000);
-
+document.getElementById('w-projects').classList.remove('popping');
 /* ── Z-INDEX MANAGEMENT ── */
 let topZ=20;
 function bringToFront(win){topZ++;win.style.zIndex=topZ;}
